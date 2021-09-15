@@ -1,0 +1,52 @@
+waseeq below are new users created in there with balance
++----+--------------+--------------------------------------------+
+| id | username     | wallet                                         |
++----+--------------+--------------------------------------------+
+|  1 | user         | 0xb3f7dD4d6f00338A1E520665B7153d39c4b8435c |
+|  2 | test         | 0x74a7B842bf3072B72DBb65111c17150C7937bF14 |
+|  3 | test2        | 0x839407ee1514e3d2Fca09960841562488d4389e8 |
+|  4 | userA        | 0xb1a689C31fF8D3607572D4238f5B4E86305eD882 |
+|  5 | ffahadmalikk | 0xeD6d582C034B2FeD308e9702C25d893265239Bd9 |
+|  6 | jacobo       | 0x36435C0183146378AE2273d4677f3B55fE73CdB3 |
+|  7 | mark         | 0x9A45d3aCA2944C4703Fcd6b1F4ca6E6BA6CC1c23 |
+|  8 | andre        | 0x78d126f4337f9a435A903aa84A48Ac850543274C |
+|  9 | sakib        | 0x9a1708b27830Fe4F6F6Ef9637B56AF71aADD6114 |
+| 10 | abdul        | 0x52aedba06c5F20345921c554C40920D85613451D |
+| 11 | jaffer       | 0x8C358c8Ea0640569584695e3998Cf2FCE4Df6d7A |
+| 12 | hussain      | 0xE8e6244bc8B7C4d0F9EfDEBdAF0Fbca6ef6c2F1B |
+| 13 | romans       | 0x02278581044129E149Fa01fBF4dbf1E0DB46122F |
+| 14 | romany       | 0xe58a3531881E6F0f204b3A24cc0f6608EB5AeC0E |
+| 15 | fahad        | 0x4A1Eb14c2386C7aB5a1d22e1e2e22a240Cb11B94 |
++----+--------------+--------------------------------------------+
+
+Here are the emails
++----+--------------+------------------------+
+| id | username     | email                  |
++----+--------------+------------------------+
+|  1 | user         | mailto:user@user.com          |
+|  2 | test         | mailto:test@test.com          |
+|  3 | test2        | mailto:test2@test2.com        |
+|  4 | userA        | mailto:userA@userA.com        |
+|  5 | ffahadmalikk | mailto:ffahadmalikk@gmail.com |
+|  6 | jacobo       | mailto:jacobo@fook.com        |
+|  7 | mark         | mailto:mark@fook.com          |
+|  8 | andre        | mailto:andre@fook.com         |
+|  9 | sakib        | mailto:sakib@fook.com         |
+| 10 | abdul        | mailto:abdul@fook.com         |
+| 11 | jaffer       | mailto:jaffer@fook.com        |
+
+Password for id>=6 is P@ssw0rd
+
+
+Below are api details:
+http://54.171.9.121:84/doc/swagger.ui/#/Token/get_tokens  -- For home page
+
+Profile page APIS:
+http://54.171.9.121:84/doc/swagger.ui/#/User/get_users -- get user profile picture,name
+http://54.171.9.121:84/doc/swagger.ui/#/User/get_user_balance -- For balance
+http://54.171.9.121:84/doc/swagger.ui/#/User/get_user_acquired_tokens   -- for acquired tokens
+http://54.171.9.121:84/doc/swagger.ui/#/User/get_user_created_tokens  -- uploaded tokens
+
+Buy
+http://54.171.9.121:84/doc/swagger.ui/#/Token/post_collections_collectionIdtokenstokenId_buy
+Once logged in user will buy token then you can see that in acquired token on his profile
