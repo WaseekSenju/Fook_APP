@@ -419,7 +419,58 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                 ),
-
+                if (_status == pageState.SignupPage)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Press the Icon to add Your Image!',
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.montserrat().fontFamily,
+                            color: Theme.of(context).textTheme.headline1!.color,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext bc) {
+                                  return SafeArea(
+                                    child: Container(
+                                      child: new Wrap(
+                                        children: <Widget>[
+                                          new ListTile(
+                                              leading:
+                                                  new Icon(Icons.photo_library),
+                                              title: new Text('Photo Library'),
+                                              onTap: () {
+                                                _imgFromGallery();
+                                                Navigator.of(context).pop();
+                                              }),
+                                          new ListTile(
+                                            leading: new Icon(Icons.photo_camera),
+                                            title: new Text('Camera'),
+                                            onTap: () {
+                                              _imgFromCamera();
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          icon: Icon(
+                            Icons.photo_camera,
+                            color: Color(0xffE02989),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 _loading
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -477,55 +528,7 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                       ),
-                if (_status == pageState.SignupPage)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Press the Icon to add Your Image!',
-                        style: TextStyle(
-                          fontFamily: GoogleFonts.montserrat().fontFamily,
-                          color: Theme.of(context).textTheme.headline1!.color,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext bc) {
-                                return SafeArea(
-                                  child: Container(
-                                    child: new Wrap(
-                                      children: <Widget>[
-                                        new ListTile(
-                                            leading:
-                                                new Icon(Icons.photo_library),
-                                            title: new Text('Photo Library'),
-                                            onTap: () {
-                                              _imgFromGallery();
-                                              Navigator.of(context).pop();
-                                            }),
-                                        new ListTile(
-                                          leading: new Icon(Icons.photo_camera),
-                                          title: new Text('Camera'),
-                                          onTap: () {
-                                            _imgFromCamera();
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              });
-                        },
-                        icon: Icon(
-                          Icons.camera,
-                          color: Color(0xffE02989),
-                        ),
-                      ),
-                    ],
-                  ),
+
                 if (_status == pageState.LoginPage)
                   Text(
                     'Forgot Password?',
@@ -558,8 +561,8 @@ class _SignInPageState extends State<SignInPage> {
                       children: <TextSpan>[
                         TextSpan(
                           text: _status == pageState.LoginPage
-                              ? 'Sign Up'
-                              : 'Log In',
+                              ? ' Sign Up'
+                              : ' Log In',
                           style: TextStyle(
                             fontFamily: GoogleFonts.montserrat().fontFamily,
                             color: Theme.of(context).textTheme.bodyText1!.color,

@@ -288,7 +288,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          //title: const Text('Logout'),
+                          
                           content: Text(
                               'Are you Sure want to Buy ${widget.tokenData.name}'),
                           actions: <Widget>[

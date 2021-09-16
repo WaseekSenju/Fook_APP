@@ -117,7 +117,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                       return Padding(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          'You don\'t have any collection',
+                          'User collection not found Please add collection first',
                           style: TextStyle(
                             color: Theme.of(context).textTheme.bodyText1!.color,
                           ),
