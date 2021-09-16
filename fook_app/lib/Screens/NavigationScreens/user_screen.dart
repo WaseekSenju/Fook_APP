@@ -26,11 +26,14 @@ Future<void> refreshHome(BuildContext context) async {
 class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
+    
+    print('UserScreenBuild');
+    
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;
 
     var tokens = Provider.of<AllTokens>(context);
-    
+
     var uploadedTokens = tokens.uploadedtokens;
     var downloadedTokens = tokens.acquiredTokens;
 
@@ -40,7 +43,6 @@ class _UserScreenState extends State<UserScreen> {
     } else if (uploadedTokens.data.length > downloadedTokens.data.length) {
       postCount = uploadedTokens.data.length;
     }
-    print(postCount);
 
     return DefaultTabController(
       length: 3,
@@ -234,8 +236,8 @@ class _UserScreenState extends State<UserScreen> {
                         kTextTabBarHeight,
                 child: TabBarView(
                   children: <Widget>[
-                    PostGrid('Uploaded NFTs',tokens.uploadedtokens),
-                    PostGrid('Acquired NFTs',tokens.acquiredTokens),
+                    PostGrid('Uploaded NFTs', tokens.uploadedtokens),
+                    PostGrid('Acquired NFTs', tokens.acquiredTokens),
                     Wallet('My Wallet'),
                   ],
                 ),

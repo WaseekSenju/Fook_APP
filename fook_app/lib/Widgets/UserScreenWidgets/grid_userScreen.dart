@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Models/tokken_model.dart';
 import 'package:fook_app/Screens/NavigationScreens/tokenDetail_screen.dart';
-import 'package:provider/provider.dart';
+
 
 class PostGrid extends StatefulWidget {
-  PostGrid(this.tabsText,this.postData);
+  PostGrid(this.tabsText, this.postData);
   final String tabsText;
   final Tokken postData;
 
@@ -17,7 +18,7 @@ class PostGrid extends StatefulWidget {
 class _PostGridState extends State<PostGrid> {
   @override
   Widget build(BuildContext context) {
-
+    print('UserGrid');
     // bool areAcquired;
     // final postData;
     // widget.tabsText == 'Uploaded NFTs'
@@ -53,22 +54,25 @@ class _PostGridState extends State<PostGrid> {
                       child: Container(
                         height: 128,
                         width: 128,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              widget.postData.data[index].file,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        child: widget.postData.data[index].file.contains('http')
+                            ? CachedNetworkImage(
+                                imageUrl: widget.postData.data[index].file,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.file(
+                                File(
+                                  widget.postData.data[index].file,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TokenDetailScreen(
-                              widget.postData.data[index]),
+                          builder: (context) =>
+                              TokenDetailScreen(widget.postData.data[index]),
                         ),
                       );
                     },

@@ -146,40 +146,42 @@ class _TokenWidgetState extends State<TokenWidget> {
                           onTap: widget.favouriteScreen
                               ? () {}
                               : () async {
-                                  setState(() {
-                                    if (liked) {
-                                      LikeTokken.unlikeTokken(
-                                          widget.tokenData.id,
-                                          widget.tokenData.collection.id
-                                              .toString());
-                                      liked = !liked;
+                                  setState(
+                                    () {
+                                      if (liked) {
+                                        LikeTokken.unlikeTokken(
+                                            widget.tokenData.id,
+                                            widget.tokenData.collection.id
+                                                .toString());
+                                        liked = !liked;
 
-                                      allTokens.tokken.data[widget.index]
-                                              .currentUserData.isLiked =
-                                          !allTokens.tokken.data[widget.index]
-                                              .currentUserData.isLiked;
+                                        allTokens.tokken.data[widget.index]
+                                                .currentUserData.isLiked =
+                                            !allTokens.tokken.data[widget.index]
+                                                .currentUserData.isLiked;
 
-                                      allTokens.likedTokens.data.removeWhere(
-                                          (tokken) =>
-                                              tokken.id ==
-                                              allTokens.tokken
-                                                  .data[widget.index].id);
-                                    } else {
-                                      LikeTokken.likeTokken(
-                                          widget.tokenData.id,
-                                          widget.tokenData.collection.id
-                                              .toString());
-                                      liked = !liked;
+                                        allTokens.likedTokens.data.removeWhere(
+                                            (tokken) =>
+                                                tokken.id ==
+                                                allTokens.tokken
+                                                    .data[widget.index].id);
+                                      } else {
+                                        LikeTokken.likeTokken(
+                                            widget.tokenData.id,
+                                            widget.tokenData.collection.id
+                                                .toString());
+                                        liked = !liked;
 
-                                      allTokens.tokken.data[widget.index]
-                                              .currentUserData.isLiked =
-                                          !allTokens.tokken.data[widget.index]
-                                              .currentUserData.isLiked;
+                                        allTokens.tokken.data[widget.index]
+                                                .currentUserData.isLiked =
+                                            !allTokens.tokken.data[widget.index]
+                                                .currentUserData.isLiked;
 
-                                      allTokens.likedTokens.data.add(
-                                          allTokens.tokken.data[widget.index]);
-                                    }
-                                  });
+                                        allTokens.likedTokens.data.add(allTokens
+                                            .tokken.data[widget.index]);
+                                      }
+                                    },
+                                  );
                                 },
                         ),
                         Padding(
