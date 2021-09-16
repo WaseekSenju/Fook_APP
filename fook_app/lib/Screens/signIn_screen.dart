@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Screens/interest_screen.dart';
 import 'package:fook_app/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../Controllers/loginController.dart';
@@ -108,26 +109,23 @@ class _SignInPageState extends State<SignInPage> {
         await LoginController.loginUser(email, password);
 
     if (result['status'] == '200') {
-    //final allTokkens = Provider.of<AllTokens>(context, listen: false);
-
-      //allTokkens.getAllTokens().whenComplete(() {
-        setState(() {
-          _loading = false;
-        });
-        _firstimeLogin
-            ? Navigator.pushReplacement<void, void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => InterestsPage(),
-                ),
-              )
-            : Navigator.pushReplacement<void, void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => TabsScreen(),
-                ),
-              );
-        _firstimeLogin = false;
+      setState(() {
+        _loading = false;
+      });
+      _firstimeLogin
+          ? Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => InterestsPage(),
+              ),
+            )
+          : Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => TabsScreen(),
+              ),
+            );
+      _firstimeLogin = false;
       //});
     } else {
       setState(() {
@@ -486,7 +484,7 @@ class _SignInPageState extends State<SignInPage> {
                       Text(
                         'Press the Icon to add Your Image!',
                         style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: GoogleFonts.montserrat().fontFamily,
                           color: Theme.of(context).textTheme.headline1!.color,
                         ),
                       ),
@@ -554,7 +552,7 @@ class _SignInPageState extends State<SignInPage> {
                           ? 'Don\'t have an account?'
                           : 'Already have an account?',
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: GoogleFonts.montserrat().fontFamily,
                         color: Theme.of(context).textTheme.headline1!.color,
                       ),
                       children: <TextSpan>[
@@ -563,7 +561,7 @@ class _SignInPageState extends State<SignInPage> {
                               ? 'Sign Up'
                               : 'Log In',
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: GoogleFonts.montserrat().fontFamily,
                             color: Theme.of(context).textTheme.bodyText1!.color,
                           ),
                         ),

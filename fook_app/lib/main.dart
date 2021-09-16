@@ -111,7 +111,6 @@ class _MyAppState extends State<MyApp> {
           NewPost.routeName: (builder) => NewPost(),
           TabsScreen.routeName: (builder) => TabsScreen(),
           InterestsPage.routeName: (builder) => InterestsPage(),
-          //This is the Core Widget
         },
       ),
     );

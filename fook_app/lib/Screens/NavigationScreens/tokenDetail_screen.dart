@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fook_app/Controllers/buyTokken.dart';
 import 'package:fook_app/Controllers/sellToken.dart';
 import 'package:fook_app/Models/tokken_model.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,7 +71,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
           ),
           Container(
             height: 80,
-            child: widget.tokenData.price.value == ' ' 
+            child: widget.tokenData.price.value == ' '
                 ? Center(
                     child: InkWell(
                       onTap: () {
@@ -494,7 +495,31 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() async {
+                          String result = await BuyTokken.buyTokken(
+                            widget.tokenData.collection.id.toString(),
+                            widget.tokenData.id,
+                          );
+                          if (result == '200') {
+
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Token Bought Successfully'),
+                                duration: Duration(milliseconds: 1000),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(result),
+                                duration: Duration(milliseconds: 1000),
+                              ),
+                            );
+                          }
+                        });
+                      },
                       child: widget.tokenData.price.unit == ' '
                           ? Padding(
                               padding: const EdgeInsets.only(

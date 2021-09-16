@@ -30,9 +30,6 @@ class _TokenWidgetState extends State<TokenWidget> {
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
-    // bool liked = widget.favouriteScreen
-    //     ? allTokens.likedTokens.data[widget.index].currentUserData.isLiked
-    //     : allTokens.tokken.data[widget.index].currentUserData.isLiked;
 
     return Container(
       child: Padding(
@@ -312,7 +309,15 @@ class _TokenWidgetState extends State<TokenWidget> {
                                         widget.tokenData.id,
                                       );
                                       if (result == '200') {
+                                        allTokens.addNewBoughtTokenInAcquired(
+                                            widget.tokenData);
                                         Navigator.pop(context);
+                                        setState(() {
+                                          widget.tokenData.price = Price(
+                                            value: ' ',
+                                            unit: ' ',
+                                          );
+                                        });
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(

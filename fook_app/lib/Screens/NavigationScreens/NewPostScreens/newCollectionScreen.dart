@@ -132,27 +132,33 @@ class _NewCollectionState extends State<NewCollection> {
                               final userCollections =
                                   Provider.of<CollectionController>(context,
                                       listen: false);
-
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TokkenPreviewScreen(
-                                    collectionNames:
-                                        userCollections.collectionNames,
-                                    userCollections: userCollections,
-                                    image: XFile(_image.path),
+                              userCollections
+                                  .getUserCollections()
+                                  .whenComplete(() {
+                                userCollections.collectionsList.data
+                                    .forEach((element) {
+                                  print(element.name);
+                                });
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TokkenPreviewScreen(
+                                      collectionNames:
+                                          userCollections.collectionNames,
+                                      image: XFile(widget.tokenImage.path),
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              });
                             });
                           } else {
                             setState(() {
                               _loading = false;
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('User Collection not found'),
+                              SnackBar(
+                                content: Text(result),
                                 duration: Duration(milliseconds: 1000),
                               ),
                             );

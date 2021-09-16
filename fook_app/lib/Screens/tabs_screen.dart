@@ -39,6 +39,7 @@ class _TabsScreen extends State<TabsScreen> {
     print('initStateof Tabs!');
 
     final allTokkens = Provider.of<AllTokens>(context, listen: false);
+    
     allTokkens.getAllTokens();
     allTokkens.getDownloadedtokens();
     allTokkens.getUploadedtokens();

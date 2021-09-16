@@ -18,7 +18,6 @@ class Wallet extends StatelessWidget {
       value = wallet.value;
     }
     return Column(
-      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 30),
@@ -33,25 +32,13 @@ class Wallet extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 32),
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ImageIcon(
-                    AssetImage('lib/Assets/eth.png',),
-                    size: 45,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  Text(
-                    '${wallet.unit} $value',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Theme.of(context).textTheme.headline1!.color),
-                  ),
-                ],
+              Text(
+                '${wallet.unit} $value',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Theme.of(context).textTheme.headline1!.color),
               ),
               Text(
                 'Total Money',

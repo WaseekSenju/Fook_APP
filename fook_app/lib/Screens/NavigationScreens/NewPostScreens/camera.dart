@@ -41,6 +41,8 @@ class _CameraState extends State<Camera> {
 
   @override
   Widget build(BuildContext context) {
+    final userCollections =
+        Provider.of<CollectionController>(context, listen: false);
     return Scaffold(
       body: !(_controller!.value.isInitialized)
           ? Center(child: CircularProgressIndicator())
@@ -53,8 +55,9 @@ class _CameraState extends State<Camera> {
                 Positioned(
                   top: 22,
                   right: 20,
-                  child: Icon(
-                    Icons.close,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.close),
                     color: Colors.white,
                   ),
                 ),
@@ -92,16 +95,12 @@ class _CameraState extends State<Camera> {
                           try {
                             await cameraValue;
                             final image = await _controller?.takePicture();
-                            final userCollections =
-                                Provider.of<CollectionController>(context,
-                                    listen: false);
 
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => TokkenPreviewScreen(
                                   collectionNames:
                                       userCollections.collectionNames,
-                                  userCollections: userCollections,
                                   image: image!,
                                 ),
                               ),

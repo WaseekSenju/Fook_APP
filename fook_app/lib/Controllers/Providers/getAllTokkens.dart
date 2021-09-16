@@ -10,9 +10,14 @@ class AllTokens with ChangeNotifier {
 
   bool loading = false;
 
-  void addToken(Datum value) {
+  void addNewCreatedToken(Datum value) {
     tokken.data.add(value);
     uploadedtokens.data.add(value);
+    notifyListeners();
+  }
+
+  void addNewBoughtTokenInAcquired(Datum value) {
+    acquiredTokens.data.add(value);
     notifyListeners();
   }
 

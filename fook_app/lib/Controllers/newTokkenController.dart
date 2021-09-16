@@ -89,7 +89,7 @@ class NewTokenAndCollection {
         return response.data;
       }
     } catch (Exception) {
-      return '0';
+      return 'Error in Collection Creation';
     }
   }
 }
