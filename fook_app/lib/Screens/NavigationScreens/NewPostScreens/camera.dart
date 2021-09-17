@@ -99,8 +99,6 @@ class _CameraState extends State<Camera> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => TokkenPreviewScreen(
-                                  collectionNames:
-                                      userCollections.collectionNames,
                                   image: image!,
                                 ),
                               ),

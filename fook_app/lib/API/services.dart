@@ -1,5 +1,3 @@
-
-
 import '/Models/collections.dart';
 import '/Models/tokken_model.dart';
 import '/Models/userBalance.dart';
@@ -156,6 +154,7 @@ class BackendServices {
   }
 
   static Future<Collections> getCurrentUserCollections() async {
+    Collections _userCollections = new Collections(data: []);
     String tokken = Const.tokken;
     var url = Uri.parse('http://54.171.9.121:84/user/collections');
     try {
@@ -168,12 +167,17 @@ class BackendServices {
         },
       );
       if (response.statusCode == 200) {
+        print(response.statusCode);
         var jsonString = response.body;
-        return collectionsFromJson(jsonString);
+        _userCollections = collectionsFromJson(jsonString);
+        return _userCollections;
+      } else {
+        return _userCollections;
       }
-      return new Collections(data: []);
     } catch (Exception) {
-      return new Collections(data: []);
+      print(Exception);
+      print('getCurrentUserCollectionserror');
+      return _userCollections;
     }
   }
 }

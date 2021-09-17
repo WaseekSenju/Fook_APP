@@ -30,7 +30,7 @@ class _NewPostState extends State<NewPost> {
         context,
         MaterialPageRoute(
           builder: (context) => TokkenPreviewScreen(
-            collectionNames: collectionNames,
+           
             image: galleryImage,
           ),
         ),
