@@ -26,9 +26,8 @@ Future<void> refreshHome(BuildContext context) async {
 class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
-    
-   //Improvment can me made by not using provider here but in grids 
-    
+    //Improvment can me made by not using provider here but in grids
+
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;
 
@@ -80,14 +79,10 @@ class _UserScreenState extends State<UserScreen> {
                             TextButton(
                               onPressed: () {
                                 Const.setTokken(' ');
-                                Navigator.of(context).pop();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SignInPage(),
-                                  ),
-                                );
+                                
+                             Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
+                                
+                              
                               },
                               child: const Text('Confirm'),
                             ),
