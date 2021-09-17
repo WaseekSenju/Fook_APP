@@ -2,15 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fook_app/Controllers/buyTokken.dart';
-import 'package:fook_app/Controllers/sellToken.dart';
-import 'package:fook_app/Models/tokken_model.dart';
+import '/Controllers/buyTokken.dart';
+import '/Controllers/sellToken.dart';
+import '/Models/tokken_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TokenDetailScreen extends StatefulWidget {
-  TokenDetailScreen(this.tokenData);
+  TokenDetailScreen(this.tokenData, this.isUserToken);
   final Datum tokenData;
+  final bool isUserToken;
   @override
   _TokenDetailScreenState createState() => _TokenDetailScreenState();
 }
@@ -69,11 +70,93 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                     ),
             ),
           ),
-          Container(
-            height: 80,
-            child: widget.tokenData.price.value == ' '
-                ? Center(
-                    child: InkWell(
+          if (widget.tokenData.price.value == ' ')
+            Padding(
+              padding: const EdgeInsets.all(25),
+              child: Center(
+                child: Text(
+                  'This Token is already Sold',
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                  ),
+                ),
+              ),
+            ),
+          if (widget.tokenData.price.value != ' ')
+            Container(
+                height: 150,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            top: 20,
+                            bottom: 19,
+                            right: 40,
+                          ),
+                          child: Column(children: [
+                            Text(
+                              'Current price',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                                //fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            top: 20,
+                            bottom: 19,
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'All Time Average Prize',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline2!
+                                      .color,
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline2!
+                                      .color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    InkWell(
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
@@ -180,81 +263,31 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                               });
                             });
                       },
-                      child: Text(
-                        'Press to set Price',
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.headline2!.color,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  )
-                : Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          top: 20,
-                          bottom: 19,
-                          right: 40,
-                        ),
-                        child: Column(children: [
-                          Text(
-                            'Current price',
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                              //fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ]),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          top: 20,
-                          bottom: 19,
-                        ),
-                        child: Column(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 16),
+                        child: Row(
                           children: [
                             Text(
-                              'All Time Average Prize',
+                              'Tap here to set Price',
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline2!
-                                    .color,
-                                //fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline2!
-                                    .color,
-                                fontWeight: FontWeight.bold,
+                                color:
+                                    Theme.of(context).textTheme.headline1!.color,
                                 fontSize: 20,
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Icon(
+                                Icons.change_circle,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            )
                           ],
                         ),
                       ),
-                    ],
-                  ),
-          ),
+                    ),
+                  ],
+                )),
           Divider(
             color: Theme.of(context).accentColor,
           ),
@@ -502,8 +535,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                             widget.tokenData.id,
                           );
                           if (result == '200') {
-
-                            
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Token Bought Successfully'),

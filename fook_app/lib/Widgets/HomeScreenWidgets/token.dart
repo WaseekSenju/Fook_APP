@@ -99,7 +99,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  TokenDetailScreen(widget.tokenData),
+                                  TokenDetailScreen(widget.tokenData,false),
                             ),
                           );
                         },

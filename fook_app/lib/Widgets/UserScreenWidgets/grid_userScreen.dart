@@ -72,7 +72,7 @@ class _PostGridState extends State<PostGrid> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              TokenDetailScreen(widget.postData.data[index]),
+                              TokenDetailScreen(widget.postData.data[index],true),
                         ),
                       );
                     },

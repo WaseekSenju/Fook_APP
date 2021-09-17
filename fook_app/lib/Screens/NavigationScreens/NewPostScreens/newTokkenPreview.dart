@@ -154,10 +154,27 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                             }).toList(),
                           ),
                           _loading
-                              ? SizedBox(
-                                  child: CircularProgressIndicator(),
-                                  width: 25,
-                                  height: 25,
+                              ? Column(
+                                  children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                        child: CircularProgressIndicator(),
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                  ),
+                                    Text(
+                                      'Uploading Token',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                      ),
+                                    ),
+                                    
+                                  ],
                                 )
                               : ElevatedButton(
                                   child: Text(
