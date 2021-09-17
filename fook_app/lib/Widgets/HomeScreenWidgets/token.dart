@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/buyTokken.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
@@ -29,6 +30,8 @@ class _TokenWidgetState extends State<TokenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var userCollections =
+        Provider.of<CollectionController>(context).userCollectionsList;
     var allTokens = Provider.of<AllTokens>(context);
 
     return Container(
@@ -98,8 +101,11 @@ class _TokenWidgetState extends State<TokenWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  TokenDetailScreen(widget.tokenData, false),
+                              builder: (context) => TokenDetailScreen(
+                                  widget.tokenData,
+                                  userCollections.data.any((element) =>
+                                      element.id ==
+                                      widget.tokenData.collection.id)),
                             ),
                           );
                         },

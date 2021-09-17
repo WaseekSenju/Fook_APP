@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
+
 import 'package:provider/provider.dart';
-//import '/API/services.dart';
-//import '/Models/tokken_model.dart';
-import '../../Widgets/HomeScreenWidgets/token.dart';
+import '/Widgets/HomeScreenWidgets/token.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -16,10 +16,12 @@ class _HomeScreenState extends State<HomeScreen> {
     await Provider.of<AllTokens>(context, listen: false).getAllTokens();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
+    var userCollections =
+        Provider.of<CollectionController>(context).userCollectionsList;
+
     return RefreshIndicator(
       onRefresh: () => refreshHome(context),
       child: allTokens.loading
@@ -34,10 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     allTokens.tokken
                         .data[allTokens.tokken.data.length - (index + 1)],
                     allTokens.tokken.data.length - (index + 1),
-                    false);
+                    false,);
               },
               itemCount: allTokens.tokken.data.length,
             ),
     );
   }
 }
+//  userCollections.data.any((element) =>
+//                         element.id ==
+//                         allTokens
+//                             .tokken
+//                             .data[allTokens.tokken.data.length - (index + 1)]
+//                             .collection
+//                             .id));

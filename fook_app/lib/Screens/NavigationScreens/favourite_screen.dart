@@ -22,55 +22,41 @@ class _FavouritesState extends State<Favourites> {
 
     return RefreshIndicator(
       onRefresh: () => refreshFavourites(context),
-      child: (allTokens.likedTokens.data.isEmpty)
-          ? 
-                Center(
-                  child: Text(
-                    'No Favourites',
-                    style: TextStyle(
-                        //fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.headline1!.color),
+      child: Scaffold(
+          body: (allTokens.likedTokens.data.isEmpty)
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'No Favourites',
+                        style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color),
+                      ),
+                    ],
                   ),
                 )
-              
-          : ListView.separated(
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                thickness: 1,
-              ),
-              itemBuilder: (context, index) {
-                return TokenWidget(
-                    allTokens.likedTokens
-                        .data[allTokens.likedTokens.data.length - (index + 1)],
-                    allTokens.likedTokens.data.length - (index + 1),
-                    true);
-              },
-              itemCount: allTokens.likedTokens.data.length,
-            ),
+              : allTokens.loading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(
+                        thickness: 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        return TokenWidget(
+                            allTokens.likedTokens.data[
+                                allTokens.likedTokens.data.length -
+                                    (index + 1)],
+                            allTokens.likedTokens.data.length - (index + 1),
+                            true);
+                      },
+                      itemCount: allTokens.likedTokens.data.length,
+                    )),
     );
   }
 }
-
-
-// FutureBuilder(
-//         future: BackendServices.getfavouriteToken(),
-//         builder: (context, AsyncSnapshot<Tokken> snapshot) {
-//           var postData = snapshot.data;
-
-//           if (snapshot.hasData)
-//             return ListView.separated(
-//               separatorBuilder: (BuildContext context, int index) =>
-//                   const Divider(
-//                 thickness: 1,
-//               ),
-//               itemBuilder: (context, index) {
-//                 return TokenWidget(postData!.data[index]);
-//               },
-//               itemCount: postData!.data.length,
-//             );
-
-//           return Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         },
-//       ),
