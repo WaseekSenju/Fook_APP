@@ -156,6 +156,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         ),
                       ],
                     ),
+                    if(widget.isUserToken)
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(

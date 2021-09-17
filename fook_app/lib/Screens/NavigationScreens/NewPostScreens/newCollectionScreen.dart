@@ -116,6 +116,7 @@ class _NewCollectionState extends State<NewCollection> {
                           setState(() {
                             _loading = true;
                           });
+                          
                           String result =
                               await NewTokenAndCollection.createNewCollection(
                                   _image,

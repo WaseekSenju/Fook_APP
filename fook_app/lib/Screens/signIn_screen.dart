@@ -450,7 +450,8 @@ class _SignInPageState extends State<SignInPage> {
                                                 Navigator.of(context).pop();
                                               }),
                                           new ListTile(
-                                            leading: new Icon(Icons.photo_camera),
+                                            leading:
+                                                new Icon(Icons.photo_camera),
                                             title: new Text('Camera'),
                                             onTap: () {
                                               _imgFromCamera();

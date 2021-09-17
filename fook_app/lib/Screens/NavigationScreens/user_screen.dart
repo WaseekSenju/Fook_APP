@@ -79,7 +79,7 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Const.setTokken('');
+                                Const.setTokken(' ');
                                 Navigator.of(context).pop();
                                 Navigator.pushReplacement(
                                   context,

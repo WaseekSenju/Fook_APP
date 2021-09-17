@@ -88,7 +88,7 @@ class NewTokenAndCollection {
       } else {
         return response.data;
       }
-    } catch (Exception) {
+    }  catch  (Exception) {
       return 'Error in Collection Creation';
     }
   }
