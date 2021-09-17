@@ -99,7 +99,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  TokenDetailScreen(widget.tokenData,false),
+                                  TokenDetailScreen(widget.tokenData, false),
                             ),
                           );
                         },
@@ -288,7 +288,6 @@ class _TokenWidgetState extends State<TokenWidget> {
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          
                           content: Text(
                               'Are you Sure want to Buy ${widget.tokenData.name}'),
                           actions: <Widget>[
@@ -332,9 +331,10 @@ class _TokenWidgetState extends State<TokenWidget> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
+                                            backgroundColor: Colors.red,
                                             content: Text(result),
                                             duration:
-                                                Duration(milliseconds: 1000),
+                                                Duration(milliseconds: 1500),
                                           ),
                                         );
                                       }

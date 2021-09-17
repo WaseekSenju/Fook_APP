@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '/Models/collections.dart';
 import '/Models/tokken_model.dart';
 import '/Models/userBalance.dart';
@@ -144,10 +146,11 @@ class BackendServices {
       if (response.statusCode == 200) {
         return tokkenFromJson(response.body);
       } else {
-        print('Something wrong happend');
+        print(jsonDecode(response.body)['message']);
         return Tokken(data: []);
       }
     } catch (Exception) {
+      print(Exception);
       print('Something wrong happend');
       return Tokken(data: []);
     }

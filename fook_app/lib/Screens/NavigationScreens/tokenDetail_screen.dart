@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '/Controllers/buyTokken.dart';
 import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
@@ -156,137 +157,141 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         ),
                       ],
                     ),
-                    if(widget.isUserToken)
-                    InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return StatefulBuilder(builder:
-                                  (BuildContext context,
-                                      StateSetter setSheetState) {
-                                return Container(
-                                  height: 600,
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        const Text('Modal BottomSheet'),
-                                        Padding(
-                                          padding: EdgeInsets.all(25),
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 22,
-                                                right: 22,
-                                                bottom: 16,
-                                                top: 16),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            child: TextFormField(
-                                              controller: _priceController,
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
-                                              textAlign: TextAlign.left,
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Please enter some value';
-                                                }
-                                                return null;
-                                              },
-                                              decoration: InputDecoration(
-                                                //Icon
-                                                hintText:
-                                                    'Enter the new Price of the Token',
-                                                hintStyle: TextStyle(
-                                                  fontSize: 14,
+                    if (widget.isUserToken)
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setSheetState) {
+                                  return Container(
+                                    height: 600,
+                                    child: Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          const Text('Modal BottomSheet'),
+                                          Padding(
+                                            padding: EdgeInsets.all(25),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 22,
+                                                  right: 22,
+                                                  bottom: 16,
+                                                  top: 16),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              child: TextFormField(
+                                                controller: _priceController,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                textAlign: TextAlign.left,
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Please enter some value';
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration: InputDecoration(
+                                                  //Icon
+                                                  hintText:
+                                                      'Enter the new Price of the Token',
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        _loading
-                                            ? CircularProgressIndicator()
-                                            : IconButton(
-                                                onPressed: () async {
-                                                  setSheetState(() {
-                                                    _loading = true;
-                                                  });
-
-                                                  String result =
-                                                      await SellTokenController
-                                                          .setTokenPriceAndAllow(
-                                                    widget.tokenData.id,
-                                                    widget
-                                                        .tokenData.collection.id
-                                                        .toString(),
-                                                    {
-                                                      "value":
-                                                          _priceController.text,
-                                                      "unit": "ether"
-                                                    },
-                                                  );
-                                                  if (result == '200') {
-                                                    setState(() {
-                                                      widget.tokenData.price
-                                                          .unit = 'ether';
-                                                      widget.tokenData.price
-                                                              .value =
-                                                          _priceController.text;
-                                                    });
-                                                    Navigator.pop(context);
+                                          _loading
+                                              ? CircularProgressIndicator()
+                                              : IconButton(
+                                                  onPressed: () async {
                                                     setSheetState(() {
-                                                      _loading = false;
+                                                      _loading = true;
                                                     });
-                                                    Fluttertoast.showToast(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      msg:
-                                                          'Price set Successfully',
+
+                                                    String result =
+                                                        await SellTokenController
+                                                            .setTokenPriceAndAllow(
+                                                      widget.tokenData.id,
+                                                      widget.tokenData
+                                                          .collection.id
+                                                          .toString(),
+                                                      {
+                                                        "value":
+                                                            _priceController
+                                                                .text,
+                                                        "unit": "ether"
+                                                      },
                                                     );
-                                                  } else {
-                                                    Fluttertoast.showToast(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      msg: result,
-                                                    );
-                                                  }
-                                                },
-                                                icon: Icon(Icons.done),
-                                              ),
-                                      ],
+                                                    if (result == '200') {
+                                                      setState(() {
+                                                        widget.tokenData.price
+                                                            .unit = 'ether';
+                                                        widget.tokenData.price
+                                                                .value =
+                                                            _priceController
+                                                                .text;
+                                                      });
+                                                      Navigator.pop(context);
+                                                      setSheetState(() {
+                                                        _loading = false;
+                                                      });
+                                                      Fluttertoast.showToast(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        msg:
+                                                            'Price set Successfully',
+                                                      );
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        msg: result,
+                                                      );
+                                                    }
+                                                  },
+                                                  icon: Icon(Icons.done),
+                                                ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                });
                               });
-                            });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16,top: 16),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Tap here to set Price',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).textTheme.headline1!.color,
-                                fontSize: 20,
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 16),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Tap here to set Price',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Icon(
-                                Icons.change_circle,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Icon(
+                                  Icons.change_circle,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 )),
           Divider(
@@ -529,28 +534,27 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: TextButton(
-                      onPressed: () {
-                        setState(() async {
-                          String result = await BuyTokken.buyTokken(
-                            widget.tokenData.collection.id.toString(),
-                            widget.tokenData.id,
+                      onPressed: () async {
+                        String result = await BuyTokken.buyTokken(
+                          widget.tokenData.collection.id.toString(),
+                          widget.tokenData.id,
+                        );
+                        if (result == '200') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Token Bought Successfully'),
+                              duration: Duration(milliseconds: 1000),
+                            ),
                           );
-                          if (result == '200') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Token Bought Successfully'),
-                                duration: Duration(milliseconds: 1000),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(result),
-                                duration: Duration(milliseconds: 1000),
-                              ),
-                            );
-                          }
-                        });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(result),
+                              duration: Duration(milliseconds: 1000),
+                            ),
+                          );
+                          print(result);
+                        }
                       },
                       child: widget.tokenData.price.unit == ' '
                           ? Padding(

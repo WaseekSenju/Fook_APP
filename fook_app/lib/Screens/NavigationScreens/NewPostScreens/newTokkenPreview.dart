@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/API/services.dart';
-import 'package:fook_app/Controllers/Providers/collectionController.dart';
 
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
-import 'package:fook_app/Controllers/Providers/userData.dart';
 
 import 'package:fook_app/Controllers/newTokkenController.dart';
 import 'package:fook_app/Models/collections.dart';

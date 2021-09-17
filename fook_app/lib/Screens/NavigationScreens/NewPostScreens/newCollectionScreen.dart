@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/newTokkenController.dart';
-import 'package:fook_app/Screens/NavigationScreens/NewPostScreens/newTokkenPreview.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 class NewCollection extends StatefulWidget {
   NewCollection({Key? key, required this.tokenImage}) : super(key: key);

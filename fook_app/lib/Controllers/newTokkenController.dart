@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fook_app/API/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
