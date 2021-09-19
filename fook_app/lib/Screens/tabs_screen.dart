@@ -52,7 +52,7 @@ class _TabsScreen extends State<TabsScreen> {
     final collectionController =
         Provider.of<CollectionController>(context, listen: false);
     collectionController.getAllCollections().whenComplete(() {
-      final List<Map<String, String>> collectionIds = []; // have to change it
+      final List<Map<String, String>> collectionIds = []; 
       for (int i = 0;
           i < collectionController.collectionsList.data.length;
           i++) {
@@ -71,7 +71,6 @@ class _TabsScreen extends State<TabsScreen> {
 
     userCollections.getUserCollections();
     
-    print('testing Collections');
     userCollections.collectionNames.forEach((element) => print(element));
 
     super.initState();

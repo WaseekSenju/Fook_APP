@@ -1,7 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:fook_app/Controllers/Providers/collectionController.dart';
-import 'package:provider/provider.dart';
 import 'newTokkenPreview.dart';
 
 List<CameraDescription>? cameras;
@@ -41,8 +39,6 @@ class _CameraState extends State<Camera> {
 
   @override
   Widget build(BuildContext context) {
-    final userCollections =
-        Provider.of<CollectionController>(context, listen: false);
     return Scaffold(
       body: !(_controller!.value.isInitialized)
           ? Center(child: CircularProgressIndicator())
@@ -99,8 +95,6 @@ class _CameraState extends State<Camera> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => TokkenPreviewScreen(
-                                  collectionNames:
-                                      userCollections.collectionNames,
                                   image: image!,
                                 ),
                               ),

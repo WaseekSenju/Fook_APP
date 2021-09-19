@@ -40,7 +40,7 @@ class Datum {
         name: json["name"],
         symbol: json["symbol"],
         image: json["image"],
-        contract: json["contract"],
+        contract: json["contract"]==null?' ':json["contract"],
     );
 
     Map<String, dynamic> toJson() => {

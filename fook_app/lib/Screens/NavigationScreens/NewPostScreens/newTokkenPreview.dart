@@ -4,10 +4,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/API/services.dart';
-import 'package:fook_app/Controllers/Providers/collectionController.dart';
 
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
-import 'package:fook_app/Controllers/Providers/userData.dart';
 
 import 'package:fook_app/Controllers/newTokkenController.dart';
 import 'package:fook_app/Models/collections.dart';
@@ -19,12 +17,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class TokkenPreviewScreen extends StatefulWidget {
   final XFile image;
   //final CollectionController userCollections;
-  final List<String> collectionNames;
+
   const TokkenPreviewScreen({
     Key? key,
     required this.image,
     //required this.userCollections,
-    required this.collectionNames,
   }) : super(key: key);
 
   @override
@@ -110,20 +107,9 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
               ),
               FutureBuilder<Collections>(
                 future: BackendServices.getCurrentUserCollections(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<Collections> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.data.isEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'User collection not found Please add collection first',
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                          ),
-                        ),
-                      );
-                    } else {
+                builder: (ctx, AsyncSnapshot<Collections> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data!.data.isNotEmpty) {
                       _collectionNames = [];
                       snapshot.data!.data.forEach((element) {
                         _collectionNames.add(element.name);
@@ -156,14 +142,14 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                           _loading
                               ? Column(
                                   children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
                                         child: CircularProgressIndicator(),
                                         width: 25,
                                         height: 25,
                                       ),
-                                  ),
+                                    ),
                                     Text(
                                       'Uploading Token',
                                       style: TextStyle(
@@ -173,7 +159,6 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                             .color,
                                       ),
                                     ),
-                                    
                                   ],
                                 )
                               : ElevatedButton(
@@ -292,6 +277,16 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                         },
                                 ),
                         ],
+                      );
+                    } else {
+                      return Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'User collection not found Please add collection first',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          ),
+                        ),
                       );
                     }
                   } else {

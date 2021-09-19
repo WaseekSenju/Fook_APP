@@ -105,8 +105,8 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: createMaterialColor(Color(0xFFF1833D)),
           accentColor: Colors.grey,
         ),
-        home: SignInPage(),
         routes: {
+          '/': (builder) => SignInPage(),
           HomeScreen.routeName: (builder) => HomeScreen(),
           NewPost.routeName: (builder) => NewPost(),
           TabsScreen.routeName: (builder) => TabsScreen(),

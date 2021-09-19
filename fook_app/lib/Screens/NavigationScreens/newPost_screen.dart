@@ -4,7 +4,6 @@ import 'package:fook_app/Screens/NavigationScreens/NewPostScreens/newTokkenPrevi
 import 'package:provider/provider.dart';
 import './NewPostScreens/camera.dart';
 import 'NewPostScreens/browse.dart';
-import 'NewPostScreens/roll.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewPost extends StatefulWidget {
@@ -30,7 +29,7 @@ class _NewPostState extends State<NewPost> {
         context,
         MaterialPageRoute(
           builder: (context) => TokkenPreviewScreen(
-            collectionNames: collectionNames,
+           
             image: galleryImage,
           ),
         ),

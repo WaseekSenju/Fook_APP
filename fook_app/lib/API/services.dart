@@ -1,17 +1,17 @@
-
+import 'dart:convert';
 
 import '/Models/collections.dart';
 import '/Models/tokken_model.dart';
 import '/Models/userBalance.dart';
 
-import '../Models/user.dart';
+import '../Models/user.dart' as userInfo;
 import 'package:http/http.dart' as http;
 import '../Controllers/const.dart';
 
 class BackendServices {
   static var client = http.Client();
 
-  static Future<GetUser> getUser() async {
+  static Future<userInfo.GetUser> getUser() async {
     String tokken = Const.tokken;
 
     var url = Uri.parse('http://54.171.9.121:84/user');
@@ -23,9 +23,13 @@ class BackendServices {
         'Authorization': 'Bearer $tokken',
       },
     );
-
     var jsonString = response.body;
-    return getUserFromJson(jsonString);
+    if (response.statusCode == 200) {
+      return userInfo.getUserFromJson(jsonString);
+    } else {
+      return userInfo.GetUser(
+          data: userInfo.Data(id: 0, username: '', image: ''));
+    }
   }
 
   static Future<UserBalance> getUserBalance() async {
@@ -57,8 +61,11 @@ class BackendServices {
           'Authorization': 'Bearer $tokken',
         },
       );
-      print('http');
-      return tokkenFromJson(response.body);
+      if (response.statusCode == 200) {
+        return tokkenFromJson(response.body);
+      } else {
+        return Tokken(data: []);
+      }
     } catch (Exception) {
       return Tokken(data: []);
     }
@@ -76,9 +83,13 @@ class BackendServices {
           'Authorization': 'Bearer $tokken',
         },
       );
-      return tokkenFromJson(response.body);
+      if (response.statusCode == 200) {
+        return tokkenFromJson(response.body);
+      } else {
+        return Tokken(data: []);
+      }
     } catch (Exception) {
-      return tokkenFromJson('');
+      return Tokken(data: []);
     }
   }
 
@@ -94,9 +105,13 @@ class BackendServices {
           'Authorization': 'Bearer $tokken',
         },
       );
-      return tokkenFromJson(response.body);
+      if (response.statusCode == 200) {
+        return tokkenFromJson(response.body);
+      } else {
+        return Tokken(data: []);
+      }
     } catch (Exception) {
-      return tokkenFromJson('');
+      return Tokken(data: []);
     }
   }
 
@@ -146,16 +161,18 @@ class BackendServices {
       if (response.statusCode == 200) {
         return tokkenFromJson(response.body);
       } else {
-        print('Something wrong happend');
+        print(jsonDecode(response.body)['message']);
         return Tokken(data: []);
       }
     } catch (Exception) {
+      print(Exception);
       print('Something wrong happend');
       return Tokken(data: []);
     }
   }
 
   static Future<Collections> getCurrentUserCollections() async {
+    Collections _userCollections = new Collections(data: []);
     String tokken = Const.tokken;
     var url = Uri.parse('http://54.171.9.121:84/user/collections');
     try {
@@ -168,12 +185,17 @@ class BackendServices {
         },
       );
       if (response.statusCode == 200) {
+        print(response.statusCode);
         var jsonString = response.body;
-        return collectionsFromJson(jsonString);
+        _userCollections = collectionsFromJson(jsonString);
+        return _userCollections;
+      } else {
+        return _userCollections;
       }
-      return new Collections(data: []);
     } catch (Exception) {
-      return new Collections(data: []);
+      print(Exception);
+      print('getCurrentUserCollectionserror');
+      return _userCollections;
     }
   }
 }

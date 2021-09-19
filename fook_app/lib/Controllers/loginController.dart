@@ -9,8 +9,8 @@ class LoginController {
   static var client = http.Client();
   static Future<Map<String, String>> loginUser(
       String email, String password) async {
-    String _tokken = '';
-    String _status = '';
+    String _tokken = ' ';
+    String _status = ' ';
     try {
       var url = Uri.parse('http://54.171.9.121:84/user/login');
       var response = await client.post(

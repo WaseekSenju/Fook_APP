@@ -1,20 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Screens/interest_screen.dart';
 import 'package:fook_app/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import '../Controllers/loginController.dart';
 import '../Screens/tabs_screen.dart';
 
-import 'dart:async';
-import 'dart:io';
-
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -450,7 +443,8 @@ class _SignInPageState extends State<SignInPage> {
                                                 Navigator.of(context).pop();
                                               }),
                                           new ListTile(
-                                            leading: new Icon(Icons.photo_camera),
+                                            leading:
+                                                new Icon(Icons.photo_camera),
                                             title: new Text('Camera'),
                                             onTap: () {
                                               _imgFromCamera();

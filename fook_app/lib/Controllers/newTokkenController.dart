@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fook_app/API/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
@@ -88,7 +87,8 @@ class NewTokenAndCollection {
       } else {
         return response.data;
       }
-    } catch (Exception) {
+    }  catch  (Exception) {
+      
       return 'Error in Collection Creation';
     }
   }
