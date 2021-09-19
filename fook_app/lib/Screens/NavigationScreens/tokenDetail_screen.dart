@@ -476,121 +476,117 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
           )
         ]),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Row(
-          children: [
-            Icon(
-              Icons.favorite,
-              color: widget.tokenData.currentUserData.isLiked
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
+      bottomNavigationBar: Row(
+        children: [
+          Icon(
+            Icons.favorite,
+            color: widget.tokenData.currentUserData.isLiked
+                ? Theme.of(context).primaryColor
+                : Colors.grey,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(2),
+            child: Text(
+              '187k',
+              style: TextStyle(
+                  fontSize: 12, color: Theme.of(context).accentColor),
             ),
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child: Text(
-                '187k',
-                style: TextStyle(
-                    fontSize: 12, color: Theme.of(context).accentColor),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 10, left: 10),
-              child: Row(
-                children: [
-                  ImageIcon(
-                    AssetImage('lib/Assets/Subtract.png'),
-                    color: Theme.of(context).accentColor,
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 10, left: 10),
+            child: Row(
+              children: [
+                ImageIcon(
+                  AssetImage('lib/Assets/Subtract.png'),
+                  color: Theme.of(context).accentColor,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Text(
+                    '150k',
+                    style: TextStyle(
+                        fontSize: 12, color: Theme.of(context).accentColor),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Text(
-                      '150k',
-                      style: TextStyle(
-                          fontSize: 12, color: Theme.of(context).accentColor),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 10, left: 5),
+            child: Row(
+              children: [
+                ImageIcon(
+                  AssetImage('lib/Assets/share.png'),
+                  color: Theme.of(context).accentColor,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Text(
+                    '129k',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).accentColor,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 10, left: 5),
-              child: Row(
-                children: [
-                  ImageIcon(
-                    AssetImage('lib/Assets/share.png'),
-                    color: Theme.of(context).accentColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Text(
-                      '129k',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: TextButton(
-                      onPressed: () async {
-                        String result = await BuyTokken.buyTokken(
-                          widget.tokenData.collection.id.toString(),
-                          widget.tokenData.id,
-                        );
-                        if (result == '200') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Token Bought Successfully'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(result),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                          print(result);
-                        }
-                      },
-                      child: widget.tokenData.price.unit == ' '
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, left: 22, right: 22),
-                              child: Text(
-                                'SOLD',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, left: 22, right: 22),
-                              child: Text(
-                                'Fook it',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            side: BorderSide(
-                                width: 1.5,
-                                color: Theme.of(context).primaryColor),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.05,
+                  width: MediaQuery.of(context).size.width * 0.09,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    String result = await BuyTokken.buyTokken(
+                      widget.tokenData.collection.id.toString(),
+                      widget.tokenData.id,
+                    );
+                    if (result == '200') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Token Bought Successfully'),
+                          duration: Duration(milliseconds: 1000),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(result),
+                          duration: Duration(milliseconds: 1000),
+                        ),
+                      );
+                    }
+                  },
+                  child: widget.tokenData.price.unit == ' '
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, left: 22, right: 22),
+                          child: Text(
+                            'SOLD',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, left: 22, right: 22),
+                          child: Text(
+                            'Fook it',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        side: BorderSide(
+                            width: 1.5,
+                            color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

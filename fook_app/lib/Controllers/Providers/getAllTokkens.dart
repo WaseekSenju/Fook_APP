@@ -24,10 +24,11 @@ class AllTokens with ChangeNotifier {
   Future<void> getAllTokens() async {
     try {
       loading = true;
-      tokken = await BackendServices.getTokken().whenComplete(() {});
+      tokken = await BackendServices.getTokken();
       tokken.data.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
       loading = false;
     } catch (Exception) {
+      print('AllTokensException');
       print(Exception);
     }
 
@@ -40,6 +41,7 @@ class AllTokens with ChangeNotifier {
       uploadedtokens = await BackendServices.getCurrentUserCreatedTokens();
       loading = false;
     } catch (Exception) {
+       print('UploadedTokenException');
       print(Exception);
     }
     notifyListeners();
@@ -51,7 +53,7 @@ class AllTokens with ChangeNotifier {
       acquiredTokens = await BackendServices.getCurrentUserAcquiredTokens();
       loading = false;
     } catch (Exception) {
-      print('DOnwload tokens bc');
+      print('DownloadedtokensException');
       print(Exception);
     }
     notifyListeners();

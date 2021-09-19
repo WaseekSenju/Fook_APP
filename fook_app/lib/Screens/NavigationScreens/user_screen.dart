@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/userData.dart';
 import 'package:fook_app/Controllers/const.dart';
-import 'package:fook_app/Screens/signIn_screen.dart';
 import 'package:fook_app/Widgets/UserScreenWidgets/grid_userScreen.dart';
 import 'package:fook_app/Widgets/UserScreenWidgets/wallet.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +20,8 @@ class UserScreen extends StatefulWidget {
 Future<void> refreshHome(BuildContext context) async {
   await Provider.of<UserData>(context, listen: false).getUserData();
   await Provider.of<UserData>(context, listen: false).getUserWallet();
+  await Provider.of<AllTokens>(context, listen: false).getDownloadedtokens();
+  await Provider.of<AllTokens>(context, listen: false).getUploadedtokens();
 }
 
 class _UserScreenState extends State<UserScreen> {
@@ -79,10 +80,9 @@ class _UserScreenState extends State<UserScreen> {
                             TextButton(
                               onPressed: () {
                                 Const.setTokken(' ');
-                                
-                             Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
-                                
-                              
+
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, "/", (r) => false);
                               },
                               child: const Text('Confirm'),
                             ),
