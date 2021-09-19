@@ -88,7 +88,7 @@ class _PostGridState extends State<PostGrid> {
                   height: 150,
                 ),
                 Text(
-                  'No Tokkens Yet',
+                  'No Tokens Yet',
                   style: TextStyle(
                       //fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.headline1!.color),

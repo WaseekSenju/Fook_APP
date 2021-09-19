@@ -53,7 +53,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-        'Display the Picture',
+        'Upload NFT',
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyText2!.color,
         ),

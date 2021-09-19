@@ -15,6 +15,11 @@ Future<void> refreshFavourites(BuildContext context) async {
 
 class _FavouritesState extends State<Favourites> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context, listen: false);
 
@@ -43,7 +48,9 @@ class _FavouritesState extends State<Favourites> {
                     allTokens.likedTokens
                         .data[allTokens.likedTokens.data.length - (index + 1)],
                     allTokens.likedTokens.data.length - (index + 1),
-                    true);
+                    true,()=>{
+                  refreshFavourites(context)
+                });
               },
               itemCount: allTokens.likedTokens.data.length,
             ),
@@ -56,7 +63,6 @@ class _FavouritesState extends State<Favourites> {
 //         future: BackendServices.getfavouriteToken(),
 //         builder: (context, AsyncSnapshot<Tokken> snapshot) {
 //           var postData = snapshot.data;
-
 //           if (snapshot.hasData)
 //             return ListView.separated(
 //               separatorBuilder: (BuildContext context, int index) =>

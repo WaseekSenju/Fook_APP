@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fook_app/Controllers/const.dart';
 import '/Controllers/buyTokken.dart';
 import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
@@ -35,6 +36,12 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
       _loading = false;
     });
     print(result);
+  }
+  bool isNumeric(String s) {
+    if(s == null) {
+      return false;
+    }
+    return double.parse(s) != null;
   }
 
   @override
@@ -187,7 +194,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                             child: TextFormField(
                                               controller: _priceController,
                                               keyboardType:
-                                                  TextInputType.emailAddress,
+                                                  TextInputType.numberWithOptions(decimal: true),
                                               textAlign: TextAlign.left,
                                               validator: (value) {
                                                 if (value == null ||
@@ -211,48 +218,71 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                             ? CircularProgressIndicator()
                                             : IconButton(
                                                 onPressed: () async {
-                                                  setSheetState(() {
-                                                    _loading = true;
-                                                  });
+                                                  if (_priceController.text
+                                                      .isNotEmpty &&
+                                                      this.isNumeric(
+                                                          _priceController
+                                                              .text)) {
+                                                    if (double.parse(
+                                                        _priceController
+                                                            .text) >=
+                                                        double.parse(
+                                                            widget.tokenData
+                                                                .price.value)) {
+                                                      setSheetState(() {
+                                                        _loading = true;
+                                                      });
 
-                                                  String result =
+                                                      String result =
                                                       await SellTokenController
                                                           .setTokenPriceAndAllow(
-                                                    widget.tokenData.id,
-                                                    widget
-                                                        .tokenData.collection.id
-                                                        .toString(),
-                                                    {
-                                                      "value":
+                                                        widget.tokenData.id,
+                                                        widget
+                                                            .tokenData
+                                                            .collection.id
+                                                            .toString(),
+                                                        {
+                                                          "value":
                                                           _priceController.text,
-                                                      "unit": "ether"
-                                                    },
-                                                  );
-                                                  if (result == '200') {
-                                                    setState(() {
-                                                      widget.tokenData.price
-                                                          .unit = 'ether';
-                                                      widget.tokenData.price
+                                                          "unit": "ether"
+                                                        },
+                                                      );
+                                                      if (result == '200') {
+                                                        setState(() {
+                                                          widget.tokenData.price
+                                                              .unit = 'ether';
+                                                          widget.tokenData.price
                                                               .value =
-                                                          _priceController.text;
-                                                    });
-                                                    Navigator.pop(context);
-                                                    setSheetState(() {
-                                                      _loading = false;
-                                                    });
-                                                    Fluttertoast.showToast(
-                                                      backgroundColor:
+                                                              _priceController
+                                                                  .text;
+                                                        });
+                                                        Navigator.pop(context);
+                                                        setSheetState(() {
+                                                          _loading = false;
+                                                        });
+                                                        Fluttertoast.showToast(
+                                                          backgroundColor:
                                                           Colors.red,
-                                                      msg:
+                                                          msg:
                                                           'Price set Successfully',
-                                                    );
-                                                  } else {
-                                                    Fluttertoast.showToast(
-                                                      backgroundColor:
+                                                        );
+                                                      } else {
+                                                        Fluttertoast.showToast(
+                                                          backgroundColor:
                                                           Colors.red,
-                                                      msg: result,
-                                                    );
-                                                  }
+                                                          msg: result,
+                                                        );
+                                                      }
+                                                    }else{
+                                                      Fluttertoast.showToast(
+                                                        backgroundColor:
+                                                        Colors.red,
+                                                        msg:
+                                                        'Please add equal or high price',
+                                                      );
+                                                    }
+
+                                                }
                                                 },
                                                 icon: Icon(Icons.done),
                                               ),
@@ -529,6 +559,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                     padding: const EdgeInsets.only(left: 30),
                     child: TextButton(
                       onPressed: () {
+                        widget.tokenData.price.unit == ' '
+                            ?
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
+                          SnackBar(
+                            content: Text(Const.ALREADY_SOLD),
+                            duration:
+                            Duration(milliseconds: 1000),
+                          ),
+                        )
+                            :
                         setState(() async {
                           String result = await BuyTokken.buyTokken(
                             widget.tokenData.collection.id.toString(),
@@ -544,7 +585,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(result),
+                                content: Text(Const.LOW_BALANCE_MESSAGE),
                                 duration: Duration(milliseconds: 1000),
                               ),
                             );

@@ -4,16 +4,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/buyTokken.dart';
+import 'package:fook_app/Controllers/const.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
 import 'package:fook_app/Models/tokken_model.dart';
 import 'package:fook_app/Screens/NavigationScreens/tokenDetail_screen.dart';
 import 'package:provider/provider.dart';
 
 class TokenWidget extends StatefulWidget {
-  TokenWidget(this.tokenData, this.index, this.favouriteScreen);
+  TokenWidget(this.tokenData, this.index, this.favouriteScreen,this.onFavorite);
   final Datum tokenData;
   final int index;
   final bool favouriteScreen;
+  final Function onFavorite;
 
   @override
   _TokenWidgetState createState() => _TokenWidgetState();
@@ -141,7 +143,25 @@ class _TokenWidgetState extends State<TokenWidget> {
                             ),
                           ),
                           onTap: widget.favouriteScreen
-                              ? () {}
+                              ? () {
+                            LikeTokken.unlikeTokken(
+                                widget.tokenData.id,
+                                widget.tokenData.collection.id
+                                    .toString());
+                            liked = !liked;
+
+                            allTokens.tokken.data[widget.index]
+                                .currentUserData.isLiked =
+                            !allTokens.tokken.data[widget.index]
+                                .currentUserData.isLiked;
+
+                            allTokens.likedTokens.data.removeWhere(
+                                    (tokken) =>
+                                tokken.id ==
+                                    allTokens.tokken
+                                        .data[widget.index].id);
+                            this.widget.onFavorite();
+                          }
                               : () async {
                                   setState(
                                     () {
@@ -285,12 +305,24 @@ class _TokenWidgetState extends State<TokenWidget> {
                   Spacer(),
                   TextButton(
                     onPressed: () async {
+                      print(widget.tokenData.price.unit);
+                      widget.tokenData.price.unit == ' '
+                          ?
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(
+                        SnackBar(
+                          content: Text(Const.ALREADY_SOLD),
+                          duration:
+                          Duration(milliseconds: 1000),
+                        ),
+                      )
+                          :
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                           
                           content: Text(
-                              'Are you Sure want to Buy ${widget.tokenData.name}'),
+                              'Are you Sure want to Buy \'${widget.tokenData.name}\''),
                           actions: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -302,6 +334,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                                 ),
                                 TextButton(
                                   onPressed: () {
+
                                     setState(() async {
                                       String result = await BuyTokken.buyTokken(
                                         widget.tokenData.collection.id
@@ -332,7 +365,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            content: Text(result),
+                                            content: Text(Const.LOW_BALANCE_MESSAGE),
                                             duration:
                                                 Duration(milliseconds: 1000),
                                           ),

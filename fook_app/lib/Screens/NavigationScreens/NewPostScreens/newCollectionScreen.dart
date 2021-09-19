@@ -39,7 +39,7 @@ class _NewCollectionState extends State<NewCollection> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-        'Display the Picture',
+        'Add Collection',
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyText2!.color,
         ),
@@ -58,7 +58,7 @@ class _NewCollectionState extends State<NewCollection> {
                 child: Text(
                   _imageTaken
                       ? 'Image Preview'
-                      : ' Please Select an Image for Collection first',
+                      : ' Select Collection Image * ',
                   style: TextStyle(
                     fontSize: _imageTaken ? 20 : 15,
                     color: Theme.of(context).textTheme.bodyText1!.color,
@@ -80,7 +80,7 @@ class _NewCollectionState extends State<NewCollection> {
                             )
                           : IconButton(
                               icon: Icon(
-                                Icons.camera,
+                                Icons.camera_alt_outlined,
                                 size: 50,
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -94,14 +94,14 @@ class _NewCollectionState extends State<NewCollection> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   _nameController,
-                  'Enter the name of the collection',
+                  'Enter the name of the collection *',
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   _symbolController,
-                  'Ente the symbol of collection',
+                  'Enter the symbol of collection *',
                 ),
               ),
               _loading
@@ -123,6 +123,7 @@ class _NewCollectionState extends State<NewCollection> {
                                   _symbolController.text);
 
                           if (result == '201') {
+                            Navigator.of(context).popUntil((route) => route.isFirst);
                             Fluttertoast.showToast(
                                 msg:
                                     'Collection Created Successfully.Your transaction processing will take some time.');

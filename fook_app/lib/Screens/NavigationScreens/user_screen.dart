@@ -21,9 +21,20 @@ class UserScreen extends StatefulWidget {
 Future<void> refreshHome(BuildContext context) async {
   await Provider.of<UserData>(context, listen: false).getUserData();
   await Provider.of<UserData>(context, listen: false).getUserWallet();
+  await Provider.of<AllTokens>(context, listen: false).getAllTokens();
+
 }
 
+
 class _UserScreenState extends State<UserScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // var tokens = Provider.of<AllTokens>(context);
+    // tokens.getUploadedtokens();
+    // tokens.getDownloadedtokens();
+  }
   @override
   Widget build(BuildContext context) {
     
@@ -33,7 +44,6 @@ class _UserScreenState extends State<UserScreen> {
     var userInfo = data.userData.data;
 
     var tokens = Provider.of<AllTokens>(context);
-
     var uploadedTokens = tokens.uploadedtokens;
     var downloadedTokens = tokens.acquiredTokens;
 

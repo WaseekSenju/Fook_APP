@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fook_app/Screens/tabs_screen.dart';
 import '/Widgets/InterestScreen/chip.dart';
 
-class InterestsPage extends StatelessWidget {
+class InterestsPage extends StatefulWidget {
   static const routeName = '/interestsScreen';
 
+  @override
+  _InterestsPageState createState() => _InterestsPageState();
+}
+
+class _InterestsPageState extends State<InterestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,25 +106,32 @@ class InterestsPage extends StatelessWidget {
         runSpacing: 10,
         spacing: 10,
         children: Chips.all
-            .map((chip) => Chip(
-                  labelPadding: EdgeInsets.only(
-                    top: 8,
-                    bottom: 8,
-                    left: 22,
-                    right: 22,
+            .map((chip) => InkWell(
+              onTap: (){
+                setState(() {
+                  chip.isSelected = !chip.isSelected;
+                });
+              },
+              child: Chip(
+                    labelPadding: EdgeInsets.only(
+                      top: 8,
+                      bottom: 8,
+                      left: 22,
+                      right: 22,
+                    ),
+                    label: Text(chip.label),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: chip.isSelected ? Colors.white: Theme.of(context).primaryColor,
+                    ),
+                    backgroundColor: chip.isSelected ? Theme.of(context).primaryColor  : Colors.transparent,
+                    side: BorderSide(
+                      width: 1.5,
+                      color: chip.isSelected ? Colors.white: Theme.of(context).primaryColor,
+                    ),
                   ),
-                  label: Text(chip.label),
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  backgroundColor: Colors.transparent,
-                  side: BorderSide(
-                    width: 1.5,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ))
+            ))
             .toList(),
       );
 }
