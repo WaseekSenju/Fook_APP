@@ -72,4 +72,10 @@ class Chips {
       isSelected: false,
     ),
   ];
+
+  static void resetChips(){
+    for (var each in all){
+      each.isSelected = false;
+    }
+  }
 }

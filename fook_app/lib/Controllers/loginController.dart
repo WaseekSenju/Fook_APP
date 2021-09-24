@@ -71,9 +71,10 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (exception) {
-      print(exception);
-      return '0';
+    } on DioError catch  (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try agian and verify to have moeny in your wallet.';
     }
   }
 
@@ -106,9 +107,10 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (exception) {
-      print(exception);
-      return '0';
+    }on DioError catch  (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try again';
     }
   }
 }

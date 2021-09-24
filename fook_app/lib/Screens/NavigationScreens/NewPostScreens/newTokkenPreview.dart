@@ -231,7 +231,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                                 ),
                                                 currentUserData:
                                                     token.CurrentUserData(
-                                                        isLiked: false),
+                                                        isLiked: false,isOwner: true),
                                                 price: token.Price(
                                                     value:
                                                         _priceController.text,

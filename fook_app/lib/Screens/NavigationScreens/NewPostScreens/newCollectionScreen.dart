@@ -147,6 +147,8 @@ class _NewCollectionState extends State<NewCollection> {
                                     builder: (context) => TokkenPreviewScreen(
                                       //collectionNames:
                                           //userCollections.collectionNames,
+                                      // collectionNames:
+                                      //     userCollections.collectionNames,
                                       image: XFile(widget.tokenImage.path),
                                     ),
                                   ),

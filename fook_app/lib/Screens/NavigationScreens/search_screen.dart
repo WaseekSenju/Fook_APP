@@ -10,6 +10,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  var latestFetched = false;
   Future<void> refreshSearch(BuildContext context) async {
     final collectionController =
         Provider.of<CollectionController>(context, listen: false);
@@ -27,12 +28,25 @@ class _SearchState extends State<Search> {
       final userTokkens =
           Provider.of<UserTokensController>(context, listen: false);
       userTokkens.getUserTokkens(collectionIds);
+      setState(() {
+        latestFetched = true;
+      });
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   this.refreshSearch(context);
+   setState(() {
+
+   });
   }
 
   @override
   Widget build(BuildContext context) {
     var userTokens = Provider.of<UserTokensController>(context);
+    userTokens.loading = !latestFetched;
     return RefreshIndicator(
       onRefresh: () => refreshSearch(context),
       child: userTokens.loading
