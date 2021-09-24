@@ -49,8 +49,8 @@ class NewTokenAndCollection {
       } else {
         return response.data;
       }
-    } catch (Exception) {
-      return '0';
+    } catch (e) {
+      return '${e.toString()}';
     }
   }
 
@@ -87,9 +87,10 @@ class NewTokenAndCollection {
       } else {
         return response.data;
       }
-    }  catch  (Exception) {
-      
-      return 'Error in Collection Creation';
+    } on DioError catch  (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try agian and verify to have moeny in your wallet.';
     }
   }
 }

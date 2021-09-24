@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/const.dart';
+import 'package:fook_app/Controllers/likeToken.dart';
+import 'package:provider/provider.dart';
 import '/Controllers/buyTokken.dart';
 import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
@@ -21,7 +24,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   final _priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
-
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   void setPrice(Datum tokenData, String price) async {
     setState(() {
       _loading = true;
@@ -43,10 +46,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     }
     return double.parse(s) != null;
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+}
   @override
   Widget build(BuildContext context) {
+    var allTokens = Provider.of<AllTokens>(context);
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
           actions: [
             IconButton(
@@ -89,9 +99,13 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 ),
               ),
             ),
-          if (widget.tokenData.price.value != ' ')
+
+          if (widget.tokenData.price.value != ' ' || widget.tokenData.currentUserData.isOwner)
+            !widget.tokenData.currentUserData.isOwner
+                ? Container(height: 1,width: 1,)
+                :
             Container(
-                height: 150,
+                height:  150,
                 child: Column(
                   children: [
                     Row(
@@ -163,8 +177,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         ),
                       ],
                     ),
+
                     InkWell(
                       onTap: () {
+                        Fluttertoast.showToast(
+                          backgroundColor:
+                          Colors.red,
+                          msg:
+                          'Please add equal or high price',
+                        );
+
+                        return;
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
@@ -218,6 +241,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                             ? CircularProgressIndicator()
                                             : IconButton(
                                                 onPressed: () async {
+
                                                   if (_priceController.text
                                                       .isNotEmpty &&
                                                       this.isNumeric(
@@ -267,6 +291,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                                           'Price set Successfully',
                                                         );
                                                       } else {
+                                                        setSheetState(() {
+                                                          _loading = false;
+                                                        });
                                                         Fluttertoast.showToast(
                                                           backgroundColor:
                                                           Colors.red,
@@ -274,12 +301,19 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                                         );
                                                       }
                                                     }else{
+                                                      Navigator.of(context).pop();
+                                                      Future.delayed(const Duration(milliseconds: 500), () {
+
                                                       Fluttertoast.showToast(
-                                                        backgroundColor:
-                                                        Colors.red,
-                                                        msg:
-                                                        'Please add equal or high price',
-                                                      );
+                                                       backgroundColor:
+                                                       Colors.red,
+                                                       msg:
+                                                       'Please add equal or high price',
+                                                     );
+
+
+                                                      });
+
                                                     }
 
                                                 }
@@ -504,11 +538,44 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         padding: const EdgeInsets.all(18),
         child: Row(
           children: [
-            Icon(
-              Icons.favorite,
-              color: widget.tokenData.currentUserData.isLiked
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
+            InkWell(
+              onTap: (){
+                  setState(
+                        () {
+                          var token = widget.tokenData;
+                      if (token.currentUserData.isLiked) {
+                        LikeTokken.unlikeTokken(
+                            widget.tokenData.id,
+                            widget.tokenData.collection.id
+                                .toString());
+                        widget.tokenData.currentUserData.isLiked = !widget.tokenData.currentUserData.isLiked;
+                        allTokens.likedTokens.data.removeWhere(
+                                (tokken) =>
+                            tokken.id ==
+                                token.id);
+                      } else {
+                        LikeTokken.likeTokken(
+                            widget.tokenData.id,
+                            widget.tokenData.collection.id
+                                .toString());
+                        widget.tokenData.currentUserData.isLiked = !widget.tokenData.currentUserData.isLiked;
+
+                        // allTokens.tokken.data[widget.index]
+                        //     .currentUserData.isLiked =
+                        // !allTokens.tokken.data[widget.index]
+                        //     .currentUserData.isLiked;
+
+                        allTokens.likedTokens.data.add(token);
+                      }
+                    },
+                  );
+              },
+              child: Icon(
+                Icons.favorite,
+                color: widget.tokenData.currentUserData.isLiked
+                    ? Theme.of(context).primaryColor
+                    : widget.tokenData.currentUserData.isLiked ? Colors.red : Colors.grey,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(2),
@@ -557,7 +624,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
-                    child: TextButton(
+                    child:  widget.tokenData.currentUserData.isOwner
+                        ? Container(height: 1,width: 1,)
+                        : TextButton(
                       onPressed: () {
                         widget.tokenData.price.unit == ' '
                             ?

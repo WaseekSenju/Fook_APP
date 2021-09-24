@@ -103,20 +103,25 @@ class Collection {
 }
 
 class CurrentUserData {
+  bool isLiked;
+  bool isOwner;
+
   CurrentUserData({
     required this.isLiked,
+    required this.isOwner,
   });
-
-  bool isLiked;
 
   factory CurrentUserData.fromJson(Map<String, dynamic> json) =>
       CurrentUserData(
         isLiked: json["isLiked"],
+        isOwner: json["isOwner"],
+
       );
 
   Map<String, dynamic> toJson() => {
         "isLiked": isLiked,
-      };
+        "isOwner": isOwner,
+  };
 }
 
 class Price {

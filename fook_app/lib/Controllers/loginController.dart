@@ -29,7 +29,7 @@ class LoginController {
       _status = response.statusCode.toString();
       Const.setTokken(_tokken);
       return {'tokken': _tokken, 'status': _status};
-    } catch (Exception) {
+    }  catch (Exception) {
       print(Exception);
       return {'tokken': _tokken, 'status': _status};
     }
@@ -71,9 +71,10 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (Exception) {
-      print(Exception);
-      return '0';
+    } on DioError catch  (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try agian and verify to have moeny in your wallet.';
     }
   }
 
@@ -106,9 +107,10 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (Exception) {
-      print(Exception);
-      return '0';
+    }on DioError catch  (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try again';
     }
   }
 }

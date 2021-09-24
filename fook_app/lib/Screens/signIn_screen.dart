@@ -535,6 +535,12 @@ class _SignInPageState extends State<SignInPage> {
                   onTap: () {
                     setState(() {
                       _image = File('');
+                      _emailController.text = "";
+                      _nameController.text = "";
+                      _passwordController.text = "";
+                      setState(() {
+                        _loading = false;
+                      });
                       if (_status == pageState.SignupPage) {
                         _status = pageState.LoginPage;
                         _imageTaken = false;

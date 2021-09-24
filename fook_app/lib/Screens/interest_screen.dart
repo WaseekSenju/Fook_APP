@@ -11,6 +11,13 @@ class InterestsPage extends StatefulWidget {
 
 class _InterestsPageState extends State<InterestsPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Chips.resetChips();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(

@@ -303,6 +303,9 @@ class _TokenWidgetState extends State<TokenWidget> {
                     ),
                   ),
                   Spacer(),
+                  widget.tokenData.currentUserData.isOwner ?
+                  Container(height: 1,width: 1,)
+                      :
                   TextButton(
                     onPressed: () async {
                       print(widget.tokenData.price.unit);
