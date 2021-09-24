@@ -66,7 +66,7 @@ class BackendServices {
       } else {
         return Tokken(data: []);
       }
-    } catch (Exception) {
+    } catch (exception) {
       return Tokken(data: []);
     }
   }
@@ -88,7 +88,7 @@ class BackendServices {
       } else {
         return Tokken(data: []);
       }
-    } catch (Exception) {
+    } catch (exception) {
       return Tokken(data: []);
     }
   }
@@ -110,7 +110,7 @@ class BackendServices {
       } else {
         return Tokken(data: []);
       }
-    } catch (Exception) {
+    } catch (exception) {
       return Tokken(data: []);
     }
   }
@@ -164,8 +164,8 @@ class BackendServices {
         print(jsonDecode(response.body)['message']);
         return Tokken(data: []);
       }
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       print('Something wrong happend');
       return Tokken(data: []);
     }
@@ -192,8 +192,8 @@ class BackendServices {
       } else {
         return _userCollections;
       }
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       print('getCurrentUserCollectionserror');
       return _userCollections;
     }

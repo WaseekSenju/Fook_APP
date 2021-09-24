@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import '../Controllers/loginController.dart';
 import '../Screens/tabs_screen.dart';
 
-
 class SignInPage extends StatefulWidget {
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -139,7 +138,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xffF4F6FA),
       body: Center(
         child: SingleChildScrollView(
           child: Form(
@@ -169,51 +168,10 @@ class _SignInPageState extends State<SignInPage> {
                     'Welcome to the NFTs \n Universe',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.headline1!.color,
                       fontSize: 18,
                     ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(22),
-                  height: 90,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: ElevatedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 25,
-                          width: 25,
-                          child: Image.asset('lib/Assets/googleLogin.png'),
-                        ),
-                        Container(
-                          width: 56,
-                        ),
-                        Text(
-                          _status == pageState.LoginPage
-                              ? 'Log In with Google'
-                              : 'Sign In with Google',
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.headline1!.color,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            side: new BorderSide(
-                                width: 1, color: Theme.of(context).accentColor),
-                          ),
-                        )),
                   ),
                 ),
                 Container(
@@ -227,20 +185,21 @@ class _SignInPageState extends State<SignInPage> {
                         child: Container(
                           height: 1.0,
                           width: 32,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       Text(
                         'OR',
                         style: TextStyle(
-                            color: Theme.of(context).accentColor, fontSize: 14),
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 14),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: Container(
                           height: 1.0,
                           width: 32,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ],
@@ -264,6 +223,10 @@ class _SignInPageState extends State<SignInPage> {
                       return null;
                     },
                     decoration: InputDecoration(
+                      prefixIcon: ImageIcon(
+                        AssetImage('lib/Assets/email.png'),
+                        color: Color(0xffE02989),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
@@ -279,14 +242,15 @@ class _SignInPageState extends State<SignInPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
-                            width: 0.5, color: Theme.of(context).accentColor),
+                            width: 0.5,
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                       contentPadding: EdgeInsets.only(top: 5, left: 15),
                       filled: true,
                       fillColor: Color(0xffF4F4F4),
 
                       //Icon
-                      hintText: 'Email',
+                      hintText: 'Email address',
                       hintStyle: TextStyle(
                         fontSize: 14,
                       ),
@@ -315,7 +279,7 @@ class _SignInPageState extends State<SignInPage> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: new BorderSide(
                             width: 0.5,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -329,7 +293,7 @@ class _SignInPageState extends State<SignInPage> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: new BorderSide(
                             width: 0.5,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                         contentPadding: EdgeInsets.only(top: 5, left: 15),
@@ -362,11 +326,15 @@ class _SignInPageState extends State<SignInPage> {
                     obscureText: !_visibility,
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
+                      prefixIcon: ImageIcon(
+                        AssetImage('lib/Assets/password.png'),
+                        color: Color(0xffE02989),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
                           width: 0.5,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -380,7 +348,7 @@ class _SignInPageState extends State<SignInPage> {
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
                           width: 0.5,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       contentPadding: EdgeInsets.only(top: 5, left: 15),
@@ -393,14 +361,14 @@ class _SignInPageState extends State<SignInPage> {
                             ? IconButton(
                                 icon: Icon(
                                   Icons.visibility_rounded,
-                                  size: 15,
+                                  size: 25,
                                 ),
                                 onPressed: _toggleVisibilty,
                               )
                             : IconButton(
                                 icon: Icon(
                                   Icons.visibility_off_rounded,
-                                  size: 15,
+                                  size: 25,
                                 ),
                                 onPressed: _toggleVisibilty,
                               ),
@@ -523,13 +491,115 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
 
+                //Forget Password
+
                 if (_status == pageState.LoginPage)
-                  Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1!.color,
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: ElevatedButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Color(
+                                  0xff636A7D,
+                                )),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color(0xff636A7D),
+                            size: 16,
+                          )
+                        ],
+                      ),
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Color(0xffE4E7F0)),
+                        shadowColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                      ),
                     ),
                   ),
+                SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  'Other ways to sign in',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Color(
+                        0xffA7B2CD,
+                      )),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 3,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 48,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: Image.asset('lib/Assets/googleLogin.png'),
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Text(
+                          _status == pageState.LoginPage
+                              ? 'Log In with Google'
+                              : 'Sign In with Google',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.headline1!.color,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //onPressed: () {},
+                  // style: ButtonStyle(
+                  //   backgroundColor: MaterialStateProperty.all(Colors.white),
+                  //   shadowColor: MaterialStateProperty.all(
+                  //       Colors.grey.withOpacity(0.5)),
+                  //   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //     RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(25),
+                  //       side: new BorderSide(
+                  //           width: 1,
+                  //           color: Theme.of(context).colorScheme.secondary),
+                  //     ),
+                  //   ),
+                  // ),
+                  // ),
+                ),
                 Container(height: MediaQuery.of(context).size.height * 0.1),
                 new GestureDetector(
                   onTap: () {

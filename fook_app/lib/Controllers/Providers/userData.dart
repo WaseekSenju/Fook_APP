@@ -17,8 +17,8 @@ class UserData with ChangeNotifier {
       loading = true;
       userData = await BackendServices.getUser().whenComplete(() {});
       loading = false;
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
     }
     notifyListeners();
   }
@@ -28,8 +28,8 @@ class UserData with ChangeNotifier {
       loading = true;
       userBalance = await BackendServices.getUserBalance().whenComplete(() {});
       loading = false;
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
     }
     notifyListeners();
   }

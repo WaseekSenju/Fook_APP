@@ -22,9 +22,7 @@ Future<void> refreshHome(BuildContext context) async {
   await Provider.of<UserData>(context, listen: false).getUserData();
   await Provider.of<UserData>(context, listen: false).getUserWallet();
   await Provider.of<AllTokens>(context, listen: false).getAllTokens();
-
 }
-
 
 class _UserScreenState extends State<UserScreen> {
   @override
@@ -35,11 +33,11 @@ class _UserScreenState extends State<UserScreen> {
     // tokens.getUploadedtokens();
     // tokens.getDownloadedtokens();
   }
+
   @override
   Widget build(BuildContext context) {
-    
-   //Improvment can me made by not using provider here but in grids 
-    
+    //Improvment can me made by not using provider here but in grids
+
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;
 
@@ -131,7 +129,8 @@ class _UserScreenState extends State<UserScreen> {
                               Text(
                                 'NFTs',
                                 style: TextStyle(
-                                    color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
                               ),
                             ],
                           ),
@@ -177,7 +176,7 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             Text('Followers',
                                 style: TextStyle(
-                                    color: Theme.of(context).accentColor)),
+                                    color: Theme.of(context).colorScheme.secondary)),
                           ],
                         ),
                         Column(
@@ -195,7 +194,7 @@ class _UserScreenState extends State<UserScreen> {
                             Text(
                               'Following',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary),
                             ),
                           ],
                         ),

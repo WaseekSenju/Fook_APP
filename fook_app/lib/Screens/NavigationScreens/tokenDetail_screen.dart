@@ -319,7 +319,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   ],
                 )),
           Divider(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           Container(
             width: MediaQuery.of(context).size.width,
@@ -375,7 +375,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
             ),
           ),
           Divider(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           Container(
             height: 160,
@@ -402,7 +402,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                           width: 150,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
@@ -449,7 +449,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                           width: 150,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
@@ -515,7 +515,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
               child: Text(
                 '187k',
                 style: TextStyle(
-                    fontSize: 12, color: Theme.of(context).accentColor),
+                    fontSize: 12, color: Theme.of(context).colorScheme.secondary),
               ),
             ),
             Padding(
@@ -524,14 +524,14 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 children: [
                   ImageIcon(
                     AssetImage('lib/Assets/Subtract.png'),
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(2),
                     child: Text(
                       '150k',
                       style: TextStyle(
-                          fontSize: 12, color: Theme.of(context).accentColor),
+                          fontSize: 12, color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -543,7 +543,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 children: [
                   ImageIcon(
                     AssetImage('lib/Assets/share.png'),
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(2),
@@ -551,7 +551,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                       '129k',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                   ),

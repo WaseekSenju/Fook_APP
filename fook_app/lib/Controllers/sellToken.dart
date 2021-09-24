@@ -31,7 +31,7 @@ class SellTokenController {
       } else {
         return response.data['message'];
       }
-    } catch (Exception) {
+    } catch (exception) {
       return 'Exception in Sell Token';
     }
   }

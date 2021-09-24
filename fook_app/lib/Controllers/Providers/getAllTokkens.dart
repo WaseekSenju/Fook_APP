@@ -27,9 +27,9 @@ class AllTokens with ChangeNotifier {
       tokken = await BackendServices.getTokken();
       tokken.data.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
       loading = false;
-    } catch (Exception) {
-      print('AllTokensException');
-      print(Exception);
+    } catch (exception) {
+      print('AllTokensexception');
+      print(exception);
     }
 
     notifyListeners();
@@ -40,9 +40,9 @@ class AllTokens with ChangeNotifier {
       loading = true;
       uploadedtokens = await BackendServices.getCurrentUserCreatedTokens();
       loading = false;
-    } catch (Exception) {
-       print('UploadedTokenException');
-      print(Exception);
+    } catch (exception) {
+       print('UploadedTokenexception');
+      print(exception);
     }
     notifyListeners();
   }
@@ -52,9 +52,9 @@ class AllTokens with ChangeNotifier {
       loading = true;
       acquiredTokens = await BackendServices.getCurrentUserAcquiredTokens();
       loading = false;
-    } catch (Exception) {
-      print('DownloadedtokensException');
-      print(Exception);
+    } catch (exception) {
+      print('Downloadedtokensexception');
+      print(exception);
     }
     notifyListeners();
   }
@@ -64,8 +64,8 @@ class AllTokens with ChangeNotifier {
       loading = true;
       likedTokens = await BackendServices.getfavouriteToken();
       loading = false;
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
     }
     notifyListeners();
   }

@@ -85,7 +85,7 @@ class _TabsScreen extends State<TabsScreen> {
         bottomNavigationBar: BottomNavigationBar(
           //elevation: 50,
           selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Theme.of(context).accentColor,
+          unselectedItemColor: Theme.of(context).colorScheme.secondary,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
           items: <BottomNavigationBarItem>[

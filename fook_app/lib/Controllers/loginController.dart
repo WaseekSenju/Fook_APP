@@ -29,8 +29,8 @@ class LoginController {
       _status = response.statusCode.toString();
       Const.setTokken(_tokken);
       return {'tokken': _tokken, 'status': _status};
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       return {'tokken': _tokken, 'status': _status};
     }
   }
@@ -71,8 +71,8 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       return '0';
     }
   }
@@ -106,8 +106,8 @@ class LoginController {
       } else {
         return response.data;
       }
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       return '0';
     }
   }
@@ -134,7 +134,7 @@ class LoginController {
 //       } else {
 //         return response.body;
 //       }
-//     } catch (Exception) {
+//     } catch (exception) {
 //       return '0';
 //     }
 //   }

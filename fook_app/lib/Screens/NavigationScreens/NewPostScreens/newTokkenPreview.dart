@@ -310,20 +310,20 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                       child: Container(
                         height: 1.0,
                         width: 32,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     Text(
                       'OR',
                       style: TextStyle(
-                          color: Theme.of(context).accentColor, fontSize: 14),
+                          color: Theme.of(context).colorScheme.secondary, fontSize: 14),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: Container(
                         height: 1.0,
                         width: 32,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                   ],

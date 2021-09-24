@@ -26,8 +26,8 @@ class BuyTokken {
       } else {
         return _result['message'];
       }
-    } catch (Exception) {
-      print(Exception);
+    } catch (exception) {
+      print(exception);
       return ' ';
     }
   }

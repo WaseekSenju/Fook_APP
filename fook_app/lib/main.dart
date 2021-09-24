@@ -15,6 +15,7 @@ import 'Screens/NavigationScreens/newPost_screen.dart';
 import 'Screens/signIn_screen.dart';
 import 'Screens/tabs_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'style.dart';
 
 enum pageState {
   LoginPage,
@@ -36,14 +37,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.bottom]);
     super.initState();
   }
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
   }
 
@@ -101,9 +103,11 @@ class _MyAppState extends State<MyApp> {
             ),
             bodyText2: TextStyle(color: Colors.white),
           ),
-          fontFamily: GoogleFonts.montserrat().fontFamily,
-          primarySwatch: createMaterialColor(Color(0xFFF1833D)),
-          accentColor: Colors.grey,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          primaryColor: createMaterialColor(Color(0xFFF1833D)),
+          colorScheme: ColorScheme.fromSwatch(
+                  primarySwatch: createMaterialColor(Color(0xFFF1833D)))
+              .copyWith(secondary: Colors.grey),
         ),
         routes: {
           '/': (builder) => SignInPage(),

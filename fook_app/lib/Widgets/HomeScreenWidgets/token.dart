@@ -65,7 +65,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                   Text(
                     '1 day ago',
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   )
                 ],
@@ -207,7 +207,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                             '187k',
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context).accentColor),
+                                color: Theme.of(context).colorScheme.secondary),
                           ),
                         ),
                       ],
@@ -221,7 +221,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                           AssetImage(
                             'lib/Assets/Subtract.png',
                           ),
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2),
@@ -229,7 +229,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                             '150k',
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context).accentColor),
+                                color: Theme.of(context).colorScheme.secondary),
                           ),
                         ),
                       ],
@@ -241,7 +241,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                       children: [
                         ImageIcon(
                           AssetImage('lib/Assets/share.png'),
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2),
@@ -249,7 +249,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                             '129k',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ),
@@ -286,7 +286,7 @@ class _TokenWidgetState extends State<TokenWidget> {
               child: Text(
                 "NTF Image",
                 style: TextStyle(
-                    color: Theme.of(context).accentColor, fontSize: 12),
+                    color: Theme.of(context).colorScheme.secondary, fontSize: 12),
               ),
             ),
             //Price and button

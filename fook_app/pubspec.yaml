@@ -70,6 +70,8 @@ flutter:
     - lib/Assets/Fook.png
     - lib/Assets/eth.png
     - lib/Assets/null.png
+    - lib/Assets/email.png
+    - lib/Assets/password.png
     #   lib/Assets/esport/esport (1).png
     # - lib/Assets/esport/esport (2).png
     # - lib/Assets/esport/esport (3).png
