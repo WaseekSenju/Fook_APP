@@ -165,46 +165,46 @@ class _SignInPageState extends State<SignInPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
-                    'Welcome to the NFTs \n Universe',
+                    'Welcome to the NFT\'s \n Universe',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: Theme.of(context).textTheme.headline1!.color,
                       fontSize: 18,
                     ),
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          width: 32,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                      Text(
-                        'OR',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 14),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          width: 32,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 10.0),
+                //         child: Container(
+                //           height: 1.0,
+                //           width: 32,
+                //           color: Theme.of(context).colorScheme.secondary,
+                //         ),
+                //       ),
+                //       Text(
+                //         'OR',
+                //         style: TextStyle(
+                //             color: Theme.of(context).colorScheme.secondary,
+                //             fontSize: 14),
+                //       ),
+                //       Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 10.0),
+                //         child: Container(
+                //           height: 1.0,
+                //           width: 32,
+                //           color: Theme.of(context).colorScheme.secondary,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 //Email Field
                 Container(
                   padding:
@@ -275,6 +275,11 @@ class _SignInPageState extends State<SignInPage> {
                       controller: _nameController,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.alternate_email,
+                          color: Color(0xffE02989),
+                        ),
+
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                           borderSide: new BorderSide(
@@ -578,6 +583,7 @@ class _SignInPageState extends State<SignInPage> {
                               ? 'Log In with Google'
                               : 'Sign In with Google',
                           style: TextStyle(
+                            fontWeight: FontWeight.w500,
                             color: Theme.of(context).textTheme.headline1!.color,
                           ),
                         ),
@@ -601,44 +607,106 @@ class _SignInPageState extends State<SignInPage> {
                   // ),
                 ),
                 Container(height: MediaQuery.of(context).size.height * 0.1),
-                new GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _image = File('');
-                      if (_status == pageState.SignupPage) {
-                        _status = pageState.LoginPage;
-                        _imageTaken = false;
-                      } else {
-                        _status = pageState.SignupPage;
-                      }
-                    });
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: _status == pageState.LoginPage
-                          ? 'Don\'t have an account?'
-                          : 'Already have an account?',
-                      style: TextStyle(
-                        fontFamily: GoogleFonts.montserrat().fontFamily,
-                        color: Theme.of(context).textTheme.headline1!.color,
+
+                // new GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _image = File('');
+                //       if (_status == pageState.SignupPage) {
+                //         _status = pageState.LoginPage;
+                //         _imageTaken = false;
+                //       } else {
+                //         _status = pageState.SignupPage;
+                //       }
+                //     });
+                //   },
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: _status == pageState.LoginPage
+                //           ? 'Don\'t have an account?'
+                //           : 'Already have an account?',
+                //       style: TextStyle(
+                //         fontFamily: GoogleFonts.montserrat().fontFamily,
+                //         color: Theme.of(context).textTheme.headline1!.color,
+                //       ),
+                //       children: <TextSpan>[
+                //         TextSpan(
+                //           text: _status == pageState.LoginPage
+                //               ? ' Sign Up'
+                //               : ' Log In',
+                //           style: TextStyle(
+                //             fontFamily: GoogleFonts.montserrat().fontFamily,
+                //             color: Theme.of(context).textTheme.bodyText1!.color,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                thickness: 0.5,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  _status == pageState.SignupPage?'Already have an account?':'Dont have an account?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _image = File('');
+                        if (_status == pageState.SignupPage) {
+                          _status = pageState.LoginPage;
+                          _imageTaken = false;
+                        } else {
+                          _status = pageState.SignupPage;
+                        }
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8, bottom: 8, left: 22, right: 22),
+                      child: Text(
+                        _status == pageState.SignupPage?'    Log In    ':'    Sign Up    ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: _status == pageState.LoginPage
-                              ? ' Sign Up'
-                              : ' Log In',
-                          style: TextStyle(
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                          ),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          side: BorderSide(
+                              width: 1.5,
+                              color: Theme.of(context).primaryColor),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

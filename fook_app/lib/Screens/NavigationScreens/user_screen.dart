@@ -144,7 +144,7 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: BoxDecoration(shape: BoxShape.circle),
                               child: ClipOval(
                                 child: userInfo.image == 'noImage'
-                                    ? Image.asset('lib/Assets/user.png')
+                                    ? Image.asset('lib/Assets/Fook.png')
                                     : Image.network(
                                         userInfo.image,
                                         fit: BoxFit.cover,
