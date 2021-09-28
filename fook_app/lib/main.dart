@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
+import 'package:fook_app/Controllers/const.dart';
+import 'package:fook_app/darkThemeData.dart';
 import '/Controllers/Providers/collectionController.dart';
 import '/Controllers/Providers/tokkensInCollection.dart';
 import '/Controllers/Providers/userData.dart';
@@ -14,8 +17,6 @@ import 'Screens/NavigationScreens/NewPostScreens/camera.dart';
 import 'Screens/NavigationScreens/newPost_screen.dart';
 import 'Screens/signIn_screen.dart';
 import 'Screens/tabs_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'style.dart';
 
 enum pageState {
   LoginPage,
@@ -49,7 +50,11 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+
   List<SingleChildWidget> providers = [
+    ChangeNotifierProvider(
+      create: (_) =>  DarkThemeProvider(),
+    ),
     ChangeNotifierProvider<AllTokens>(
       create: (_) => AllTokens(),
     ),
@@ -87,34 +92,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Fook App',
-        theme: ThemeData(
-          textTheme: TextTheme(
-            headline1: TextStyle(
-              color: Colors.black,
-            ),
-            headline2: TextStyle(
-              color: Colors.grey,
-            ),
-            bodyText1: TextStyle(
-              color: Color(0xFFF1833D),
-            ),
-            bodyText2: TextStyle(color: Colors.white),
-          ),
-          fontFamily: GoogleFonts.poppins().fontFamily,
-          primaryColor: createMaterialColor(Color(0xFFF1833D)),
-          colorScheme: ColorScheme.fromSwatch(
-                  primarySwatch: createMaterialColor(Color(0xFFF1833D)))
-              .copyWith(secondary: Colors.grey),
-        ),
-        routes: {
-          '/': (builder) => SignInPage(),
-          HomeScreen.routeName: (builder) => HomeScreen(),
-          NewPost.routeName: (builder) => NewPost(),
-          TabsScreen.routeName: (builder) => TabsScreen(),
-          InterestsPage.routeName: (builder) => InterestsPage(),
+      child: Consumer<DarkThemeProvider>(
+        builder: (BuildContext context, value, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Fook App',
+            darkTheme: ThemeData.dark(),
+            theme: Styles.themeData(value.darkTheme, context),
+            routes: {
+              '/': (builder) => SignInPage(),
+              HomeScreen.routeName: (builder) => HomeScreen(),
+              NewPost.routeName: (builder) => NewPost(),
+              TabsScreen.routeName: (builder) => TabsScreen(),
+              InterestsPage.routeName: (builder) => InterestsPage(),
+            },
+          );
         },
       ),
     );

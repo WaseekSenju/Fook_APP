@@ -21,7 +21,6 @@ class UserTokensController extends ChangeNotifier {
         tokkensList.add(placeHolder);
       }
     });
-
     loading = false;
     notifyListeners();
   }

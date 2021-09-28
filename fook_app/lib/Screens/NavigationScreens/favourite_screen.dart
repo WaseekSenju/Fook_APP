@@ -19,41 +19,68 @@ class _FavouritesState extends State<Favourites> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context, listen: false);
 
-    print('favourite');
-
     return RefreshIndicator(
       onRefresh: () => refreshFavourites(context),
-      child: (allTokens.likedTokens.data.isEmpty)
-          ? 
-                Center(
-                  child: Text(
-                    'No Favourites',
-                    style: TextStyle(
-                        //fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.headline1!.color),
-                  ),
-                )
-              
-          : ListView.separated(
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                thickness: 1,
-              ),
-              itemBuilder: (context, index) {
-                return TokenWidget(
-                    allTokens.likedTokens
-                        .data[allTokens.likedTokens.data.length - (index + 1)],
-                    allTokens.likedTokens.data.length - (index + 1),
-                    true,()=>{
-                  refreshFavourites(context)
-                });
-              },
-              itemCount: allTokens.likedTokens.data.length,
+      child: Scaffold(
+        backgroundColor: Color(0xffF2F2F2),
+        appBar: AppBar(
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              top: 20,
             ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'My Favorites',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: (allTokens.likedTokens.data.isEmpty)
+            ? Center(
+                child: Text(
+                  'No Favourites',
+                  style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.headline1!.color),
+                ),
+              )
+            : ListView.builder(
+                // separatorBuilder: (BuildContext context, int index) =>
+                //     const Divider(
+                //   thickness: 1,
+                // ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: TokenWidget(
+                        allTokens.likedTokens.data[
+                            allTokens.likedTokens.data.length - (index + 1)],
+                        allTokens.likedTokens.data.length - (index + 1),
+                        true,
+                        () => {refreshFavourites(context)}),
+                  );
+                },
+                itemCount: allTokens.likedTokens.data.length,
+              ),
+      ),
     );
   }
 }

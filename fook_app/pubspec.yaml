@@ -36,6 +36,7 @@ dependencies:
   google_fonts: ^2.1.0
   shimmer: ^2.0.0
   fluttertoast: ^8.0.8
+  day_night_switcher: ^0.2.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -72,6 +73,10 @@ flutter:
     - lib/Assets/null.png
     - lib/Assets/email.png
     - lib/Assets/password.png
+    - lib/Assets/home.png
+    - lib/Assets/redHear.png
+    - lib/Assets/magnify.png
+    - lib/Assets/profile.png
     #   lib/Assets/esport/esport (1).png
     # - lib/Assets/esport/esport (2).png
     # - lib/Assets/esport/esport (3).png

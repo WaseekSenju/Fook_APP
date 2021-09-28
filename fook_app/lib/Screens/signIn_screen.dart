@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fook_app/Screens/interest_screen.dart';
+import 'package:fook_app/Widgets/gradientBorderButton.dart';
 import 'package:fook_app/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -138,7 +139,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF4F6FA),
+      backgroundColor: Theme.of(context).canvasColor,
       body: Center(
         child: SingleChildScrollView(
           child: Form(
@@ -146,7 +147,7 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: _status == pageState.LoginPage ? 50 : 1,
+                  height: 10, //_status == pageState.LoginPage ? 50 : 1,
                 ),
                 Container(
                   height: 100,
@@ -205,6 +206,64 @@ class _SignInPageState extends State<SignInPage> {
                 //     ],
                 //   ),
                 // ),
+                if (_status == pageState.SignupPage)
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: 16,
+                      left: 22,
+                      right: 22,
+                      //bottom: 16,
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      controller: _nameController,
+                      textAlign: TextAlign.left,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.alternate_email,
+                          color: Color(0xffE02989),
+                        ),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: new BorderSide(
+                            width: 0.5,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: new BorderSide(
+                            width: 0.5,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: new BorderSide(
+                            width: 0.5,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.only(top: 5, left: 15),
+                        filled: true,
+                        fillColor: Theme.of(context).cardColor,
+                        //Icon
+
+                        hintText: 'Name',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context).hintColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
                 //Email Field
                 Container(
                   padding:
@@ -242,77 +301,25 @@ class _SignInPageState extends State<SignInPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
-                            width: 0.5,
-                            color: Theme.of(context).colorScheme.secondary),
+                          width: 0.5,
+                          color: Colors
+                              .transparent, //of(context).colorScheme.secondary,
+                        ),
                       ),
                       contentPadding: EdgeInsets.only(top: 5, left: 15),
                       filled: true,
-                      fillColor: Color(0xffF4F4F4),
+                      fillColor: Theme.of(context).cardColor,
 
                       //Icon
                       hintText: 'Email address',
                       hintStyle: TextStyle(
+                        color: Theme.of(context).hintColor,
                         fontSize: 14,
                       ),
                     ),
                   ),
                 ),
-                if (_status == pageState.SignupPage)
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: 22,
-                      right: 22,
-                      bottom: 16,
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      controller: _nameController,
-                      textAlign: TextAlign.left,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.alternate_email,
-                          color: Color(0xffE02989),
-                        ),
 
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: new BorderSide(
-                            width: 0.5,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: new BorderSide(
-                            width: 0.5,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: new BorderSide(
-                            width: 0.5,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.only(top: 5, left: 15),
-                        filled: true,
-                        fillColor: Color(0xffF4F4F4),
-                        //Icon
-
-                        hintText: 'Name',
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
                 //Password Field
                 Container(
                   padding: EdgeInsets.only(
@@ -352,13 +359,11 @@ class _SignInPageState extends State<SignInPage> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
-                          width: 0.5,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+                            width: 0.5, color: Colors.transparent),
                       ),
                       contentPadding: EdgeInsets.only(top: 5, left: 15),
                       filled: true,
-                      fillColor: Color(0xffF4F4F4),
+                      fillColor: Theme.of(context).cardColor,
                       //Icon
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -366,20 +371,24 @@ class _SignInPageState extends State<SignInPage> {
                             ? IconButton(
                                 icon: Icon(
                                   Icons.visibility_rounded,
-                                  size: 25,
+                                  size: 15,
+                                  color:Theme.of(context).hintColor,
                                 ),
                                 onPressed: _toggleVisibilty,
                               )
                             : IconButton(
                                 icon: Icon(
+                                  
                                   Icons.visibility_off_rounded,
-                                  size: 25,
+                                  color: Theme.of(context).hintColor,
+                                  size: 15,
                                 ),
                                 onPressed: _toggleVisibilty,
                               ),
                       ),
                       hintText: 'Password',
                       hintStyle: TextStyle(
+                        color: Theme.of(context).hintColor,
                         fontSize: 14,
                       ),
                     ),
@@ -447,11 +456,11 @@ class _SignInPageState extends State<SignInPage> {
                         padding: const EdgeInsets.only(top: 16.0, bottom: 16),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: LinearGradient(colors: [
-                                Color(0xffE02989),
-                                Color(0xffF8A620)
-                              ])),
+                            borderRadius: BorderRadius.circular(25),
+                            gradient: LinearGradient(
+                              colors: [Color(0xffE02989), Color(0xffF8A620)],
+                            ),
+                          ),
                           child: ElevatedButton(
                             child: Text(
                               _status == pageState.LoginPage
@@ -468,8 +477,7 @@ class _SignInPageState extends State<SignInPage> {
                               if (_formKey.currentState!.validate()) {
                                 //_status==pageState.LoginPage?
                                 _status == pageState.LoginPage
-                                    ? _logIn(
-                                        _emailController.text, //hehe
+                                    ? _logIn(_emailController.text,
                                         _passwordController.text)
                                     : _signUp(
                                         _emailController.text,
@@ -509,9 +517,7 @@ class _SignInPageState extends State<SignInPage> {
                             'Forgot Password?',
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(
-                                  0xff636A7D,
-                                )),
+                                color: Theme.of(context).colorScheme.secondary),
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
@@ -528,39 +534,40 @@ class _SignInPageState extends State<SignInPage> {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                         ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0xffE4E7F0)),
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).cardColor),
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
                     ),
                   ),
-                SizedBox(
-                  height: 25,
-                ),
+                if (_status == pageState.LoginPage)
+                  SizedBox(
+                    height: 25,
+                  ),
                 Text(
                   'Other ways to sign in',
                   style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Color(
-                        0xffA7B2CD,
-                      )),
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).hintColor
+                  ),
                 ),
+
                 SizedBox(
-                  height: 25,
+                  height: _status == pageState.LoginPage ? 25 : 5,
                 ),
 
                 Container(
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
+                        color: Theme.of(context).cardColor.withOpacity(0.3),
                         spreadRadius: 3,
                         blurRadius: 7,
                         offset: Offset(0, 3), // changes position of shadow
                       ),
                     ],
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   height: 48,
@@ -649,30 +656,50 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Divider(
-                thickness: 0.5,
+                thickness: 0.2,
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  _status == pageState.SignupPage?'Already have an account?':'Dont have an account?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).textTheme.headline1!.color,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, top: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    _status == pageState.SignupPage
+                        ? 'Already have an account?'
+                        : 'Dont have an account?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).textTheme.headline1!.color,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: TextButton(
+                  GradientButton(
+                    strokeWidth: 1,
+                    radius: 24,
+                    gradient: LinearGradient(
+                      colors: [Color(0xffE02989), Color(0xffF8A620)],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8, bottom: 8, left: 22, right: 22),
+                      child: Text(
+                        _status == pageState.SignupPage
+                            ? '    Log In    '
+                            : '    Sign Up    ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.headline1!.color,
+                        ),
+                      ),
+                    ),
                     onPressed: () {
                       setState(() {
                         _image = File('');
@@ -684,27 +711,9 @@ class _SignInPageState extends State<SignInPage> {
                         }
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, bottom: 8, left: 22, right: 22),
-                      child: Text(
-                        _status == pageState.SignupPage?'    Log In    ':'    Sign Up    ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          side: BorderSide(
-                              width: 1.5,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -712,3 +721,44 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 }
+            //       Padding(
+            //         padding: const EdgeInsets.only(left: 30),
+            //         child: TextButton(
+            //           onPressed: () {
+            //             setState(() {
+            //               _image = File('');
+            //               if (_status == pageState.SignupPage) {
+            //                 _status = pageState.LoginPage;
+            //                 _imageTaken = false;
+            //               } else {
+            //                 _status = pageState.SignupPage;
+            //               }
+            //             });
+            //           },
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(
+            //                 top: 8, bottom: 8, left: 22, right: 22),
+            //             child: Text(
+            //               _status == pageState.SignupPage
+            //                   ? '    Log In    '
+            //                   : '    Sign Up    ',
+            //               style: TextStyle(fontWeight: FontWeight.bold),
+            //             ),
+            //           ),
+            //           style: ButtonStyle(
+            //             shape:
+            //                 MaterialStateProperty.all<RoundedRectangleBorder>(
+            //               RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(25),
+            //                 side: BorderSide(
+            //                   width: 1.5,
+            //                   color: Theme.of(context).primaryColor,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),

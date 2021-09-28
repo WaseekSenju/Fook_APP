@@ -27,12 +27,16 @@ class _SearchListState extends State<SearchList> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    '#${widget.name}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.headline1!.color,
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.5,
+                    child: Text(
+                      '#${widget.name}',
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.headline1!.color,
+                      ),
                     ),
                   ),
                   widget.tokkenList.data.isNotEmpty

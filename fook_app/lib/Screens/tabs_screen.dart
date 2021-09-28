@@ -39,7 +39,7 @@ class _TabsScreen extends State<TabsScreen> {
     print('initStateof Tabs!');
 
     final allTokkens = Provider.of<AllTokens>(context, listen: false);
-    
+
     allTokkens.getAllTokens();
     allTokkens.getDownloadedtokens();
     allTokkens.getUploadedtokens();
@@ -52,7 +52,7 @@ class _TabsScreen extends State<TabsScreen> {
     final collectionController =
         Provider.of<CollectionController>(context, listen: false);
     collectionController.getAllCollections().whenComplete(() {
-      final List<Map<String, String>> collectionIds = []; 
+      final List<Map<String, String>> collectionIds = [];
       for (int i = 0;
           i < collectionController.collectionsList.data.length;
           i++) {
@@ -70,7 +70,7 @@ class _TabsScreen extends State<TabsScreen> {
         Provider.of<CollectionController>(context, listen: false);
 
     userCollections.getUserCollections();
-    
+
     userCollections.collectionNames.forEach((element) => print(element));
 
     super.initState();
@@ -84,32 +84,45 @@ class _TabsScreen extends State<TabsScreen> {
         body: _pages.elementAt(_selectedPageIndex),
         bottomNavigationBar: BottomNavigationBar(
           //elevation: 50,
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Theme.of(context).colorScheme.secondary,
+          //selectedItemColor: Theme.of(context).primaryColor,
+          //unselectedItemColor: Color(0xff636A7D),
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          items: <BottomNavigationBarItem>[
-            new BottomNavigationBarItem(
-              icon: new Icon(Icons.home_outlined),
-              label: '',
+          //backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('lib/Assets/home.png'),
+                size: 18,
+              ),
+              label: 'Feed',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: '',
+              icon: ImageIcon(
+                AssetImage('lib/Assets/magnify.png'),
+                size: 18,
+              ),
+              label: 'Explore',
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('lib/Assets/add.png'),
+                size: 18,
               ),
-              label: '',
+              label: 'Add',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              label: '',
+              icon: ImageIcon(
+                AssetImage('lib/Assets/redHear.png'),
+                size: 18,
+              ),
+              label: 'Favorites',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: '',
+              icon: ImageIcon(
+                AssetImage('lib/Assets/profile.png'),
+                size: 18,
+              ),
+              label: 'Profile',
             ),
           ],
           showSelectedLabels: false,

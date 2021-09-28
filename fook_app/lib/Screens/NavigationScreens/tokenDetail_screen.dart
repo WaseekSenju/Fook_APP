@@ -40,21 +40,25 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     });
     print(result);
   }
+
   bool isNumeric(String s) {
-    if(s == null) {
+    if (s == null) {
       return false;
     }
     return double.parse(s) != null;
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
-
+    print('print price');
+    print(widget.tokenData.price.value);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -99,259 +103,267 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 ),
               ),
             ),
-
-          if (widget.tokenData.price.value != ' ' || widget.tokenData.currentUserData.isOwner)
+          if (widget.tokenData.price.value != ' ' ||
+              widget.tokenData.currentUserData.isOwner)
             !widget.tokenData.currentUserData.isOwner
-                ? Container(height: 1,width: 1,)
-                :
-            Container(
-                height:  150,
-                child: Column(
-                  children: [
-                    Row(
+                ? Container(
+                    height: 1,
+                    width: 1,
+                  )
+                : Container(
+                    height: 150,
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            top: 20,
-                            bottom: 19,
-                            right: 40,
-                          ),
-                          child: Column(children: [
-                            Text(
-                              'Current price',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .color,
-                                //fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                top: 20,
+                                bottom: 19,
+                                right: 40,
+                              ),
+                              child: Column(children: [
+                                Text(
+                                  'Current price',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ]),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                top: 20,
+                                bottom: 19,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'All Time Average Prize',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .color,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ]),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            top: 20,
-                            bottom: 19,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                'All Time Average Prize',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
-                                  //fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    InkWell(
-                      onTap: () {
-                        Fluttertoast.showToast(
-                          backgroundColor:
-                          Colors.red,
-                          msg:
-                          'Please add equal or high price',
-                        );
-
-                        return;
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return StatefulBuilder(builder:
-                                  (BuildContext context,
-                                      StateSetter setSheetState) {
-                                return Container(
-                                  height: 600,
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        const Text('Modal BottomSheet'),
-                                        Padding(
-                                          padding: EdgeInsets.all(25),
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 22,
-                                                right: 22,
-                                                bottom: 16,
-                                                top: 16),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            child: TextFormField(
-                                              controller: _priceController,
-                                              keyboardType:
-                                                  TextInputType.numberWithOptions(decimal: true),
-                                              textAlign: TextAlign.left,
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Please enter some value';
-                                                }
-                                                return null;
-                                              },
-                                              decoration: InputDecoration(
-                                                //Icon
-                                                hintText:
-                                                    'Enter the new Price of the Token',
-                                                hintStyle: TextStyle(
-                                                  fontSize: 14,
+                        InkWell(
+                          onTap: () {
+                            Fluttertoast.showToast(
+                              backgroundColor: Colors.red,
+                              msg: 'Please add equal or high price',
+                            );
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setSheetState) {
+                                    return Container(
+                                      height: 600,
+                                      child: Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            const Text('Modal BottomSheet'),
+                                            Padding(
+                                              padding: EdgeInsets.all(25),
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 22,
+                                                    right: 22,
+                                                    bottom: 16,
+                                                    top: 16),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                child: TextFormField(
+                                                  controller: _priceController,
+                                                  keyboardType: TextInputType
+                                                      .numberWithOptions(
+                                                          decimal: true),
+                                                  textAlign: TextAlign.left,
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Please enter some value';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    //Icon
+                                                    hintText:
+                                                        'Enter the new Price of the Token',
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        _loading
-                                            ? CircularProgressIndicator()
-                                            : IconButton(
-                                                onPressed: () async {
-
-                                                  if (_priceController.text
-                                                      .isNotEmpty &&
-                                                      this.isNumeric(
-                                                          _priceController
-                                                              .text)) {
-                                                    if (double.parse(
-                                                        _priceController
-                                                            .text) >=
-                                                        double.parse(
-                                                            widget.tokenData
-                                                                .price.value)) {
-                                                      setSheetState(() {
-                                                        _loading = true;
-                                                      });
-
-                                                      String result =
-                                                      await SellTokenController
-                                                          .setTokenPriceAndAllow(
-                                                        widget.tokenData.id,
-                                                        widget
-                                                            .tokenData
-                                                            .collection.id
-                                                            .toString(),
-                                                        {
-                                                          "value":
-                                                          _priceController.text,
-                                                          "unit": "ether"
-                                                        },
-                                                      );
-                                                      if (result == '200') {
-                                                        setState(() {
-                                                          widget.tokenData.price
-                                                              .unit = 'ether';
-                                                          widget.tokenData.price
-                                                              .value =
+                                            _loading
+                                                ? CircularProgressIndicator()
+                                                : IconButton(
+                                                    onPressed: () async {
+                                                      if (_priceController.text
+                                                              .isNotEmpty &&
+                                                          this.isNumeric(
                                                               _priceController
-                                                                  .text;
-                                                        });
-                                                        Navigator.pop(context);
-                                                        setSheetState(() {
-                                                          _loading = false;
-                                                        });
-                                                        Fluttertoast.showToast(
-                                                          backgroundColor:
-                                                          Colors.red,
-                                                          msg:
-                                                          'Price set Successfully',
-                                                        );
-                                                      } else {
-                                                        setSheetState(() {
-                                                          _loading = false;
-                                                        });
-                                                        Fluttertoast.showToast(
-                                                          backgroundColor:
-                                                          Colors.red,
-                                                          msg: result,
-                                                        );
+                                                                  .text)) {
+                                                        if (double.parse(
+                                                                _priceController
+                                                                    .text) >=
+                                                            double.parse(widget
+                                                                .tokenData
+                                                                .price
+                                                                .value)) {
+                                                          setSheetState(() {
+                                                            _loading = true;
+                                                          });
+
+                                                          String result =
+                                                              await SellTokenController
+                                                                  .setTokenPriceAndAllow(
+                                                            widget.tokenData.id,
+                                                            widget.tokenData
+                                                                .collection.id
+                                                                .toString(),
+                                                            {
+                                                              "value":
+                                                                  _priceController
+                                                                      .text,
+                                                              "unit": "ether"
+                                                            },
+                                                          );
+                                                          if (result == '200') {
+                                                            setState(() {
+                                                              widget
+                                                                      .tokenData
+                                                                      .price
+                                                                      .unit =
+                                                                  'ether';
+                                                              widget
+                                                                      .tokenData
+                                                                      .price
+                                                                      .value =
+                                                                  _priceController
+                                                                      .text;
+                                                            });
+                                                            Navigator.pop(
+                                                                context);
+                                                            setSheetState(() {
+                                                              _loading = false;
+                                                            });
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              msg:
+                                                                  'Price set Successfully',
+                                                            );
+                                                          } else {
+                                                            setSheetState(() {
+                                                              _loading = false;
+                                                            });
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              msg: result,
+                                                            );
+                                                          }
+                                                        } else {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      500), () {
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              msg:
+                                                                  'Please add equal or high price',
+                                                            );
+                                                          });
+                                                        }
                                                       }
-                                                    }else{
-                                                      Navigator.of(context).pop();
-                                                      Future.delayed(const Duration(milliseconds: 500), () {
-
-                                                      Fluttertoast.showToast(
-                                                       backgroundColor:
-                                                       Colors.red,
-                                                       msg:
-                                                       'Please add equal or high price',
-                                                     );
-
-
-                                                      });
-
-                                                    }
-
-                                                }
-                                                },
-                                                icon: Icon(Icons.done),
-                                              ),
-                                      ],
-                                    ),
+                                                    },
+                                                    icon: Icon(Icons.done),
+                                                  ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16, top: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Tap here to set Price',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
+                                    fontSize: 20,
                                   ),
-                                );
-                              });
-                            });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16,top: 16),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Tap here to set Price',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).textTheme.headline1!.color,
-                                fontSize: 20,
-                              ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16),
+                                  child: Icon(
+                                    Icons.change_circle,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Icon(
-                                Icons.change_circle,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                )),
+                      ],
+                    )),
           Divider(
             color: Theme.of(context).colorScheme.secondary,
           ),
@@ -375,16 +387,16 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   Container(
                     height: 16,
                   ),
-                  Text(
-                    widget.tokenData.description,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.headline1!.color,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                  Expanded(
+                    child: Text(
+                      widget.tokenData.description,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.headline1!.color,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 8,
                   ),
                   RichText(
                     text: TextSpan(
@@ -539,42 +551,40 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         child: Row(
           children: [
             InkWell(
-              onTap: (){
-                  setState(
-                        () {
-                          var token = widget.tokenData;
-                      if (token.currentUserData.isLiked) {
-                        LikeTokken.unlikeTokken(
-                            widget.tokenData.id,
-                            widget.tokenData.collection.id
-                                .toString());
-                        widget.tokenData.currentUserData.isLiked = !widget.tokenData.currentUserData.isLiked;
-                        allTokens.likedTokens.data.removeWhere(
-                                (tokken) =>
-                            tokken.id ==
-                                token.id);
-                      } else {
-                        LikeTokken.likeTokken(
-                            widget.tokenData.id,
-                            widget.tokenData.collection.id
-                                .toString());
-                        widget.tokenData.currentUserData.isLiked = !widget.tokenData.currentUserData.isLiked;
+              onTap: () {
+                setState(
+                  () {
+                    var token = widget.tokenData;
+                    if (token.currentUserData.isLiked) {
+                      LikeTokken.unlikeTokken(widget.tokenData.id,
+                          widget.tokenData.collection.id.toString());
+                      widget.tokenData.currentUserData.isLiked =
+                          !widget.tokenData.currentUserData.isLiked;
+                      allTokens.likedTokens.data
+                          .removeWhere((tokken) => tokken.id == token.id);
+                    } else {
+                      LikeTokken.likeTokken(widget.tokenData.id,
+                          widget.tokenData.collection.id.toString());
+                      widget.tokenData.currentUserData.isLiked =
+                          !widget.tokenData.currentUserData.isLiked;
 
-                        // allTokens.tokken.data[widget.index]
-                        //     .currentUserData.isLiked =
-                        // !allTokens.tokken.data[widget.index]
-                        //     .currentUserData.isLiked;
+                      // allTokens.tokken.data[widget.index]
+                      //     .currentUserData.isLiked =
+                      // !allTokens.tokken.data[widget.index]
+                      //     .currentUserData.isLiked;
 
-                        allTokens.likedTokens.data.add(token);
-                      }
-                    },
-                  );
+                      allTokens.likedTokens.data.add(token);
+                    }
+                  },
+                );
               },
               child: Icon(
                 Icons.favorite,
                 color: widget.tokenData.currentUserData.isLiked
                     ? Theme.of(context).primaryColor
-                    : widget.tokenData.currentUserData.isLiked ? Colors.red : Colors.grey,
+                    : widget.tokenData.currentUserData.isLiked
+                        ? Colors.red
+                        : Colors.grey,
               ),
             ),
             Padding(
@@ -582,7 +592,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
               child: Text(
                 '187k',
                 style: TextStyle(
-                    fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.secondary),
               ),
             ),
             Padding(
@@ -598,7 +609,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                     child: Text(
                       '150k',
                       style: TextStyle(
-                          fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -624,72 +636,80 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
-                    child:  widget.tokenData.currentUserData.isOwner
-                        ? Container(height: 1,width: 1,)
+                    child: widget.tokenData.currentUserData.isOwner
+                        ? Container(
+                            height: 1,
+                            width: 1,
+                          )
                         : TextButton(
-                      onPressed: () {
-                        widget.tokenData.price.unit == ' '
-                            ?
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(
-                          SnackBar(
-                            content: Text(Const.ALREADY_SOLD),
-                            duration:
-                            Duration(milliseconds: 1000),
-                          ),
-                        )
-                            :
-                        setState(() async {
-                          String result = await BuyTokken.buyTokken(
-                            widget.tokenData.collection.id.toString(),
-                            widget.tokenData.id,
-                          );
-                          if (result == '200') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Token Bought Successfully'),
-                                duration: Duration(milliseconds: 1000),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(Const.LOW_BALANCE_MESSAGE),
-                                duration: Duration(milliseconds: 1000),
-                              ),
-                            );
-                          }
-                        });
-                      },
-                      child: widget.tokenData.price.unit == ' '
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, left: 22, right: 22),
-                              child: Text(
-                                'SOLD',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, left: 22, right: 22),
-                              child: Text(
-                                'Fook it',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                            onPressed: () {
+                              widget.tokenData.price.unit == ' '
+                                  ? ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(Const.ALREADY_SOLD),
+                                        duration: Duration(milliseconds: 1000),
+                                      ),
+                                    )
+                                  : setState(() async {
+                                      String result = await BuyTokken.buyTokken(
+                                        widget.tokenData.collection.id
+                                            .toString(),
+                                        widget.tokenData.id,
+                                      );
+                                      if (result == '200') {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Token Bought Successfully'),
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content:
+                                                Text(Const.LOW_BALANCE_MESSAGE),
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                          ),
+                                        );
+                                      }
+                                    });
+                            },
+                            child: widget.tokenData.price.unit == ' '
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8, bottom: 8, left: 22, right: 22),
+                                    child: Text(
+                                      'SOLD',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8, bottom: 8, left: 22, right: 22),
+                                    child: Text(
+                                      'Fook it',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  side: BorderSide(
+                                      width: 1.5,
+                                      color: Theme.of(context).primaryColor),
+                                ),
                               ),
                             ),
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            side: BorderSide(
-                                width: 1.5,
-                                color: Theme.of(context).primaryColor),
                           ),
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

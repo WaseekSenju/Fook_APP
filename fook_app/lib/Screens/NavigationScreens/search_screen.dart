@@ -33,20 +33,21 @@ class _SearchState extends State<Search> {
       });
     });
   }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-   this.refreshSearch(context);
-   setState(() {
 
-   });
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   this.refreshSearch(context);
+  //   setState(() {
+  //     latestFetched = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     var userTokens = Provider.of<UserTokensController>(context);
-    userTokens.loading = !latestFetched;
+    //userTokens.loading = !latestFetched;
     return RefreshIndicator(
       onRefresh: () => refreshSearch(context),
       child: userTokens.loading

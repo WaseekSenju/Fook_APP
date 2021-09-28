@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/userData.dart';
 import 'package:fook_app/Controllers/const.dart';
@@ -6,6 +7,7 @@ import 'package:fook_app/Screens/signIn_screen.dart';
 import 'package:fook_app/Widgets/UserScreenWidgets/grid_userScreen.dart';
 import 'package:fook_app/Widgets/UserScreenWidgets/wallet.dart';
 import 'package:provider/provider.dart';
+import 'package:day_night_switcher/day_night_switcher.dart';
 
 class UserScreen extends StatefulWidget {
   static const List<Tab> tabs = <Tab>[
@@ -21,27 +23,26 @@ class UserScreen extends StatefulWidget {
 Future<void> refreshHome(BuildContext context) async {
   await Provider.of<UserData>(context, listen: false).getUserData();
   await Provider.of<UserData>(context, listen: false).getUserWallet();
-  await Provider.of<AllTokens>(context, listen: false).getAllTokens();
+  await Provider.of<AllTokens>(context, listen: false).getDownloadedtokens();
+  await Provider.of<AllTokens>(context, listen: false).getUploadedtokens();
 }
 
 class _UserScreenState extends State<UserScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
 
-    // var tokens = Provider.of<AllTokens>(context);
-    // tokens.getUploadedtokens();
-    // tokens.getDownloadedtokens();
-  }
+  //   // var tokens = Provider.of<AllTokens>(context);
+  //   // tokens.getUploadedtokens();
+  //   // tokens.getDownloadedtokens();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    //Improvment can me made by not using provider here but in grids
-
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;
-
     var tokens = Provider.of<AllTokens>(context);
     var uploadedTokens = tokens.uploadedtokens;
     var downloadedTokens = tokens.acquiredTokens;
@@ -69,41 +70,63 @@ class _UserScreenState extends State<UserScreen> {
                 Positioned(
                   top: 0,
                   right: 12,
-                  child: GestureDetector(
-                    child: Icon(
-                      Icons.logout,
-                      size: 28,
-                      color: Colors.grey[700],
-                    ),
-                    onTap: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Logout'),
-                          content: const Text('Are you Sure want to Logout?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Const.setTokken('');
-                                Navigator.of(context).pop();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SignInPage(),
-                                  ),
-                                );
-                              },
-                              child: const Text('Confirm'),
-                            ),
-                          ],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: DayNightSwitcher(
+                          isDarkModeEnabled: themeChange.darkTheme,
+                          onStateChanged: (bool value) {
+                           // final themeChange = Provider.of<DarkThemeProvider>(context,listen: false);
+                            setState(() {
+                              themeChange.darkTheme = value;
+                            });
+
+                            print('ThemeTest');
+                            print(themeChange.darkTheme);
+                          },
                         ),
-                      );
-                    },
+                      ),
+                      //Switch(value: true, onChanged: (bool? yes) {}),
+                      GestureDetector(
+                        child: Icon(
+                          Icons.logout,
+                          size: 28,
+                          color: Colors.grey[700],
+                        ),
+                        onTap: () {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Logout'),
+                              content:
+                                  const Text('Are you Sure want to Logout?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Const.setTokken('');
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            SignInPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Confirm'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -130,7 +153,8 @@ class _UserScreenState extends State<UserScreen> {
                               Text(
                                 'NFTs',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ],
@@ -177,7 +201,9 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             Text('Followers',
                                 style: TextStyle(
-                                    color: Theme.of(context).colorScheme.secondary)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary)),
                           ],
                         ),
                         Column(
@@ -195,7 +221,8 @@ class _UserScreenState extends State<UserScreen> {
                             Text(
                               'Following',
                               style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             ),
                           ],
                         ),
