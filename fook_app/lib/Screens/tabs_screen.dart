@@ -3,6 +3,7 @@ import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/tokkensInCollection.dart';
 import 'package:fook_app/Controllers/Providers/userData.dart';
+import 'package:fook_app/Screens/NavigationScreens/NewUI(CreatePost)/newPost.dart';
 import 'package:provider/provider.dart';
 import '../Screens/NavigationScreens/home_screen.dart';
 import '../Screens/NavigationScreens/favourite_screen.dart';
@@ -130,7 +131,7 @@ class _TabsScreen extends State<TabsScreen> {
           currentIndex: _selectedPageIndex,
           onTap: (index) {
             if (index == 2) {
-              Navigator.of(context).pushNamed(NewPost
+              Navigator.of(context).pushNamed(NewPostScreen
                   .routeName); //Logic for Pushin Camera Screen instead of Navigation
 
             } else {

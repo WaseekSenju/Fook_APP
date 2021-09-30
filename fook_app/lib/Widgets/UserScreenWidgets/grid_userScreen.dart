@@ -51,20 +51,26 @@ class _PostGridState extends State<PostGrid> {
                   return GestureDetector(
                     child: Hero(
                       tag: widget.postData.data[index].file,
-                      child: Container(
-                        height: 128,
-                        width: 128,
-                        child: widget.postData.data[index].file.contains('http')
-                            ? CachedNetworkImage(
-                                imageUrl: widget.postData.data[index].file,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.file(
-                                File(
-                                  widget.postData.data[index].file,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Container(
+                            height: 128,
+                            width: 128,
+                            child: widget.postData.data[index].file.contains('http')
+                                ? CachedNetworkImage(
+                                    imageUrl: widget.postData.data[index].file,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    File(
+                                      widget.postData.data[index].file,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ),
                       ),
                     ),
                     onTap: () {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
-import 'package:fook_app/Controllers/const.dart';
+import 'package:fook_app/Screens/NavigationScreens/NewUI(CreatePost)/newPost.dart';
 import 'package:fook_app/darkThemeData.dart';
 import '/Controllers/Providers/collectionController.dart';
 import '/Controllers/Providers/tokkensInCollection.dart';
@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
             routes: {
               '/': (builder) => SignInPage(),
               HomeScreen.routeName: (builder) => HomeScreen(),
-              NewPost.routeName: (builder) => NewPost(),
+              NewPostScreen.routeName: (builder) => NewPostScreen(),
               TabsScreen.routeName: (builder) => TabsScreen(),
               InterestsPage.routeName: (builder) => InterestsPage(),
             },

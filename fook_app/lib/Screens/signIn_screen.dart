@@ -296,7 +296,9 @@ class _SignInPageState extends State<SignInPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: new BorderSide(
-                            width: 0.5, color: Theme.of(context).primaryColor),
+                          width: 0.5,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -372,13 +374,12 @@ class _SignInPageState extends State<SignInPage> {
                                 icon: Icon(
                                   Icons.visibility_rounded,
                                   size: 15,
-                                  color:Theme.of(context).hintColor,
+                                  color: Theme.of(context).hintColor,
                                 ),
                                 onPressed: _toggleVisibilty,
                               )
                             : IconButton(
                                 icon: Icon(
-                                  
                                   Icons.visibility_off_rounded,
                                   color: Theme.of(context).hintColor,
                                   size: 15,
@@ -548,9 +549,8 @@ class _SignInPageState extends State<SignInPage> {
                 Text(
                   'Other ways to sign in',
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).hintColor
-                  ),
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).hintColor),
                 ),
 
                 SizedBox(

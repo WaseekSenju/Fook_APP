@@ -77,7 +77,7 @@ class _UserScreenState extends State<UserScreen> {
                         child: DayNightSwitcher(
                           isDarkModeEnabled: themeChange.darkTheme,
                           onStateChanged: (bool value) {
-                           // final themeChange = Provider.of<DarkThemeProvider>(context,listen: false);
+                            // final themeChange = Provider.of<DarkThemeProvider>(context,listen: false);
                             setState(() {
                               themeChange.darkTheme = value;
                             });
@@ -237,45 +237,156 @@ class _UserScreenState extends State<UserScreen> {
                   thickness: 1.5,
                 ),
               ),
-              TabBar(
-                indicatorColor: Theme.of(context).primaryColor,
-                indicatorSize: TabBarIndicatorSize.label,
-                unselectedLabelColor: Colors.grey,
-                labelColor: Theme.of(context).primaryColor,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: 
+                Container(
+                  width: double.infinity,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: themeChange.darkTheme
+                        ? Color(0xff2A3141)
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      25.0,
+                    ),
+                  ),
 
-                //indicatorColor: Colors.blue,
-                tabs: const <Widget>[
-                  Tab(
-                    icon: ImageIcon(
-                      AssetImage('lib/Assets/arrow_upward.png'),
-                      //color: Colors.grey,
+                  child: TabBar(
+                    //controller: _tabController,
+                    // give the indicator a decoration (color and border radius)
+                    indicator: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xffE02989), Color(0xffF8A620)],
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        25.0,
+                      ),
+                      color: Colors.green,
                     ),
+
+                    unselectedLabelColor: Theme.of(context).primaryColor,
+                    tabs: <Widget>[
+                      SizedBox(
+                        // width: 40,
+                        child: Tab(
+                          child: Row(
+                            children: [
+                              ImageIcon(
+                                AssetImage('lib/Assets/Wallet_Icon.png'),
+                                //color: Colors.grey,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Wallet',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        //width: 40,
+                        child: Row(
+                          children: [
+                            ImageIcon(
+                              AssetImage('lib/Assets/arrow_upward.png'),
+                              //color: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'Uploaded',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        //width: 40,
+                        child: Tab(
+                          child: Row(
+                            children: [
+                              ImageIcon(
+                                AssetImage('lib/Assets/arrow_downward.png'),
+                                //color: Colors.grey,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Acquired',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Tab(
-                    icon: ImageIcon(
-                      AssetImage('lib/Assets/arrow_downward.png'),
-                      //color: Colors.grey,
-                    ),
-                  ),
-                  Tab(
-                    icon: ImageIcon(
-                      AssetImage('lib/Assets/Wallet_Icon.png'),
-                      //color: Colors.grey,
-                    ),
-                  ),
-                ],
+
+                  // TabBar(
+                  //   indicatorColor: Theme.of(context).primaryColor,
+                  //   indicatorSize: TabBarIndicatorSize.label,
+                  //   unselectedLabelColor: Colors.grey,
+                  //   labelColor: Theme.of(context).primaryColor,
+
+                  //   //indicatorColor: Colors.blue,
+                  //   tabs: const <Widget>[
+                  //     Tab(
+                  //       icon: ImageIcon(
+                  //         AssetImage('lib/Assets/arrow_upward.png'),
+                  //         //color: Colors.grey,
+                  //       ),
+                  //     ),
+                  //     Tab(
+                  //       icon: ImageIcon(
+                  //         AssetImage('lib/Assets/arrow_downward.png'),
+                  //         //color: Colors.grey,
+                  //       ),
+                  //     ),
+                  //     Tab(
+                  //       icon: ImageIcon(
+                  //         AssetImage('lib/Assets/Wallet_Icon.png'),
+                  //         //color: Colors.grey,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                ),
               ),
               Container(
-                height: postCount == 0
+                height: postCount == 0 || postCount < 3
                     ? MediaQuery.of(context).size.height
                     : ((postCount / 3) * 128) +
                         kBottomNavigationBarHeight +
                         kTextTabBarHeight,
                 child: TabBarView(
                   children: <Widget>[
+                    Wallet('My Wallet'),
                     PostGrid('Uploaded NFTs', tokens.uploadedtokens),
                     PostGrid('Acquired NFTs', tokens.acquiredTokens),
-                    Wallet('My Wallet'),
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/userData.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
+    final darkTheme = Provider.of<DarkThemeProvider>(context);
     final data = Provider.of<UserData>(context);
     final wallet = data.userBalance.data;
     String value = ' ';
@@ -39,18 +41,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return RefreshIndicator(
       onRefresh: () => refreshHome(context),
       child: allTokens.loading
-          ? Center(child: (CircularProgressIndicator()))
+          ? Center(
+              child: (CircularProgressIndicator()),
+            )
           : Scaffold(
-              backgroundColor:
-                  Color(0xff262B3B), //:Color(0xffF2F2F2), //Use provider here
+              backgroundColor: darkTheme.darkTheme
+                  ? Color(0xff262B3B)
+                  : Color(0xffF2F2F2), //Use provider here
               appBar: AppBar(
-                toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+                //toolbarHeight: MediaQuery.of(context).size.height * 0.1,
                 shadowColor: Colors.transparent,
-                backgroundColor:
-                    Color(0xff262B3B), //:Color(0xffF2F2F2), //Use provider here
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                 title: Column(
                   children: [
                     Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        ),
+                      ),
                       padding: const EdgeInsets.only(
                         left: 20,
                         right: 20,
@@ -84,6 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     '$value  ETH',
                                     overflow: TextOverflow.fade,
                                     style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color,
                                       fontWeight: FontWeight.w600,
                                       fontFamily:
                                           GoogleFonts.inter().fontFamily,
@@ -100,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).cardColor,
+                                  Theme.of(context).dividerColor,
                                 ),
                                 shadowColor: MaterialStateProperty.all(
                                     Colors.transparent),
@@ -110,16 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                   
-                    
                   ],
                 ),
-               
               ),
               body: ListView.builder(
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 4),
+                    padding: const EdgeInsets.only(top: 4),
                     child: TokenWidget(
                         allTokens.tokken
                             .data[allTokens.tokken.data.length - (index + 1)],

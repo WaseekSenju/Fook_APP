@@ -62,33 +62,55 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          actions: [
+        toolbarHeight: 62,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Text(
+                widget.tokenData.name,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.headline1!.color,
+                ),
+              ),
+            ),
             IconButton(
-              icon: Icon(Icons.close),
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).unselectedWidgetColor,
+              ),
               onPressed: () {
                 Navigator.pop(context, false);
               },
             )
           ],
-          title: Text(widget.tokenData.name),
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2,
-            child: Hero(
-              tag: widget.tokenData.file,
-              child: widget.tokenData.file.contains('http')
-                  ? CachedNetworkImage(
-                      imageUrl: widget.tokenData.file,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.file(
-                      File(widget.tokenData.file),
-                      fit: BoxFit.cover,
-                    ),
+          Hero(
+            tag: widget.tokenData.file,
+            child: AspectRatio(
+              aspectRatio: 1.7,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: widget.tokenData.file.contains('http')
+                      ? CachedNetworkImage(
+                          imageUrl: widget.tokenData.file,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          File(widget.tokenData.file),
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
             ),
           ),
           if (widget.tokenData.price.value == ' ')

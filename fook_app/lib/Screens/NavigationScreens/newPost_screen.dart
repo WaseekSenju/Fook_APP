@@ -7,7 +7,7 @@ import 'NewPostScreens/browse.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewPost extends StatefulWidget {
-  static const routeName = '/newPost';
+  //static const routeName = '/newPost';
   @override
   _NewPostState createState() => _NewPostState();
 }

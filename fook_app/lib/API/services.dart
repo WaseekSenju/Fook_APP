@@ -7,6 +7,7 @@ import '/Models/userBalance.dart';
 import '../Models/user.dart' as userInfo;
 import 'package:http/http.dart' as http;
 import '../Controllers/const.dart';
+import 'URLs.dart';
 
 class BackendServices {
   static var client = http.Client();
@@ -14,7 +15,7 @@ class BackendServices {
   static Future<userInfo.GetUser> getUser() async {
     String tokken = Const.tokken;
 
-    var url = Uri.parse('http://54.171.9.121:84/user');
+    var url = Uri.parse(Urls.getUser);
     var response = await client.get(
       url,
       headers: {
@@ -35,7 +36,7 @@ class BackendServices {
   static Future<UserBalance> getUserBalance() async {
     String tokken = Const.tokken;
 
-    var url = Uri.parse('http://54.171.9.121:84/user/balance');
+    var url = Uri.parse(Urls.getUserBalance);
     var response = await client.get(
       url,
       headers: {
@@ -52,7 +53,7 @@ class BackendServices {
   static Future<Tokken> getTokken() async {
     String tokken = Const.tokken;
     try {
-      var url = Uri.parse('http://54.171.9.121:84/tokens');
+      var url = Uri.parse(Urls.getAllTokens);
       var response = await client.get(
         url,
         headers: {

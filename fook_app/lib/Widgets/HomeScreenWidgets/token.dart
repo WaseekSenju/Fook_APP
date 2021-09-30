@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/buyTokken.dart';
 import 'package:fook_app/Controllers/const.dart';
@@ -35,10 +36,10 @@ class _TokenWidgetState extends State<TokenWidget> {
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
-
+    final darkTheme = Provider.of<DarkThemeProvider>(context);
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: darkTheme.darkTheme ? Color(0xff2A3141) : Colors.white,
         border: Border(
           bottom: BorderSide(
             width: 0.1,
@@ -67,9 +68,10 @@ class _TokenWidgetState extends State<TokenWidget> {
                   child: Text(
                     widget.tokenData.collection.name,
                     style: TextStyle(
+                      fontSize: 14,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).textTheme.headline3!.color,
+                      color: Theme.of(context).textTheme.headline1!.color,
                     ),
                   ),
                 ),
@@ -304,8 +306,7 @@ class _TokenWidgetState extends State<TokenWidget> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
-            child:  Divider(
-            
+            child: Divider(
               thickness: 0,
             ),
           ),
@@ -383,7 +384,8 @@ class _TokenWidgetState extends State<TokenWidget> {
                           widget.tokenData.price.unit == ' '
                               ? ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     content: Text(Const.ALREADY_SOLD),
                                     duration: Duration(milliseconds: 1000),
                                   ),
@@ -392,6 +394,9 @@ class _TokenWidgetState extends State<TokenWidget> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
+                                    backgroundColor: Theme.of(context)
+                                        .appBarTheme
+                                        .backgroundColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(32.0),
@@ -421,7 +426,6 @@ class _TokenWidgetState extends State<TokenWidget> {
                                           Text(
                                             widget.tokenData.name,
                                             style: TextStyle(
-                                              
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                                 fontSize: 14,
@@ -459,7 +463,10 @@ class _TokenWidgetState extends State<TokenWidget> {
                                               Text(
                                                 'Price',
                                                 style: TextStyle(
-                                                    color: Color(0xff636A7D),
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .headline4!
+                                                        .color, // headline4
                                                     fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -477,16 +484,21 @@ class _TokenWidgetState extends State<TokenWidget> {
                                                       color: Color(0xffE02C87),
                                                       size: 16,
                                                     ),
-                                                    Text(
-                                                      '${widget.tokenData.price.value} ETH',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .headline1!
-                                                            .color,
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${widget.tokenData.price.value} ETH',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .headline1!
+                                                                  .color,
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
@@ -632,186 +644,19 @@ class _TokenWidgetState extends State<TokenWidget> {
                                             'Buy buying NFT’s you agree to FOOK’s \n terms & conditions.',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xffA7B2CD),
+                                              color:
+                                                  Theme.of(context).hintColor,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    // actions: <Widget>[
-                                    //   // Row(
-                                    //   //   mainAxisAlignment:
-                                    //   //       MainAxisAlignment.spaceEvenly,
-                                    //   //   children: [
-                                    //   //     TextButton(
-                                    //   //       onPressed: () => Navigator.pop(
-                                    //   //           context, 'Cancel'),
-                                    //   //       child: const Text('Cancel'),
-                                    //   //     ),
-                                    //   //     TextButton(
-                                    //   //       onPressed: () {
-                                    //   //         setState(() async {
-                                    //   //           String result =
-                                    //   //               await BuyTokken.buyTokken(
-                                    //   //             widget.tokenData.collection.id
-                                    //   //                 .toString(),
-                                    //   //             widget.tokenData.id,
-                                    //   //           );
-                                    //   //           if (result == '200') {
-                                    //   //             allTokens
-                                    //   //                 .addNewBoughtTokenInAcquired(
-                                    //   //                     widget.tokenData);
-                                    //   //             Navigator.pop(context);
-                                    //   //             setState(() {
-                                    //   //               widget.tokenData.price =
-                                    //   //                   Price(
-                                    //   //                 value: ' ',
-                                    //   //                 unit: ' ',
-                                    //   //               );
-                                    //   //             });
-                                    //   //             ScaffoldMessenger.of(context)
-                                    //   //                 .showSnackBar(
-                                    //   //               const SnackBar(
-                                    //   //                 content: Text(
-                                    //   //                     'Token Bought Successfully'),
-                                    //   //                 duration: Duration(
-                                    //   //                     milliseconds: 1000),
-                                    //   //               ),
-                                    //   //             );
-                                    //   //           } else {
-                                    //   //             Navigator.pop(context);
-                                    //   //             ScaffoldMessenger.of(context)
-                                    //   //                 .showSnackBar(
-                                    //   //               SnackBar(
-                                    //   //                 content: Text(Const
-                                    //   //                     .LOW_BALANCE_MESSAGE),
-                                    //   //                 duration: Duration(
-                                    //   //                     milliseconds: 1000),
-                                    //   //               ),
-                                    //   //             );
-                                    //   //           }
-                                    //   //         });
-                                    //   //       },
-                                    //   //       child: const Text('Proceed'),
-                                    //   //     ),
-                                    //   //   ],
-                                    //   // ),
-                                    // ],
                                   ),
                                 );
                         },
                       ),
-
-                // TextButton(
-                //     onPressed: () async {
-                //       print(widget.tokenData.price.unit);
-                //       widget.tokenData.price.unit == ' '
-                //           ? ScaffoldMessenger.of(context).showSnackBar(
-                //               SnackBar(
-                //                 content: Text(Const.ALREADY_SOLD),
-                //                 duration: Duration(milliseconds: 1000),
-                //               ),
-                //             )
-                //           : showDialog<String>(
-                //               context: context,
-                //               builder: (BuildContext context) =>
-                //                   AlertDialog(
-                //                 content: Text(
-                //                     'Are you Sure want to Buy \'${widget.tokenData.name}\''),
-                //                 actions: <Widget>[
-                //                   Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceEvenly,
-                //                     children: [
-                //                       TextButton(
-                //                         onPressed: () => Navigator.pop(
-                //                             context, 'Cancel'),
-                //                         child: const Text('Cancel'),
-                //                       ),
-                //                       TextButton(
-                //                         onPressed: () {
-                //                           setState(() async {
-                //                             String result =
-                //                                 await BuyTokken.buyTokken(
-                //                               widget.tokenData.collection.id
-                //                                   .toString(),
-                //                               widget.tokenData.id,
-                //                             );
-                //                             if (result == '200') {
-                //                               allTokens
-                //                                   .addNewBoughtTokenInAcquired(
-                //                                       widget.tokenData);
-                //                               Navigator.pop(context);
-                //                               setState(() {
-                //                                 widget.tokenData.price =
-                //                                     Price(
-                //                                   value: ' ',
-                //                                   unit: ' ',
-                //                                 );
-                //                               });
-                //                               ScaffoldMessenger.of(context)
-                //                                   .showSnackBar(
-                //                                 const SnackBar(
-                //                                   content: Text(
-                //                                       'Token Bought Successfully'),
-                //                                   duration: Duration(
-                //                                       milliseconds: 1000),
-                //                                 ),
-                //                               );
-                //                             } else {
-                //                               Navigator.pop(context);
-                //                               ScaffoldMessenger.of(context)
-                //                                   .showSnackBar(
-                //                                 SnackBar(
-                //                                   content: Text(Const
-                //                                       .LOW_BALANCE_MESSAGE),
-                //                                   duration: Duration(
-                //                                       milliseconds: 1000),
-                //                                 ),
-                //                               );
-                //                             }
-                //                           });
-                //                         },
-                //                         child: const Text('Proceed'),
-                //                       ),
-                //                     ],
-                //                   ),
-                //                 ],
-                //               ),
-                //             );
-                //     },
-                //     child: widget.tokenData.price.unit == ' '
-                //         ? Padding(
-                //             padding: const EdgeInsets.only(
-                //                 top: 8, bottom: 8, left: 22, right: 22),
-                //             child: Text(
-                //               'SOLD',
-                //               style: TextStyle(fontWeight: FontWeight.bold),
-                //             ),
-                //           )
-                //         : Padding(
-                //             padding: const EdgeInsets.only(
-                //                 top: 8, bottom: 8, left: 22, right: 22),
-                //             child: Text(
-                //               'Fook it',
-                //               style: TextStyle(fontWeight: FontWeight.bold),
-                //             ),
-                //           ),
-                //     style: ButtonStyle(
-                //       shape:
-                //           MaterialStateProperty.all<RoundedRectangleBorder>(
-                //         RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(25),
-                //           side: BorderSide(
-                //               width: 1.5,
-                //               color: Theme.of(context).primaryColor),
-                //         ),
-                //       ),
-                //     ),
-                //   )
               ],
             ),
           ),

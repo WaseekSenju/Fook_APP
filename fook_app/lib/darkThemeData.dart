@@ -26,7 +26,8 @@ MaterialColor createMaterialColor(Color color) {
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-        dividerColor: Color(0xffE4E7F0),
+        
+        dividerColor: isDarkTheme ? Color(0xff353D4F) : Color(0xffE4E7F0),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           unselectedItemColor:
               isDarkTheme ? Color(0xffA7B2CD) : Color(0xff636A7D),
@@ -50,6 +51,9 @@ class Styles {
           ),
           headline3: TextStyle(
             color: Color(0xff636A7D),
+          ),
+          headline4: TextStyle(
+            color: isDarkTheme ? Color(0xffA7B2CD) : Color(0xff636A7D),
           ),
           bodyText1: TextStyle(
             color: Color(0xFFF1833D),
@@ -82,6 +86,7 @@ class Styles {
             colorScheme:
                 isDarkTheme ? ColorScheme.dark() : ColorScheme.light()),
         appBarTheme: AppBarTheme(
+          backgroundColor: isDarkTheme ? Color(0xff262B3B) : Colors.white,
           elevation: 0.0,
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -90,33 +95,4 @@ class Styles {
         ));
   }
 }
-        // ThemeData(
-        //   textTheme: TextTheme(
-        //     headline1: TextStyle(
-        //       color: Colors.black,
-        //     ),
-        //     headline2: TextStyle(
-        //       color: Colors.grey,
-        //     ),
-        //     headline3: TextStyle(
-        //       color: Color(0xff636A7D),
-        //     ),
-        //     bodyText1: TextStyle(
-        //       color: Color(0xFFF1833D),
-        //     ),
-        //     bodyText2: TextStyle(color: Colors.white),
-        //   ),
-        //   fontFamily: GoogleFonts.poppins().fontFamily,
-        //   primaryColor: createMaterialColor(
-        //     Color(
-        //       0xFfE02C87,
-        //     ),
-        //   ),
-        //   colorScheme: ColorScheme.fromSwatch(
-        //     primarySwatch: createMaterialColor(
-        //       Color(0xFFF1833D),
-        //     ),
-        //   ).copyWith(
-        //     secondary: Color(0xffA7B2CD),
-        //   ),
-        // ),
+

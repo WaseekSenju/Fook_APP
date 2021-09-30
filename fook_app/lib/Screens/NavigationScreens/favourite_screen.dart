@@ -14,43 +14,38 @@ Future<void> refreshFavourites(BuildContext context) async {
 }
 
 class _FavouritesState extends State<Favourites> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context, listen: false);
+   
 
     return RefreshIndicator(
       onRefresh: () => refreshFavourites(context),
       child: Scaffold(
-        backgroundColor: Color(0xffF2F2F2),
+        backgroundColor: Theme.of(context).canvasColor, //Use provider here
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           shadowColor: Colors.transparent,
-          backgroundColor: Colors.white,
-          title: Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              bottom: 20,
-              top: 20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          title: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  //bottom: 20,
+                  top: 20,
+                ),
+                child: Text(
                   'My Favorites',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         body: (allTokens.likedTokens.data.isEmpty)
@@ -62,23 +57,26 @@ class _FavouritesState extends State<Favourites> {
                       color: Theme.of(context).textTheme.headline1!.color),
                 ),
               )
-            : ListView.builder(
-                // separatorBuilder: (BuildContext context, int index) =>
-                //     const Divider(
-                //   thickness: 1,
-                // ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: TokenWidget(
-                        allTokens.likedTokens.data[
-                            allTokens.likedTokens.data.length - (index + 1)],
-                        allTokens.likedTokens.data.length - (index + 1),
-                        true,
-                        () => {refreshFavourites(context)}),
-                  );
-                },
-                itemCount: allTokens.likedTokens.data.length,
+            : Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: ListView.builder(
+                  // separatorBuilder: (BuildContext context, int index) =>
+                  //     const Divider(
+                  //   thickness: 1,
+                  // ),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: TokenWidget(
+                          allTokens.likedTokens.data[
+                              allTokens.likedTokens.data.length - (index + 1)],
+                          allTokens.likedTokens.data.length - (index + 1),
+                          true,
+                          () => {refreshFavourites(context)}),
+                    );
+                  },
+                  itemCount: allTokens.likedTokens.data.length,
+                ),
               ),
       ),
     );
@@ -86,24 +84,3 @@ class _FavouritesState extends State<Favourites> {
 }
 
 
-// FutureBuilder(
-//         future: BackendServices.getfavouriteToken(),
-//         builder: (context, AsyncSnapshot<Tokken> snapshot) {
-//           var postData = snapshot.data;
-//           if (snapshot.hasData)
-//             return ListView.separated(
-//               separatorBuilder: (BuildContext context, int index) =>
-//                   const Divider(
-//                 thickness: 1,
-//               ),
-//               itemBuilder: (context, index) {
-//                 return TokenWidget(postData!.data[index]);
-//               },
-//               itemCount: postData!.data.length,
-//             );
-
-//           return Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         },
-//       ),
