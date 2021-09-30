@@ -117,27 +117,36 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
 
                       return Column(
                         children: [
-                          DropdownButton<String>(
-                            value: dropDown == ' '
-                                ? _collectionNames.first
-                                : dropDown,
-                            iconSize: 24,
-                            elevation: 16,
-                            underline: Container(
-                              height: 2,
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButton<String>(
+                              borderRadius: BorderRadius.circular(25),
+                              value: dropDown == ' '
+                                  ? _collectionNames.first
+                                  : dropDown,
+                              iconSize: 24,
+                              elevation: 16,
+                              underline: Container(
+                                height: 2,
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropDown = newValue!;
+                                });
+                              },
+                              items: _collectionNames
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropDown = newValue!;
-                              });
-                            },
-                            items: _collectionNames
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                           _loading
                               ? Column(
@@ -231,7 +240,8 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                                 ),
                                                 currentUserData:
                                                     token.CurrentUserData(
-                                                        isLiked: false,isOwner: true),
+                                                        isLiked: false,
+                                                        isOwner: true),
                                                 price: token.Price(
                                                     value:
                                                         _priceController.text,
@@ -316,7 +326,8 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                     Text(
                       'OR',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary, fontSize: 14),
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 14),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
