@@ -28,18 +28,10 @@ Future<void> refreshHome(BuildContext context) async {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-
-  //   // var tokens = Provider.of<AllTokens>(context);
-  //   // tokens.getUploadedtokens();
-  //   // tokens.getDownloadedtokens();
-  // }
 
   @override
   Widget build(BuildContext context) {
+    
     final themeChange = Provider.of<DarkThemeProvider>(context);
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;
@@ -77,13 +69,9 @@ class _UserScreenState extends State<UserScreen> {
                         child: DayNightSwitcher(
                           isDarkModeEnabled: themeChange.darkTheme,
                           onStateChanged: (bool value) {
-                            // final themeChange = Provider.of<DarkThemeProvider>(context,listen: false);
                             setState(() {
                               themeChange.darkTheme = value;
                             });
-
-                            print('ThemeTest');
-                            print(themeChange.darkTheme);
                           },
                         ),
                       ),
@@ -239,8 +227,7 @@ class _UserScreenState extends State<UserScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: 
-                Container(
+                child: Container(
                   width: double.infinity,
                   height: 45,
                   decoration: BoxDecoration(
@@ -251,7 +238,6 @@ class _UserScreenState extends State<UserScreen> {
                       25.0,
                     ),
                   ),
-
                   child: TabBar(
                     //controller: _tabController,
                     // give the indicator a decoration (color and border radius)
@@ -345,49 +331,40 @@ class _UserScreenState extends State<UserScreen> {
                       ),
                     ],
                   ),
-
-                  // TabBar(
-                  //   indicatorColor: Theme.of(context).primaryColor,
-                  //   indicatorSize: TabBarIndicatorSize.label,
-                  //   unselectedLabelColor: Colors.grey,
-                  //   labelColor: Theme.of(context).primaryColor,
-
-                  //   //indicatorColor: Colors.blue,
-                  //   tabs: const <Widget>[
-                  //     Tab(
-                  //       icon: ImageIcon(
-                  //         AssetImage('lib/Assets/arrow_upward.png'),
-                  //         //color: Colors.grey,
-                  //       ),
-                  //     ),
-                  //     Tab(
-                  //       icon: ImageIcon(
-                  //         AssetImage('lib/Assets/arrow_downward.png'),
-                  //         //color: Colors.grey,
-                  //       ),
-                  //     ),
-                  //     Tab(
-                  //       icon: ImageIcon(
-                  //         AssetImage('lib/Assets/Wallet_Icon.png'),
-                  //         //color: Colors.grey,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ),
               ),
-              Container(
-                height: postCount == 0 || postCount < 3
-                    ? MediaQuery.of(context).size.height
-                    : ((postCount / 3) * 128) +
-                        kBottomNavigationBarHeight +
-                        kTextTabBarHeight,
-                child: TabBarView(
-                  children: <Widget>[
-                    Wallet('My Wallet'),
-                    PostGrid('Uploaded NFTs', tokens.uploadedtokens),
-                    PostGrid('Acquired NFTs', tokens.acquiredTokens),
-                  ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                  height: postCount == 0 || postCount < 3
+                      ? MediaQuery.of(context).size.height
+                      : ((postCount / 3) * 128) +
+                          kBottomNavigationBarHeight +
+                          kTextTabBarHeight,
+                  child: TabBarView(
+                    children: <Widget>[
+                      Wallet('My Balance'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: PostGrid('Uploaded NFTs', tokens.uploadedtokens),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: PostGrid('Acquired NFTs', tokens.acquiredTokens),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

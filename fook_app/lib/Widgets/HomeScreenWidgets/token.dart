@@ -4,13 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
-import 'package:fook_app/Controllers/buyTokken.dart';
 import 'package:fook_app/Controllers/const.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
 import 'package:fook_app/Models/tokken_model.dart';
 import 'package:fook_app/Screens/NavigationScreens/tokenDetail_screen.dart';
+import 'package:fook_app/Widgets/HomeScreenWidgets/buyTokenDialogue.dart';
 import 'package:fook_app/Widgets/gradientBorderButton.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TokenWidget extends StatefulWidget {
@@ -26,17 +25,19 @@ class TokenWidget extends StatefulWidget {
 }
 
 class _TokenWidgetState extends State<TokenWidget> {
-  late bool liked;
-  @override
-  void initState() {
-    super.initState();
-    liked = widget.tokenData.currentUserData.isLiked;
-  }
+  // late bool liked;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   liked = widget.tokenData.currentUserData.isLiked;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    print('Token');
     var allTokens = Provider.of<AllTokens>(context);
     final darkTheme = Provider.of<DarkThemeProvider>(context);
+
     return Container(
       decoration: BoxDecoration(
         color: darkTheme.darkTheme ? Color(0xff2A3141) : Colors.white,
@@ -151,14 +152,12 @@ class _TokenWidgetState extends State<TokenWidget> {
                 InkWell(
                   child: Row(
                     children: [
-                      Consumer<AllTokens>(
-                        builder: (context, allTokkens, child) => ImageIcon(
-                          AssetImage('lib/Assets/redHear.png'),
-                          size: 18,
-                          color: liked
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).colorScheme.secondary,
-                        ),
+                      ImageIcon(
+                        AssetImage('lib/Assets/redHear.png'),
+                        size: 18,
+                        color: widget.tokenData.currentUserData.isLiked
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).colorScheme.secondary,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2),
@@ -174,53 +173,60 @@ class _TokenWidgetState extends State<TokenWidget> {
                   ),
                   onTap: widget.favouriteScreen
                       ? () {
-                          LikeTokken.unlikeTokken(widget.tokenData.id,
-                              widget.tokenData.collection.id.toString());
-                          liked = !liked;
+                          LikeTokken.unlikeTokken(
+                            widget.tokenData.id,
+                            widget.tokenData.collection.id.toString(),
+                          );
 
-                          allTokens.tokken.data[widget.index].currentUserData
-                                  .isLiked =
-                              !allTokens.tokken.data[widget.index]
-                                  .currentUserData.isLiked;
+                          widget.tokenData.currentUserData.isLiked =
+                              !widget.tokenData.currentUserData.isLiked;
 
-                          allTokens.likedTokens.data.removeWhere((tokken) =>
-                              tokken.id ==
-                              allTokens.tokken.data[widget.index].id);
-                          this.widget.onFavorite();
+                          allTokens.removeLike(widget.tokenData.id);
                         }
                       : () async {
-                          setState(
-                            () {
-                              if (liked) {
-                                LikeTokken.unlikeTokken(widget.tokenData.id,
-                                    widget.tokenData.collection.id.toString());
-                                liked = !liked;
+                          //setState(
+                          // () {
+                          if (widget.tokenData.currentUserData.isLiked) {
+                            LikeTokken.unlikeTokken(
+                              widget.tokenData.id,
+                              widget.tokenData.collection.id.toString(),
+                            );
+                            //widget.tokenData.currentUserData.isLiked =
+                               // !widget.tokenData.currentUserData.isLiked;
 
-                                allTokens.tokken.data[widget.index]
-                                        .currentUserData.isLiked =
-                                    !allTokens.tokken.data[widget.index]
-                                        .currentUserData.isLiked;
+                            // allTokens.tokken.data[widget.index]
+                            //         .currentUserData.isLiked =
+                            //     !allTokens.tokken.data[widget.index]
+                            //         .currentUserData.isLiked;
 
-                                allTokens.likedTokens.data.removeWhere(
-                                    (tokken) =>
-                                        tokken.id ==
-                                        allTokens.tokken.data[widget.index].id);
-                              } else {
-                                LikeTokken.likeTokken(widget.tokenData.id,
-                                    widget.tokenData.collection.id.toString());
-                                liked = !liked;
+                            // allTokens.likedTokens.data.removeWhere(
+                            //   (tokken) =>
+                            //       tokken.id ==
+                            //       allTokens.tokken.data[widget.index].id,
+                            // );
 
-                                allTokens.tokken.data[widget.index]
-                                        .currentUserData.isLiked =
-                                    !allTokens.tokken.data[widget.index]
-                                        .currentUserData.isLiked;
+                            allTokens.removeLike(widget.tokenData.id);
+                          } else {
+                            LikeTokken.likeTokken(
+                              widget.tokenData.id,
+                              widget.tokenData.collection.id.toString(),
+                            );
+                            //widget.tokenData.currentUserData.isLiked =
+                                //!widget.tokenData.currentUserData.isLiked;
 
-                                allTokens.likedTokens.data
-                                    .add(allTokens.tokken.data[widget.index]);
-                              }
-                            },
-                          );
+                            allTokens.addLike(widget.tokenData.id);
+                            
+                            // allTokens.tokken.data[widget.index]
+                            //         .currentUserData.isLiked =
+                            //     !allTokens.tokken.data[widget.index]
+                            //         .currentUserData.isLiked;
+
+                            // allTokens.likedTokens.data
+                            //     .add(allTokens.tokken.data[widget.index]);
+                          }
                         },
+                  // );
+                  // },
                 ),
                 Container(
                   height: 24,
@@ -380,7 +386,6 @@ class _TokenWidgetState extends State<TokenWidget> {
                                 ),
                               ),
                         onPressed: () async {
-                          print(widget.tokenData.price.unit);
                           widget.tokenData.price.unit == ' '
                               ? ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -393,267 +398,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                               : showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    backgroundColor: Theme.of(context)
-                                        .appBarTheme
-                                        .backgroundColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(32.0),
-                                      ),
-                                    ),
-                                    content: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.65,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'You are buying an NFT image',
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .headline1!
-                                                  .color,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 24,
-                                          ),
-                                          Text(
-                                            widget.tokenData.name,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          SizedBox(
-                                            height: 12,
-                                          ),
-                                          AspectRatio(
-                                            aspectRatio: 1.7,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: widget.tokenData.file
-                                                      .contains('http')
-                                                  ? CachedNetworkImage(
-                                                      imageUrl:
-                                                          widget.tokenData.file,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : Image.file(
-                                                      File(widget
-                                                          .tokenData.file),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 12,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Price',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .color, // headline4
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Container(
-                                                width: 70,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    ImageIcon(
-                                                      AssetImage(
-                                                          'lib/Assets/Wallet_Icon.png'),
-                                                      color: Color(0xffE02C87),
-                                                      size: 16,
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        '${widget.tokenData.price.value} ETH',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .headline1!
-                                                                  .color,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 26,
-                                          ),
-                                          DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(0xffE02989),
-                                                  Color(0xffF8A620)
-                                                ],
-                                              ),
-                                            ),
-                                            child: ElevatedButton(
-                                              child: Text(
-                                                'Buy it',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2!
-                                                      .color,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                setState(() async {
-                                                  String result =
-                                                      await BuyTokken.buyTokken(
-                                                    widget
-                                                        .tokenData.collection.id
-                                                        .toString(),
-                                                    widget.tokenData.id,
-                                                  );
-                                                  if (result == '200') {
-                                                    allTokens
-                                                        .addNewBoughtTokenInAcquired(
-                                                            widget.tokenData);
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      widget.tokenData.price =
-                                                          Price(
-                                                        value: ' ',
-                                                        unit: ' ',
-                                                      );
-                                                    });
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text(
-                                                            'Token Bought Successfully'),
-                                                        duration: Duration(
-                                                            milliseconds: 1000),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(Const
-                                                            .LOW_BALANCE_MESSAGE),
-                                                        duration: Duration(
-                                                            milliseconds: 1000),
-                                                      ),
-                                                    );
-                                                  }
-                                                });
-                                              },
-                                              style: ButtonStyle(
-                                                minimumSize:
-                                                    MaterialStateProperty.all(
-                                                  Size(
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.8,
-                                                      50),
-                                                ),
-                                                shape:
-                                                    MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0),
-                                                  ),
-                                                ),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                                shadowColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 16,
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: GradientButton(
-                                              strokeWidth: 1,
-                                              radius: 25,
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(0xffE02989),
-                                                  Color(0xffF8A620)
-                                                ],
-                                              ),
-                                              child: Text(
-                                                'Cancel',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .headline1!
-                                                      .color,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 16,
-                                          ),
-                                          Text(
-                                            'Buy buying NFT’s you agree to FOOK’s \n terms & conditions.',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                      BuyTokenDialogue(widget.tokenData),
                                 );
                         },
                       ),

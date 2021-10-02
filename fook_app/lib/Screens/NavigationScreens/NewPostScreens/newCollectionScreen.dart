@@ -107,6 +107,7 @@ class _NewCollectionState extends State<NewCollection> {
               _loading
                   ? CircularProgressIndicator()
                   : Container(
+                    
                       height: 50,
                     ),
               ElevatedButton(

@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fook_app/API/services.dart';
-import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
+import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
+import 'package:fook_app/Controllers/newTokkenController.dart';
 import 'package:fook_app/Models/collections.dart';
+import 'package:fook_app/Screens/NavigationScreens/NewUI(CreatePost)/newCollectionDialogue.dart';
 import 'package:fook_app/Widgets/gradientBorderButton.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:fook_app/Models/tokken_model.dart' as token;
 
 class NewPostScreen extends StatefulWidget {
   static const routeName = '/newPost';
@@ -52,13 +56,83 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   bool _imageTaken = false;
-  String dropDown = ' ';
+  String? dropDown = ' ';
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
 
+  void createToken(AsyncSnapshot<Collections> snapshot) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _loading = true;
+      });
+      String result = await NewTokenAndCollection.newTokken(
+          XFile(_image.path),
+          _nameController.text,
+          _descriptionController.text,
+          _priceController.text,
+          snapshot.data!.data
+              .firstWhere(
+                (element) => element.name == dropDown,
+              )
+              .id
+              .toString());
+
+      if (result == '201') {
+        var selectedCollection = snapshot.data!.data.firstWhere(
+          (element) => element.name == dropDown,
+        );
+        var newToken = token.Datum(
+          id: snapshot.data!.data
+              .firstWhere(
+                (element) => element.name == dropDown,
+              )
+              .id
+              .toString(),
+          file: _image.path,
+          name: _nameController.text,
+          thumbnail: ' ',
+          description: _descriptionController.text,
+          collection: token.Collection(
+            id: selectedCollection.id,
+            name: selectedCollection.name,
+            symbol: selectedCollection.symbol,
+            image: selectedCollection.image,
+            contract: selectedCollection.contract,
+          ),
+          currentUserData: token.CurrentUserData(isLiked: false, isOwner: true),
+          price: token.Price(value: _priceController.text, unit: 'ether'),
+        );
+
+        final allTokkens = Provider.of<AllTokens>(context, listen: false);
+        allTokkens.addNewCreatedToken(newToken);
+
+        setState(() {
+          _loading = false;
+        });
+        Fluttertoast.showToast(
+            backgroundColor: Colors.red,
+            msg:
+                'Token Created Successfully.Your transaction processing will take some time.');
+        await Future.delayed(const Duration(milliseconds: 3500))
+            .whenComplete(() {
+          Navigator.of(context).pop();
+        });
+      } else {
+        setState(() {
+          _loading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result),
+            duration: Duration(milliseconds: 1000),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 62,
@@ -141,34 +215,34 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 SizedBox(
                                   width: 150,
                                   child: GradientButton(
-                                      strokeWidth: 1,
-                                      radius: 25,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xffE02989),
-                                          Color(0xffF8A620)
-                                        ],
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          ImageIcon(
-                                            AssetImage('lib/Assets/camera.png'),
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Text('Camera',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .headline1!
-                                                      .color)),
-                                        ],
-                                      ),
-                                      onPressed: _imgFromCamera),
+                                    strokeWidth: 1,
+                                    radius: 25,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffE02989),
+                                        Color(0xffF8A620)
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        ImageIcon(
+                                          AssetImage('lib/Assets/camera.png'),
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text('Camera',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .headline1!
+                                                    .color)),
+                                      ],
+                                    ),
+                                    onPressed: _imgFromCamera,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 150,
@@ -249,7 +323,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25,
+                    vertical: 8,
+                  ),
                   child: Text(
                     'Collection',
                     style: TextStyle(
@@ -286,22 +363,21 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: DropdownButton<String>(
-                                  
-                                  icon: Icon(Icons.arrow_right_alt_rounded),
+                                  hint: Text('Select Collection'),
+                                  value: dropDown == " " ? null : dropDown,
+                                  icon: Icon(Icons.expand_more),
                                   isExpanded: true,
-                                  value: dropDown == ' '
-                                      ? _collectionNames.first
-                                      : dropDown,
                                   iconSize: 24,
                                   elevation: 16,
                                   underline: Container(
                                     height: 2,
                                   ),
-                                  onChanged: (String? newValue) {
+                                  onChanged: (value) {
                                     setState(() {
-                                      dropDown = newValue!;
+                                      dropDown = value;
                                     });
                                   },
                                   items: _collectionNames
@@ -316,6 +392,54 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 ),
                               ),
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 16,
+                            ),
+                            child: SizedBox(
+                              height: 46,
+                              width: MediaQuery.of(context).size.width,
+                              child: GradientButton(
+                                  strokeWidth: 1,
+                                  radius: 25,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xffE02989),
+                                      Color(0xffF8A620)
+                                    ],
+                                  ),
+                                  child: Text(
+                                    'Create Collection',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) =>
+                                    showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext bc) =>
+                                          NewCollectionDialogue(),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16),
+                            child: Divider(),
                           ),
                           _loading
                               ? Column(
@@ -339,122 +463,69 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                     ),
                                   ],
                                 )
-                              : ElevatedButton(
-                                  child: Text(
-                                    dropDown == ' '
-                                        ? 'Please Select a Collection'
-                                        : 'Create Token',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color),
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: DecoratedBox(
+                                      decoration: dropDown == ' '
+                                          ? BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              color: Theme.of(context)
+                                                  .dividerColor)
+                                          : BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xffE02989),
+                                                  Color(0xffF8A620)
+                                                ],
+                                              ),
+                                            ),
+                                      child: ElevatedButton(
+                                        child: Text(
+                                          'Create Token',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .color,
+                                          ),
+                                        ),
+                                        onPressed: dropDown == ' '
+                                            ? null
+                                            : () => createToken(snapshot),
+                                        style: ButtonStyle(
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                            Size(
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                50),
+                                          ),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                          ),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.transparent),
+                                          shadowColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.transparent),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  onPressed: dropDown == ' '
-                                      ? null
-                                      : () async {
-                                          // if (_formKey.currentState!
-                                          //     .validate()) {
-                                          //   setState(() {
-                                          //     _loading = true;
-                                          //   });
-                                          //   String result =
-                                          //       await NewTokenAndCollection
-                                          //           .newTokken(
-                                          //               widget.image,
-                                          //               _nameController.text,
-                                          //               _descriptionController
-                                          //                   .text,
-                                          //               _priceController.text,
-                                          //               snapshot.data!.data
-                                          //                   .firstWhere(
-                                          //                     (element) =>
-                                          //                         element
-                                          //                             .name ==
-                                          //                         dropDown,
-                                          //                   )
-                                          //                   .id
-                                          //                   .toString());
-
-                                          //   if (result == '201') {
-                                          //     var selectedCollection = snapshot
-                                          //         .data!.data
-                                          //         .firstWhere(
-                                          //       (element) =>
-                                          //           element.name == dropDown,
-                                          //     );
-                                          //     var newToken = token.Datum(
-                                          //       id: snapshot.data!.data
-                                          //           .firstWhere(
-                                          //             (element) =>
-                                          //                 element.name ==
-                                          //                 dropDown,
-                                          //           )
-                                          //           .id
-                                          //           .toString(),
-                                          //       file: widget.image.path,
-                                          //       name: _nameController.text,
-                                          //       thumbnail: ' ',
-                                          //       description:
-                                          //           _descriptionController.text,
-                                          //       collection: token.Collection(
-                                          //         id: selectedCollection.id,
-                                          //         name: selectedCollection.name,
-                                          //         symbol:
-                                          //             selectedCollection.symbol,
-                                          //         image:
-                                          //             selectedCollection.image,
-                                          //         contract: selectedCollection
-                                          //             .contract,
-                                          //       ),
-                                          //       currentUserData:
-                                          //           token.CurrentUserData(
-                                          //               isLiked: false,
-                                          //               isOwner: true),
-                                          //       price: token.Price(
-                                          //           value:
-                                          //               _priceController.text,
-                                          //           unit: 'ether'),
-                                          //     );
-
-                                          //     final allTokkens =
-                                          //         Provider.of<AllTokens>(
-                                          //             context,
-                                          //             listen: false);
-                                          //     allTokkens
-                                          //         .addNewCreatedToken(newToken);
-
-                                          //     setState(() {
-                                          //       _loading = false;
-                                          //     });
-                                          //     Fluttertoast.showToast(
-                                          //         backgroundColor: Colors.red,
-                                          //         msg:
-                                          //             'Token Created Successfully.Your transaction processing will take some time.');
-                                          //     await Future.delayed(
-                                          //             const Duration(
-                                          //                 milliseconds: 3500))
-                                          //         .whenComplete(() {
-                                          //       Navigator.of(context).pop();
-                                          //       //  Navigator.of(context)
-                                          //       //      .pushNamed(TabsScreen.routeName);
-                                          //     });
-                                          //   } else {
-                                          //     setState(() {
-                                          //       _loading = false;
-                                          //     });
-                                          //     ScaffoldMessenger.of(context)
-                                          //         .showSnackBar(
-                                          //       SnackBar(
-                                          //         content: Text(result),
-                                          //         duration: Duration(
-                                          //             milliseconds: 1000),
-                                          //       ),
-                                          //     );
-                                          //   }
-                                          // }
-                                        },
-                                ),
+                                )
                         ],
                       );
                     } else {
@@ -476,6 +547,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     );
                   }
                 },
+              ),
+              SizedBox(
+                height: 16,
               ),
             ],
           ),

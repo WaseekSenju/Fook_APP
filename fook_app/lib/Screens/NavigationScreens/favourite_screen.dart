@@ -14,11 +14,9 @@ Future<void> refreshFavourites(BuildContext context) async {
 }
 
 class _FavouritesState extends State<Favourites> {
-
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context, listen: false);
-   
 
     return RefreshIndicator(
       onRefresh: () => refreshFavourites(context),
@@ -68,11 +66,14 @@ class _FavouritesState extends State<Favourites> {
                     return Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: TokenWidget(
-                          allTokens.likedTokens.data[
-                              allTokens.likedTokens.data.length - (index + 1)],
-                          allTokens.likedTokens.data.length - (index + 1),
-                          true,
-                          () => {refreshFavourites(context)}),
+                        allTokens.likedTokens.data[
+                            allTokens.likedTokens.data.length - (index + 1)],
+                        allTokens.likedTokens.data.length - (index + 1),
+                        true,
+                        () => {
+                          refreshFavourites(context),
+                        },
+                      ),
                     );
                   },
                   itemCount: allTokens.likedTokens.data.length,
@@ -82,5 +83,3 @@ class _FavouritesState extends State<Favourites> {
     );
   }
 }
-
-

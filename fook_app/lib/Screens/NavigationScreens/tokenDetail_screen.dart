@@ -5,8 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/const.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
+import 'package:fook_app/Widgets/HomeScreenWidgets/buyTokenDialogue.dart';
+import 'package:fook_app/Widgets/gradientBorderButton.dart';
 import 'package:provider/provider.dart';
-import '/Controllers/buyTokken.dart';
 import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +31,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
       _loading = true;
     });
 
-    String result = await SellTokenController.setTokenPriceAndAllow(
+    await SellTokenController.setTokenPriceAndAllow(
       tokenData.id,
       tokenData.collection.id.toString(),
       {"value": price, "unit": "ether"},
@@ -38,7 +39,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     setState(() {
       _loading = false;
     });
-    print(result);
   }
 
   bool isNumeric(String s) {
@@ -48,11 +48,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     return double.parse(s) != null;
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +116,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 child: Text(
                   'This Token is already Sold',
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),
@@ -224,7 +220,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            const Text('Modal BottomSheet'),
                                             Padding(
                                               padding: EdgeInsets.all(25),
                                               child: Container(
@@ -431,8 +426,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         TextSpan(
                           text: ' ${widget.tokenData.collection.name}',
                           style: TextStyle(
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ],
@@ -468,97 +462,101 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         Container(
                           height: 80,
                           width: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary,
+                          child: GradientButton(
+                            onPressed: () {},
+                            strokeWidth: 1,
+                            radius: 20,
+                            gradient: LinearGradient(
+                              colors: [Color(0xffE02989), Color(0xffF8A620)],
                             ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ACCESORIES',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ACCESORIES',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline2!
+                                        .color,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'SUNGLASSES',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color,
+                                Text(
+                                  'SUNGLASSES',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                '3% have this trait',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
+                                Text(
+                                  '3% have this trait',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline2!
+                                        .color,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Container(
                           height: 80,
                           width: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary,
+                          child: GradientButton(
+                            onPressed: () {},
+                            strokeWidth: 1,
+                            radius: 20,
+                            gradient: LinearGradient(
+                              colors: [Color(0xffE02989), Color(0xffF8A620)],
                             ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ACCESORIES',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline2!
+                                        .color,
+                                  ),
+                                ),
+                                Text(
+                                  'SUNGLASSES',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color,
+                                  ),
+                                ),
+                                Text(
+                                  '3% have this trait',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline2!
+                                        .color,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ACCESORIES',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
-                                ),
-                              ),
-                              Text(
-                                'SUNGLASSES',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color,
-                                ),
-                              ),
-                              Text(
-                                '3% have this trait',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .color,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -572,43 +570,42 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         padding: const EdgeInsets.all(18),
         child: Row(
           children: [
-            InkWell(
-              onTap: () {
-                setState(
-                  () {
-                    var token = widget.tokenData;
-                    if (token.currentUserData.isLiked) {
-                      LikeTokken.unlikeTokken(widget.tokenData.id,
-                          widget.tokenData.collection.id.toString());
-                      widget.tokenData.currentUserData.isLiked =
-                          !widget.tokenData.currentUserData.isLiked;
-                      allTokens.likedTokens.data
-                          .removeWhere((tokken) => tokken.id == token.id);
-                    } else {
-                      LikeTokken.likeTokken(widget.tokenData.id,
-                          widget.tokenData.collection.id.toString());
-                      widget.tokenData.currentUserData.isLiked =
-                          !widget.tokenData.currentUserData.isLiked;
-
-                      // allTokens.tokken.data[widget.index]
-                      //     .currentUserData.isLiked =
-                      // !allTokens.tokken.data[widget.index]
-                      //     .currentUserData.isLiked;
-
-                      allTokens.likedTokens.data.add(token);
-                    }
-                  },
+            InkWell(child: Consumer<AllTokens>(
+              builder: (context, allTokens, _) {
+                return ImageIcon(
+                  AssetImage('lib/Assets/redHear.png'),
+                  size: 18,
+                  color: widget.tokenData.currentUserData.isLiked
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).colorScheme.secondary,
                 );
               },
-              child: Icon(
-                Icons.favorite,
-                color: widget.tokenData.currentUserData.isLiked
-                    ? Theme.of(context).primaryColor
-                    : widget.tokenData.currentUserData.isLiked
-                        ? Colors.red
-                        : Colors.grey,
-              ),
-            ),
+            ), onTap: () {
+              //setState(
+              //() {
+              var token = widget.tokenData;
+              if (token.currentUserData.isLiked) {
+                LikeTokken.unlikeTokken(
+                  widget.tokenData.id,
+                  widget.tokenData.collection.id.toString(),
+                );
+
+                widget.tokenData.currentUserData.isLiked =
+                    !widget.tokenData.currentUserData.isLiked;
+
+                allTokens.removeLike(widget.tokenData.id);
+              } else {
+                LikeTokken.likeTokken(widget.tokenData.id,
+                    widget.tokenData.collection.id.toString());
+
+                widget.tokenData.currentUserData.isLiked =
+                    !widget.tokenData.currentUserData.isLiked;
+
+                allTokens.addLike(widget.tokenData.id);
+              }
+              // },
+              //);
+            }),
             Padding(
               padding: const EdgeInsets.all(2),
               child: Text(
@@ -663,74 +660,49 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                             height: 1,
                             width: 1,
                           )
-                        : TextButton(
-                            onPressed: () {
+                        : GradientButton(
+                            strokeWidth: 1,
+                            radius: 24,
+                            gradient: LinearGradient(
+                              colors: [Color(0xffE02989), Color(0xffF8A620)],
+                            ),
+                            child: widget.tokenData.price.unit == ' '
+                                ? Text(
+                                    'SOLD',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color,
+                                    ),
+                                  )
+                                : Text(
+                                    'Fook it',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color,
+                                    ),
+                                  ),
+                            onPressed: () async {
                               widget.tokenData.price.unit == ' '
                                   ? ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
                                         content: Text(Const.ALREADY_SOLD),
                                         duration: Duration(milliseconds: 1000),
                                       ),
                                     )
-                                  : setState(() async {
-                                      String result = await BuyTokken.buyTokken(
-                                        widget.tokenData.collection.id
-                                            .toString(),
-                                        widget.tokenData.id,
-                                      );
-                                      if (result == '200') {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Token Bought Successfully'),
-                                            duration:
-                                                Duration(milliseconds: 1000),
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content:
-                                                Text(Const.LOW_BALANCE_MESSAGE),
-                                            duration:
-                                                Duration(milliseconds: 1000),
-                                          ),
-                                        );
-                                      }
-                                    });
+                                  : showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          BuyTokenDialogue(widget.tokenData),
+                                    );
                             },
-                            child: widget.tokenData.price.unit == ' '
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, bottom: 8, left: 22, right: 22),
-                                    child: Text(
-                                      'SOLD',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, bottom: 8, left: 22, right: 22),
-                                    child: Text(
-                                      'Fook it',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  side: BorderSide(
-                                      width: 1.5,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              ),
-                            ),
                           ),
                   ),
                 ],

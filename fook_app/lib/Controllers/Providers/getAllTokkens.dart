@@ -41,7 +41,7 @@ class AllTokens with ChangeNotifier {
       uploadedtokens = await BackendServices.getCurrentUserCreatedTokens();
       loading = false;
     } catch (exception) {
-       print('UploadedTokenexception');
+      print('UploadedTokenexception');
       print(exception);
     }
     notifyListeners();
@@ -69,4 +69,39 @@ class AllTokens with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void removeLike(String id) {
+    tokken.data
+        .firstWhere((element) => element.id == id)
+        .currentUserData
+        .isLiked = false;
+
+    //tokken.data[index].currentUserData.isLiked =
+    // tokken.data[index].currentUserData.isLiked;
+
+    likedTokens.data.removeWhere(
+      (likedtokken) => likedtokken.id == id,
+    );
+    notifyListeners();
+  }
+
+  void addLike(String id) {
+    tokken.data
+        .firstWhere((element) => element.id == id)
+        .currentUserData
+        .isLiked = true;
+
+    //tokken.data[index].currentUserData.isLiked =
+    //!tokken.data[index].currentUserData.isLiked;
+
+    likedTokens.data.add(tokken.data.firstWhere((element) => element.id == id));
+
+    notifyListeners();
+  }
+
+  void addLikeDetaileScreen() {}
+
+  // void removeLikeDetaileScreen() {
+  //   likedTokens.data.removeWhere((likedtokken) => tokken.id == likedtokken.id);
+  // }
 }

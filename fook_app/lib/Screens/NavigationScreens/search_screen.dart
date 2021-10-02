@@ -35,15 +35,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   this.refreshSearch(context);
-  //   setState(() {
-  //     latestFetched = false;
-  //   });
-  // }
+
 
   @override
   Widget build(BuildContext context) {

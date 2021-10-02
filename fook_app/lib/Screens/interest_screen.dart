@@ -12,11 +12,10 @@ class InterestsPage extends StatefulWidget {
 class _InterestsPageState extends State<InterestsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Chips.resetChips();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +86,7 @@ class _InterestsPageState extends State<InterestsPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>TabsScreen(),
+                      builder: (BuildContext context) => TabsScreen(),
                     ),
                   );
                 },
@@ -114,12 +113,12 @@ class _InterestsPageState extends State<InterestsPage> {
         spacing: 10,
         children: Chips.all
             .map((chip) => InkWell(
-              onTap: (){
-                setState(() {
-                  chip.isSelected = !chip.isSelected;
-                });
-              },
-              child: Chip(
+                  onTap: () {
+                    setState(() {
+                      chip.isSelected = !chip.isSelected;
+                    });
+                  },
+                  child: Chip(
                     labelPadding: EdgeInsets.only(
                       top: 8,
                       bottom: 8,
@@ -130,15 +129,21 @@ class _InterestsPageState extends State<InterestsPage> {
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
-                      color: chip.isSelected ? Colors.white: Theme.of(context).primaryColor,
+                      color: chip.isSelected
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
-                    backgroundColor: chip.isSelected ? Theme.of(context).primaryColor  : Colors.transparent,
+                    backgroundColor: chip.isSelected
+                        ? Theme.of(context).primaryColor
+                        : Colors.transparent,
                     side: BorderSide(
                       width: 1.5,
-                      color: chip.isSelected ? Colors.white: Theme.of(context).primaryColor,
+                      color: chip.isSelected
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
-            ))
+                ))
             .toList(),
       );
 }

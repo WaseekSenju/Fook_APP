@@ -19,14 +19,20 @@ class Wallet extends StatelessWidget {
     }
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Text(
-            tabsText,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Theme.of(context).textTheme.headline1!.color),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 12,
+              left: 16,
+            ),
+            child: Text(
+              tabsText,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Theme.of(context).textTheme.headline1!.color),
+            ),
           ),
         ),
         Container(
@@ -34,46 +40,82 @@ class Wallet extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                '${wallet.unit} $value',
+                value,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Theme.of(context).textTheme.headline1!.color),
               ),
               Text(
-                'Total Money',
+                'Ethereum',
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.headline1!.color,
+                  fontSize: 15,
+                  color: Theme.of(context).textTheme.headline4!.color,
                 ),
               ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 40),
-          child: SizedBox(
-            height: 40,
-            width: 110,
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                'Add Money',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 10,
+          padding: const EdgeInsets.only(
+            top: 32,
+          ),
+          child: Container(
+            width:MediaQuery.of(context).size.width/3,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: LinearGradient(
+                  colors: [Color(0xffE02989), Color(0xffF8A620)],
                 ),
               ),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(
-                        width: 1.5, color: Theme.of(context).primaryColor),
+              child: ElevatedButton(
+                child: Text(
+                  'Add Money',
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
+                ),
+                onPressed: () {},
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all(
+                    Size(MediaQuery.of(context).size.width * 0.8, 50),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                  shadowColor: MaterialStateProperty.all(Colors.transparent),
                 ),
               ),
             ),
           ),
+
+          // SizedBox(
+          //   height: 40,
+          //   width: 110,
+          //   child: TextButton(
+          //     onPressed: () {},
+          //     child: Text(
+          //       'Add Money',
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 10,
+          //       ),
+          //     ),
+          //     style: ButtonStyle(
+          //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          //         RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(18.0),
+          //           side: BorderSide(
+          //               width: 1.5, color: Theme.of(context).primaryColor),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         )
       ],
     );
