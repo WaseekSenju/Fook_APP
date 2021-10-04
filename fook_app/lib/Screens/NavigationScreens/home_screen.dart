@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
     await Provider.of<AllTokens>(context, listen: false).getAllTokens();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
@@ -33,9 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       value = wallet.value;
     }
-    print('homeScreen');
+    print('build of HomeScreen');
     return RefreshIndicator(
-      
       onRefresh: () => refreshHome(context),
       child: allTokens.loading
           ? Center(

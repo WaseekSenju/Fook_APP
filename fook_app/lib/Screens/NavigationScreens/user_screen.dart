@@ -28,10 +28,10 @@ Future<void> refreshHome(BuildContext context) async {
 }
 
 class _UserScreenState extends State<UserScreen> {
-
+  @override
   @override
   Widget build(BuildContext context) {
-    
+    print('build of UserScreen');
     final themeChange = Provider.of<DarkThemeProvider>(context);
     var data = Provider.of<UserData>(context);
     var userInfo = data.userData.data;

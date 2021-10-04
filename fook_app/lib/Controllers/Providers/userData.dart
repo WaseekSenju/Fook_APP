@@ -18,6 +18,7 @@ class UserData with ChangeNotifier {
       userData = await BackendServices.getUser().whenComplete(() {});
       loading = false;
     } catch (exception) {
+      print('UserData exception');
       print(exception);
     }
     notifyListeners();
@@ -29,6 +30,7 @@ class UserData with ChangeNotifier {
       userBalance = await BackendServices.getUserBalance().whenComplete(() {});
       loading = false;
     } catch (exception) {
+      print('User Wallet Exception');
       print(exception);
     }
     notifyListeners();

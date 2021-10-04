@@ -13,6 +13,7 @@ import '/Screens/interest_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'Controllers/Providers/getAllTokkens.dart';
+import 'Controllers/const.dart';
 import 'Screens/NavigationScreens/NewPostScreens/camera.dart';
 import 'Screens/signIn_screen.dart';
 import 'Screens/tabs_screen.dart';
@@ -90,7 +91,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      //key: ObjectKey(Const.tokken),
+      key: ObjectKey(Const.tokken),
       providers: providers,
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, child) {
