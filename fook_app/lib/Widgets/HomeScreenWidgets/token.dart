@@ -173,15 +173,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                   ),
                   onTap: widget.favouriteScreen
                       ? () {
-                          LikeTokken.unlikeTokken(
-                            widget.tokenData.id,
-                            widget.tokenData.collection.id.toString(),
-                          );
-
-                          widget.tokenData.currentUserData.isLiked =
-                              !widget.tokenData.currentUserData.isLiked;
-
-                          allTokens.removeLike(widget.tokenData.id);
+                    this.widget.onFavorite(widget.tokenData);
                         }
                       : () async {
                           //setState(

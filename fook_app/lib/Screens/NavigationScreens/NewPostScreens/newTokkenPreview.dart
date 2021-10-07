@@ -259,7 +259,8 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                                 _loading = false;
                                               });
                                               Fluttertoast.showToast(
-                                                  backgroundColor: Colors.red,
+                                                timeInSecForIosWeb: 2,
+                                                  backgroundColor: Colors.green,
                                                   msg:
                                                       'Token Created Successfully.Your transaction processing will take some time.');
                                               await Future.delayed(

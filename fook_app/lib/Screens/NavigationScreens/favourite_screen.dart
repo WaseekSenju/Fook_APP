@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
+import 'package:fook_app/Controllers/likeToken.dart';
 
 import 'package:provider/provider.dart';
 import '../../Widgets/HomeScreenWidgets/token.dart';
@@ -70,8 +71,15 @@ class _FavouritesState extends State<Favourites> {
                             allTokens.likedTokens.data.length - (index + 1)],
                         allTokens.likedTokens.data.length - (index + 1),
                         true,
-                        () => {
-                          refreshFavourites(context),
+                        (data) {
+                        LikeTokken.unlikeTokken(
+                        data.id,
+                        data.collection.id.toString(),
+                        );
+                      allTokens.removeLike(data.id);
+                      setState(() {
+                        
+                      });
                         },
                       ),
                     );

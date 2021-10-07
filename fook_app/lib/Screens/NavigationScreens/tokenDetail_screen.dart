@@ -12,7 +12,6 @@ import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 class TokenDetailScreen extends StatefulWidget {
   TokenDetailScreen(this.tokenData, this.isUserToken);
   final Datum tokenData;
@@ -99,7 +98,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   child: widget.tokenData.file.contains('http')
                       ? CachedNetworkImage(
                           imageUrl: widget.tokenData.file,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         )
                       : Image.file(
                           File(widget.tokenData.file),
@@ -203,10 +202,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Fluttertoast.showToast(
-                              backgroundColor: Colors.red,
-                              msg: 'Please add equal or high price',
-                            );
+
                             showModalBottomSheet(
                                 context: context,
                                 builder: (context) {
@@ -248,7 +244,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                                   decoration: InputDecoration(
                                                     //Icon
                                                     hintText:
-                                                        'Enter the new Price of the Token',
+                                                        'Enter equal or high price',
                                                     hintStyle: TextStyle(
                                                       fontSize: 14,
                                                     ),
@@ -311,10 +307,11 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                                             });
                                                             Fluttertoast
                                                                 .showToast(
+                                                              timeInSecForIosWeb: 2,
                                                               backgroundColor:
-                                                                  Colors.red,
+                                                                  Colors.green,
                                                               msg:
-                                                                  'Price set Successfully',
+                                                                  'Price changed successfully',
                                                             );
                                                           } else {
                                                             setSheetState(() {
@@ -334,12 +331,10 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                                               const Duration(
                                                                   milliseconds:
                                                                       500), () {
-                                                            Fluttertoast
-                                                                .showToast(
-                                                              backgroundColor:
-                                                                  Colors.red,
-                                                              msg:
-                                                                  'Please add equal or high price',
+                                                            Fluttertoast.showToast(
+                                                              timeInSecForIosWeb: 2,
+                                                              backgroundColor: Colors.red,
+                                                              msg: 'Please add equal or high price',
                                                             );
                                                           });
                                                         }

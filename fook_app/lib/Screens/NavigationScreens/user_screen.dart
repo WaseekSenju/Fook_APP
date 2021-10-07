@@ -88,7 +88,7 @@ class _UserScreenState extends State<UserScreen> {
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Logout'),
                               content:
-                                  const Text('Are you Sure want to Logout?'),
+                                  const Text('Are you sure you want to logout?'),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () =>
