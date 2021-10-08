@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      key: ObjectKey(Const.tokken),
+      //key: ObjectKey(Const.tokken),
       providers: providers,
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, child) {

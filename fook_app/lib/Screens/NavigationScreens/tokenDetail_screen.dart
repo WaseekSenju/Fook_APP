@@ -52,8 +52,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
-    print('print price');
-    print(widget.tokenData.price.value);
+    print('print widget Data');
+    print(widget.tokenData.collection.id);
+     print(widget.tokenData.id);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

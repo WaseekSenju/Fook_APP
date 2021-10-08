@@ -106,11 +106,11 @@ class _TokenWidgetState extends State<TokenWidget> {
                           child: widget.tokenData.file.contains('http')
                               ? CachedNetworkImage(
                                   imageUrl: widget.tokenData.file,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                 )
                               : Image.file(
                                   File(widget.tokenData.file),
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                 ),
                         ),
                         onTap: () {

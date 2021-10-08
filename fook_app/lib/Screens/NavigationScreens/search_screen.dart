@@ -35,12 +35,12 @@ class _SearchState extends State<Search> {
     });
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    refreshSearch(context);
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   refreshSearch(context);
+  // }
 
 
 
