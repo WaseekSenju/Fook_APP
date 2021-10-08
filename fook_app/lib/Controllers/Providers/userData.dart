@@ -12,6 +12,7 @@ class UserData with ChangeNotifier {
     unit: '',
     value: '',
   ));
+  String address = 'No Address';
   Future<void> getUserData() async {
     try {
       loading = true;
@@ -31,6 +32,20 @@ class UserData with ChangeNotifier {
       loading = false;
     } catch (exception) {
       print('User Wallet Exception');
+      print(exception);
+    }
+    notifyListeners();
+  }
+
+  Future<void> getUserWalletAddress() async {
+    try {
+      loading = true;
+      address =
+          await BackendServices.getUserWalletAddress().whenComplete(() {});
+      loading = false;
+    } catch (exception) {
+      address = 'error';
+      print('User Wallet Address Exception');
       print(exception);
     }
     notifyListeners();

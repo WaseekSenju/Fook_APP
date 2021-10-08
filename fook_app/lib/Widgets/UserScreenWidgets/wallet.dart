@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fook_app/Controllers/Providers/userData.dart';
 
 import 'package:provider/provider.dart';
+import 'package:clipboard/clipboard.dart';
 
 class Wallet extends StatelessWidget {
   Wallet(this.tabsText);
@@ -53,6 +55,35 @@ class Wallet extends StatelessWidget {
                   color: Theme.of(context).textTheme.headline4!.color,
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Text(
+                      data.address,
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.headline4!.color,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Press to copy',
+                    onPressed: () async{
+                      await FlutterClipboard.copy(data.address);
+                      Fluttertoast.showToast(
+                         backgroundColor: Colors.red,
+                        //webBgColor: Colors.green,
+                        //backgroundColor: Colors.green,
+                        msg: 'Address Copied Successfully',
+                      );
+                    },
+                    icon: Icon(Icons.copy),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -61,7 +92,7 @@ class Wallet extends StatelessWidget {
             top: 32,
           ),
           child: Container(
-            width:MediaQuery.of(context).size.width/3,
+            width: MediaQuery.of(context).size.width / 3,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
@@ -86,7 +117,8 @@ class Wallet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
                   shadowColor: MaterialStateProperty.all(Colors.transparent),
                 ),
               ),

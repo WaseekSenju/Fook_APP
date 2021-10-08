@@ -106,11 +106,11 @@ class _TokenWidgetState extends State<TokenWidget> {
                           child: widget.tokenData.file.contains('http')
                               ? CachedNetworkImage(
                                   imageUrl: widget.tokenData.file,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 )
                               : Image.file(
                                   File(widget.tokenData.file),
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                         ),
                         onTap: () {
@@ -173,7 +173,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                   ),
                   onTap: widget.favouriteScreen
                       ? () {
-                    this.widget.onFavorite(widget.tokenData);
+                          this.widget.onFavorite(widget.tokenData);
                         }
                       : () async {
                           //setState(
@@ -184,7 +184,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                               widget.tokenData.collection.id.toString(),
                             );
                             //widget.tokenData.currentUserData.isLiked =
-                               // !widget.tokenData.currentUserData.isLiked;
+                            // !widget.tokenData.currentUserData.isLiked;
 
                             // allTokens.tokken.data[widget.index]
                             //         .currentUserData.isLiked =
@@ -204,10 +204,10 @@ class _TokenWidgetState extends State<TokenWidget> {
                               widget.tokenData.collection.id.toString(),
                             );
                             //widget.tokenData.currentUserData.isLiked =
-                                //!widget.tokenData.currentUserData.isLiked;
+                            //!widget.tokenData.currentUserData.isLiked;
 
                             allTokens.addLike(widget.tokenData.id);
-                            
+
                             // allTokens.tokken.data[widget.index]
                             //         .currentUserData.isLiked =
                             //     !allTokens.tokken.data[widget.index]

@@ -23,6 +23,7 @@ class UserScreen extends StatefulWidget {
 Future<void> refreshHome(BuildContext context) async {
   await Provider.of<UserData>(context, listen: false).getUserData();
   await Provider.of<UserData>(context, listen: false).getUserWallet();
+  await Provider.of<UserData>(context, listen: false).getUserWalletAddress();
   await Provider.of<AllTokens>(context, listen: false).getDownloadedtokens();
   await Provider.of<AllTokens>(context, listen: false).getUploadedtokens();
 }
@@ -87,8 +88,8 @@ class _UserScreenState extends State<UserScreen> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Logout'),
-                              content:
-                                  const Text('Are you sure you want to logout?'),
+                              content: const Text(
+                                  'Are you sure you want to logout?'),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () =>
@@ -347,8 +348,8 @@ class _UserScreenState extends State<UserScreen> {
                       width: 0.5,
                     ),
                   ),
-                  height: postCount == 0 || postCount < 3
-                      ? MediaQuery.of(context).size.height
+                  height: postCount == 0 || postCount <= 3
+                      ? MediaQuery.of(context).size.height / 2.5
                       : ((postCount / 3) * 128) +
                           kBottomNavigationBarHeight +
                           kTextTabBarHeight,

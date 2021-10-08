@@ -49,6 +49,7 @@ class _TabsScreen extends State<TabsScreen> {
     final userData = Provider.of<UserData>(context, listen: false);
     userData.getUserData();
     userData.getUserWallet();
+    userData.getUserWalletAddress();
 
     final collectionController =
         Provider.of<CollectionController>(context, listen: false);

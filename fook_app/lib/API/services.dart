@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:fook_app/Models/Transaction.dart';
+
 import '/Models/collections.dart';
 import '/Models/tokken_model.dart';
 import '/Models/userBalance.dart';
@@ -48,6 +50,23 @@ class BackendServices {
 
     var jsonString = response.body;
     return userBalanceFromJson(jsonString);
+  }
+
+  static Future<String> getUserWalletAddress() async {
+    String tokken = Const.tokken;
+
+    var url = Uri.parse(Urls.geWalletAddress);
+    var response = await client.get(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $tokken',
+      },
+    );
+    String address = json.decode(response.body)['data']['address'];
+    print(address);
+    return address;
   }
 
   static Future<Tokken> getTokken() async {
@@ -197,6 +216,36 @@ class BackendServices {
       print(exception);
       print('getCurrentUserCollectionserror');
       return _userCollections;
+    }
+  }
+
+  static Future<Transaction> getTokenTransaction(
+      String tokenId, String collectionId) async {
+    Transaction _tokenTransaction = new Transaction(data: []);
+    String tokken = Const.tokken;
+    var url = Uri.parse(
+        'http://54.171.9.121:84/collections/$collectionId/tokens/$tokenId/transactions');
+    try {
+      var response = await client.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $tokken',
+        },
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        _tokenTransaction = transactionFromJson(jsonString);
+        return _tokenTransaction;
+      } else {
+        return _tokenTransaction;
+      }
+    } catch (exception) {
+      print(exception);
+      print('getCurrentUserCollectionserror');
+      return _tokenTransaction;
     }
   }
 }

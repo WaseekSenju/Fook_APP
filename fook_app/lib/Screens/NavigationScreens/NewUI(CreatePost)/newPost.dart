@@ -106,6 +106,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         final allTokkens = Provider.of<AllTokens>(context, listen: false);
         allTokkens.addNewCreatedToken(newToken);
 
+
         setState(() {
           _loading = false;
         });

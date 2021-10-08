@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fook_app/API/services.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/const.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
+import 'package:fook_app/Models/Transaction.dart' as transactionModel;
 import 'package:fook_app/Widgets/HomeScreenWidgets/buyTokenDialogue.dart';
 import 'package:fook_app/Widgets/gradientBorderButton.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import '/Controllers/sellToken.dart';
 import '/Models/tokken_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 class TokenDetailScreen extends StatefulWidget {
   TokenDetailScreen(this.tokenData, this.isUserToken);
   final Datum tokenData;
@@ -47,14 +50,12 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     return double.parse(s) != null;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
     print('print widget Data');
     print(widget.tokenData.collection.id);
-     print(widget.tokenData.id);
+    print(widget.tokenData.id);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -87,99 +88,68 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          Hero(
-            tag: widget.tokenData.file,
-            child: AspectRatio(
-              aspectRatio: 1.7,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: widget.tokenData.file.contains('http')
-                      ? CachedNetworkImage(
-                          imageUrl: widget.tokenData.file,
-                          fit: BoxFit.fill,
-                        )
-                      : Image.file(
-                          File(widget.tokenData.file),
-                          fit: BoxFit.cover,
-                        ),
-                ),
-              ),
-            ),
-          ),
-          if (widget.tokenData.price.value == ' ')
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: Center(
-                child: Text(
-                  'This Token is already Sold',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+        child: Column(
+          children: [
+            Hero(
+              tag: widget.tokenData.file,
+              child: AspectRatio(
+                aspectRatio: 1.7,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: widget.tokenData.file.contains('http')
+                        ? CachedNetworkImage(
+                            imageUrl: widget.tokenData.file,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.file(
+                            File(widget.tokenData.file),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),
             ),
-          if (widget.tokenData.price.value != ' ' ||
-              widget.tokenData.currentUserData.isOwner)
-            !widget.tokenData.currentUserData.isOwner
-                ? Container(
-                    height: 1,
-                    width: 1,
-                  )
-                : Container(
-                    height: 150,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                top: 20,
-                                bottom: 19,
-                                right: 40,
-                              ),
-                              child: Column(children: [
-                                Text(
-                                  'Current price',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline1!
-                                        .color,
-                                    //fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
+            if (widget.tokenData.price.value == ' ')
+              Padding(
+                padding: const EdgeInsets.all(25),
+                child: Center(
+                  child: Text(
+                    'This Token is already Sold',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            if (widget.tokenData.price.value != ' ' ||
+                widget.tokenData.currentUserData.isOwner)
+              !widget.tokenData.currentUserData.isOwner
+                  ? Container(
+                      height: 1,
+                      width: 1,
+                    )
+                  : Container(
+                      height: 150,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 20,
+                                  bottom: 19,
+                                  right: 40,
                                 ),
-                                Text(
-                                  '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline1!
-                                        .color,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                top: 20,
-                                bottom: 19,
-                              ),
-                              child: Column(
-                                children: [
+                                child: Column(children: [
                                   Text(
-                                    'All Time Average Prize',
+                                    'Current price',
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
-                                          .headline2!
+                                          .headline1!
                                           .color,
                                       //fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -190,377 +160,463 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
-                                          .headline2!
+                                          .headline1!
                                           .color,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
                                   ),
-                                ],
+                                ]),
                               ),
-                            ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap: () {
-
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return StatefulBuilder(builder:
-                                      (BuildContext context,
-                                          StateSetter setSheetState) {
-                                    return Container(
-                                      height: 600,
-                                      child: Form(
-                                        key: _formKey,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(25),
-                                              child: Container(
-                                                padding: EdgeInsets.only(
-                                                    left: 22,
-                                                    right: 22,
-                                                    bottom: 16,
-                                                    top: 16),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                child: TextFormField(
-                                                  controller: _priceController,
-                                                  keyboardType: TextInputType
-                                                      .numberWithOptions(
-                                                          decimal: true),
-                                                  textAlign: TextAlign.left,
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some value';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration: InputDecoration(
-                                                    //Icon
-                                                    hintText:
-                                                        'Enter equal or high price',
-                                                    hintStyle: TextStyle(
-                                                      fontSize: 14,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  top: 20,
+                                  bottom: 19,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'All Time Average Prize',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline2!
+                                            .color,
+                                        //fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.tokenData.price.unit} ${widget.tokenData.price.value}',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline2!
+                                            .color,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setSheetState) {
+                                      return Container(
+                                        height: 600,
+                                        child: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.all(25),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 22,
+                                                      right: 22,
+                                                      bottom: 16,
+                                                      top: 16),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  child: TextFormField(
+                                                    controller:
+                                                        _priceController,
+                                                    keyboardType: TextInputType
+                                                        .numberWithOptions(
+                                                            decimal: true),
+                                                    textAlign: TextAlign.left,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'Please enter some value';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      //Icon
+                                                      hintText:
+                                                          'Enter equal or high price',
+                                                      hintStyle: TextStyle(
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            _loading
-                                                ? CircularProgressIndicator()
-                                                : IconButton(
-                                                    onPressed: () async {
-                                                      if (_priceController.text
-                                                              .isNotEmpty &&
-                                                          this.isNumeric(
-                                                              _priceController
-                                                                  .text)) {
-                                                        if (double.parse(
+                                              _loading
+                                                  ? CircularProgressIndicator()
+                                                  : IconButton(
+                                                      onPressed: () async {
+                                                        if (_priceController
+                                                                .text
+                                                                .isNotEmpty &&
+                                                            this.isNumeric(
                                                                 _priceController
-                                                                    .text) >=
-                                                            double.parse(widget
-                                                                .tokenData
-                                                                .price
-                                                                .value)) {
-                                                          setSheetState(() {
-                                                            _loading = true;
-                                                          });
+                                                                    .text)) {
+                                                          if (double.parse(
+                                                                  _priceController
+                                                                      .text) >=
+                                                              double.parse(
+                                                                  widget
+                                                                      .tokenData
+                                                                      .price
+                                                                      .value)) {
+                                                            setSheetState(() {
+                                                              _loading = true;
+                                                            });
 
-                                                          String result =
-                                                              await SellTokenController
-                                                                  .setTokenPriceAndAllow(
-                                                            widget.tokenData.id,
-                                                            widget.tokenData
-                                                                .collection.id
-                                                                .toString(),
-                                                            {
-                                                              "value":
-                                                                  _priceController
-                                                                      .text,
-                                                              "unit": "ether"
-                                                            },
-                                                          );
-                                                          if (result == '200') {
-                                                            setState(() {
+                                                            String result =
+                                                                await SellTokenController
+                                                                    .setTokenPriceAndAllow(
                                                               widget
-                                                                      .tokenData
-                                                                      .price
-                                                                      .unit =
-                                                                  'ether';
-                                                              widget
-                                                                      .tokenData
-                                                                      .price
-                                                                      .value =
-                                                                  _priceController
-                                                                      .text;
-                                                            });
-                                                            Navigator.pop(
-                                                                context);
-                                                            setSheetState(() {
-                                                              _loading = false;
-                                                            });
-                                                            Fluttertoast
-                                                                .showToast(
-                                                              timeInSecForIosWeb: 2,
-                                                              backgroundColor:
-                                                                  Colors.green,
-                                                              msg:
-                                                                  'Price changed successfully',
+                                                                  .tokenData.id,
+                                                              widget.tokenData
+                                                                  .collection.id
+                                                                  .toString(),
+                                                              {
+                                                                "value":
+                                                                    _priceController
+                                                                        .text,
+                                                                "unit": "ether"
+                                                              },
                                                             );
+                                                            if (result ==
+                                                                '200') {
+                                                              setState(() {
+                                                                widget
+                                                                        .tokenData
+                                                                        .price
+                                                                        .unit =
+                                                                    'ether';
+                                                                widget
+                                                                        .tokenData
+                                                                        .price
+                                                                        .value =
+                                                                    _priceController
+                                                                        .text;
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                              setSheetState(() {
+                                                                _loading =
+                                                                    false;
+                                                              });
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                timeInSecForIosWeb:
+                                                                    2,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green,
+                                                                msg:
+                                                                    'Price changed successfully',
+                                                              );
+                                                            } else {
+                                                              setSheetState(() {
+                                                                _loading =
+                                                                    false;
+                                                              });
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                msg: result,
+                                                              );
+                                                            }
                                                           } else {
-                                                            setSheetState(() {
-                                                              _loading = false;
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                                () {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                timeInSecForIosWeb:
+                                                                    2,
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                msg:
+                                                                    'Please add equal or high price',
+                                                              );
                                                             });
-                                                            Fluttertoast
-                                                                .showToast(
-                                                              backgroundColor:
-                                                                  Colors.red,
-                                                              msg: result,
-                                                            );
                                                           }
-                                                        } else {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      500), () {
-                                                            Fluttertoast.showToast(
-                                                              timeInSecForIosWeb: 2,
-                                                              backgroundColor: Colors.red,
-                                                              msg: 'Please add equal or high price',
-                                                            );
-                                                          });
                                                         }
-                                                      }
-                                                    },
-                                                    icon: Icon(Icons.done),
-                                                  ),
-                                          ],
+                                                      },
+                                                      icon: Icon(Icons.done),
+                                                    ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    });
                                   });
-                                });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16, top: 16),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Tap here to set Price',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline1!
-                                        .color,
-                                    fontSize: 20,
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16, top: 16),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Tap here to set Price',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color,
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Icon(
-                                    Icons.change_circle,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Icon(
+                                      Icons.change_circle,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )),
-          Divider(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 107,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Description',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.headline1!.color,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Container(
-                    height: 16,
-                  ),
-                  Expanded(
-                    child: Text(
-                      widget.tokenData.description,
-                      overflow: TextOverflow.ellipsis,
+                        ],
+                      )),
+            Divider(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 107,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Description',
                       style: TextStyle(
                         color: Theme.of(context).textTheme.headline1!.color,
-                        //fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
                     ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Created by ',
+                    Container(
+                      height: 16,
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.tokenData.description,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headline1!.color,
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: 'Created by ',
+                        style: TextStyle(
+                          fontFamily: GoogleFonts.montserrat().fontFamily,
+                          color: Theme.of(context).textTheme.headline1!.color,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${widget.tokenData.collection.name}',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            Container(
+              height: 160,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Properties',
                       style: TextStyle(
-                        fontFamily: GoogleFonts.montserrat().fontFamily,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).textTheme.headline1!.color,
                       ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${widget.tokenData.collection.name}',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 150,
+                            child: GradientButton(
+                              onPressed: () {},
+                              strokeWidth: 1,
+                              radius: 20,
+                              gradient: LinearGradient(
+                                colors: [Color(0xffE02989), Color(0xffF8A620)],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ACCESORIES',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                    ),
+                                  ),
+                                  Text(
+                                    'SUNGLASSES',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                    ),
+                                  ),
+                                  Text(
+                                    '3% have this trait',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 80,
+                            width: 150,
+                            child: GradientButton(
+                              onPressed: () {},
+                              strokeWidth: 1,
+                              radius: 20,
+                              gradient: LinearGradient(
+                                colors: [Color(0xffE02989), Color(0xffF8A620)],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ACCESORIES',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                    ),
+                                  ),
+                                  Text(
+                                    'SUNGLASSES',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color,
+                                    ),
+                                  ),
+                                  Text(
+                                    '3% have this trait',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline2!
+                                          .color,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Divider(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          Container(
-            height: 160,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Properties',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.headline1!.color,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          height: 80,
-                          width: 150,
-                          child: GradientButton(
-                            onPressed: () {},
-                            strokeWidth: 1,
-                            radius: 20,
-                            gradient: LinearGradient(
-                              colors: [Color(0xffE02989), Color(0xffF8A620)],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ACCESORIES',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline2!
-                                        .color,
-                                  ),
-                                ),
-                                Text(
-                                  'SUNGLASSES',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                ),
-                                Text(
-                                  '3% have this trait',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline2!
-                                        .color,
-                                  ),
-                                ),
-                              ],
+            Container(
+              height: MediaQuery.of(context).size.height,
+              child: FutureBuilder<transactionModel.Transaction>(
+                future: BackendServices.getTokenTransaction(widget.tokenData.id,
+                    widget.tokenData.collection.id.toString()),
+                builder: (BuildContext context,
+                    AsyncSnapshot<transactionModel.Transaction> snapshot) {
+                  if (snapshot.hasData) {
+                    print(snapshot.data!.data.length);
+                    return ListView.builder(
+                      primary: false,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.data.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 4,
+                            width: MediaQuery.of(context).size.width,
+                            child: GradientButton(
+                              strokeWidth: 1,
+                              radius: 24,
+                              gradient: LinearGradient(
+                                colors: [Color(0xffE02989), Color(0xffF8A620)],
+                              ),
+                              onPressed: () {},
+                              child: Text( snapshot.data!.data[index].transactionType),
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 80,
-                          width: 150,
-                          child: GradientButton(
-                            onPressed: () {},
-                            strokeWidth: 1,
-                            radius: 20,
-                            gradient: LinearGradient(
-                              colors: [Color(0xffE02989), Color(0xffF8A620)],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ACCESORIES',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline2!
-                                        .color,
-                                  ),
-                                ),
-                                Text(
-                                  'SUNGLASSES',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                ),
-                                Text(
-                                  '3% have this trait',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline2!
-                                        .color,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                        );
+                      },
+                    );
+                  }
+                  return Container();
+                },
               ),
             ),
-          )
-        ]),
+          ],
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(18),
