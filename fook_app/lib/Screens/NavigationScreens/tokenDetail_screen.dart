@@ -177,7 +177,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'All Time Average Prize',
+                                      'All Time Average Price',
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
@@ -579,7 +579,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height,
               child: FutureBuilder<transactionModel.Transaction>(
                 future: BackendServices.getTokenTransaction(widget.tokenData.id,
                     widget.tokenData.collection.id.toString()),
@@ -588,14 +587,14 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   if (snapshot.hasData) {
                     print(snapshot.data!.data.length);
                     return ListView.builder(
+                      shrinkWrap: true,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.data.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 4,
+                          child: Container(
                             width: MediaQuery.of(context).size.width,
                             child: GradientButton(
                               strokeWidth: 1,
@@ -604,7 +603,32 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 colors: [Color(0xffE02989), Color(0xffF8A620)],
                               ),
                               onPressed: () {},
-                              child: Text( snapshot.data!.data[index].transactionType),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:[
+                                      Row(children: [
+                                        Text( 'Transaction Type'),
+                                        SizedBox(width: 12,),
+                                        Text( snapshot.data!.data[index].transactionType)
+                                      ],
+                                      ),
+                                      SizedBox(height: 8,),
+                                      Row(children: [
+                                        Text( 'Username'),
+                                        SizedBox(width: 12,),
+                                        Text( snapshot.data!.data[index].fromUser.username != '' ? snapshot.data!.data[index].fromUser.username : snapshot.data!.data[index].toUser.username )
+                                      ],
+                                      ),
+                                      SizedBox(height: 8,),
+                                      Row(children: [
+                                        Text( snapshot.data!.data[index].fromWallet != '' ? snapshot.data!.data[index].fromWallet : snapshot.data!.data[index].fromWallet )
+                                      ],
+                                      ),
+                                    ]
+                                ),
+                              ),
                             ),
                           ),
                         );

@@ -49,17 +49,17 @@ class Datum {
   Price price;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        transactionHash: json["transactionHash"],
-        transactionType: json["transactionType"],
-        tokenId: json["tokenId"],
-        contract: json["contract"],
-        fromWallet: json["fromWallet"],
-        toWallet: json["toWallet"],
-        token: Token.fromJson(json["token"]),
-        collection: Collection.fromJson(json["collection"]),
-        fromUser: User.fromJson(json["fromUser"]),
-        toUser: User.fromJson(json["toUser"]),
-        price: Price.fromJson(json["price"]),
+        transactionHash: json["transactionHash"] ?? '',
+        transactionType: json["transactionType"] ?? '',
+        tokenId: json["tokenId"] ?? '',
+        contract: json["contract"] ?? '',
+        fromWallet: json["fromWallet"] ?? '',
+        toWallet: json["toWallet"] ?? '',
+        token: Token.fromJson(json["token"] ?? Map<String, dynamic>()),
+        collection: Collection.fromJson(json["collection"] ?? Map<String, dynamic>()),
+        fromUser: User.fromJson(json["fromUser"] ?? Map<String, dynamic>()),
+        toUser: User.fromJson(json["toUser"] ?? Map<String, dynamic>()),
+        price: Price.fromJson(json["price"] ?? Map<String, dynamic>()),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,11 +93,11 @@ class Collection {
   String contract;
 
   factory Collection.fromJson(Map<String, dynamic> json) => Collection(
-        id: json["id"],
-        name: json["name"],
-        symbol: json["symbol"],
-        image: json["image"] ,
-        contract: json["contract"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
+        symbol: json["symbol"] ?? '',
+        image: json["image"] ?? '' ,
+        contract: json["contract"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,8 +121,8 @@ class User {
   //String image;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        username: json["username"],
+        id: json["id"] ?? 0,
+        username: json["username"] ?? '',
         //image: json["image"] == null ? 'lib/Assets/grid/image (6).png' : json["image"],
       );
 
@@ -143,8 +143,8 @@ class Price {
   String unit;
 
   factory Price.fromJson(Map<String, dynamic> json) => Price(
-        value: json["value"],
-        unit: json["unit"],
+        value: json["value"] ?? '',
+        unit: json["unit"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -175,14 +175,14 @@ class Token {
   CurrentUserData currentUserData;
 
   factory Token.fromJson(Map<String, dynamic> json) => Token(
-        id: json["id"],
-        file: json["file"],
-        name: json["name"],
-        thumbnail: json["thumbnail"],
-        description: json["description"],
-        price: Price.fromJson(json["price"]),
-        collection: Collection.fromJson(json["collection"]),
-        currentUserData: CurrentUserData.fromJson(json["currentUserData"]),
+        id: json["id"] ?? 0,
+        file: json["file"] ?? 0,
+        name: json["name"] ?? 0,
+        thumbnail: json["thumbnail"] ?? 0,
+        description: json["description"] ?? 0,
+        price: Price.fromJson(json["price"] ?? Map<String, dynamic>()),
+        collection: Collection.fromJson(json["collection"] ?? Map<String, dynamic>()),
+        currentUserData: CurrentUserData.fromJson(json["currentUserData"] ?? Map<String, dynamic>()),
       );
 
   Map<String, dynamic> toJson() => {
@@ -208,8 +208,8 @@ class CurrentUserData {
 
   factory CurrentUserData.fromJson(Map<String, dynamic> json) =>
       CurrentUserData(
-        isLiked: json["isLiked"],
-        isOwner: json["isOwner"],
+        isLiked: json["isLiked"] ?? false,
+        isOwner: json["isOwner"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {

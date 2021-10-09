@@ -111,7 +111,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           _loading = false;
         });
         Fluttertoast.showToast(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             msg:
                 'Token Created Successfully.Your transaction processing will take some time.');
         await Future.delayed(const Duration(milliseconds: 3500))

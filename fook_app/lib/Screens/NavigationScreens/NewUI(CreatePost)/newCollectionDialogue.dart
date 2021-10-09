@@ -157,6 +157,7 @@ class _NewCollectionDialogueState extends State<NewCollectionDialogue> {
                                     Navigator.of(context)
                                         .popUntil((route) => route.isFirst);
                                     Fluttertoast.showToast(
+                                       backgroundColor: Colors.green,
                                         msg:
                                             'Collection Created Successfully.Your transaction processing will take some time.');
                                     await Future.delayed(
