@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
@@ -103,14 +105,24 @@ class _SearchListState extends State<SearchList> {
                         child: Container(
                           height: 128,
                           width: 128,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                widget.tokkenList.data[index].file,
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          child: widget.tokkenList.data[index].file
+                                  .contains('http')
+                              ? CachedNetworkImage(
+                                  imageUrl: widget.tokkenList.data[index].file,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  File(widget.tokkenList.data[index].file),
+                                  fit: BoxFit.cover,
+                                ),
+                          // decoration: BoxDecoration(
+                          //   image: DecorationImage(
+                          //     image: CachedNetworkImageProvider(
+                          //       widget.tokkenList.data[index].file,
+                          //     ),
+                          //     fit: BoxFit.cover,
+                          //   ),
+                          // ),
                         ),
                       ),
                     ),

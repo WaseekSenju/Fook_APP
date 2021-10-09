@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fook_app/API/services.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
+import 'package:fook_app/Controllers/Providers/tokkensInCollection.dart';
 import 'package:fook_app/Controllers/newTokkenController.dart';
 import 'package:fook_app/Models/collections.dart';
 import 'package:fook_app/Screens/NavigationScreens/NewUI(CreatePost)/newCollectionDialogue.dart';
@@ -65,17 +66,20 @@ class _NewPostScreenState extends State<NewPostScreen> {
       setState(() {
         _loading = true;
       });
-      String result = await NewTokenAndCollection.newTokken(
-          XFile(_image.path),
-          _nameController.text,
-          _descriptionController.text,
-          _priceController.text,
-          snapshot.data!.data
-              .firstWhere(
-                (element) => element.name == dropDown,
-              )
-              .id
-              .toString());
+      String result = '201';
+
+      // await NewTokenAndCollection.newTokken(
+      //   XFile(_image.path),
+      //   _nameController.text,
+      //   _descriptionController.text,
+      //   _priceController.text,
+      //   snapshot.data!.data
+      //       .firstWhere(
+      //         (element) => element.name == dropDown,
+      //       )
+      //       .id
+      //       .toString(),
+      // );
 
       if (result == '201') {
         var selectedCollection = snapshot.data!.data.firstWhere(
@@ -106,6 +110,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
         final allTokkens = Provider.of<AllTokens>(context, listen: false);
         allTokkens.addNewCreatedToken(newToken);
 
+        final searchScreen =
+            Provider.of<UserTokensController>(context, listen: false);
+        searchScreen.addNewTokentoCollection(newToken);
 
         setState(() {
           _loading = false;

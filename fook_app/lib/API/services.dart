@@ -234,7 +234,6 @@ class BackendServices {
           'Authorization': 'Bearer $tokken',
         },
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         var jsonString = response.body;
         _tokenTransaction = transactionFromJson(jsonString);
@@ -244,7 +243,7 @@ class BackendServices {
       }
     } catch (exception) {
       print(exception);
-      print('getCurrentUserCollectionserror');
+      print('Exception in Transaction');
       return _tokenTransaction;
     }
   }

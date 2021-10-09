@@ -35,12 +35,12 @@ class _SearchState extends State<Search> {
     });
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    refreshSearch(context);
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   refreshSearch(context);
+  // }
 
 
 
@@ -48,7 +48,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     var userTokens = Provider.of<UserTokensController>(context);
     final darkTheme = Provider.of<DarkThemeProvider>(context);
-    userTokens.loading = !latestFetched;
+    //userTokens.loading = !latestFetched;
     return RefreshIndicator(
       onRefresh: () => refreshSearch(context),
       child: userTokens.loading

@@ -438,7 +438,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                           TextSpan(
                             text: ' ${widget.tokenData.collection.name}',
                             style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color:
+                                  Theme.of(context).textTheme.headline1!.color,
                             ),
                           ),
                         ],
@@ -578,16 +579,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 ),
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: FutureBuilder<transactionModel.Transaction>(
-                future: BackendServices.getTokenTransaction(widget.tokenData.id,
-                    widget.tokenData.collection.id.toString()),
-                builder: (BuildContext context,
-                    AsyncSnapshot<transactionModel.Transaction> snapshot) {
-                  if (snapshot.hasData) {
-                    print(snapshot.data!.data.length);
-                    return ListView.builder(
+            FutureBuilder<transactionModel.Transaction>(
+              future: BackendServices.getTokenTransaction(widget.tokenData.id,
+                  widget.tokenData.collection.id.toString()),
+              builder: (BuildContext context,
+                  AsyncSnapshot<transactionModel.Transaction> snapshot) {
+                if (snapshot.hasData) {
+                  var transaction = snapshot.data!.data;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.data.length,
@@ -604,16 +606,87 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 colors: [Color(0xffE02989), Color(0xffF8A620)],
                               ),
                               onPressed: () {},
-                              child: Text( snapshot.data!.data[index].transactionType),
+                              child: Row(
+                                //crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 6,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(Icons.shopping_cart),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Event'),
+                                                Text(
+                                                  transaction[index]
+                                                      .transactionType,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text("From"),
+                                            Text(
+                                              transaction[index]
+                                                  .fromUser
+                                                  .username,
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 6,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Price'),
+                                        Text(transaction[index].price.value),
+                                        Text('To'),
+                                        Text(
+                                            transaction[index].toUser.username),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
                       },
-                    );
-                  }
-                  return Container();
-                },
-              ),
+                    ),
+                  );
+                }
+                return SizedBox(
+                    width: 50, height: 50, child: CircularProgressIndicator());
+              },
             ),
           ],
         ),
