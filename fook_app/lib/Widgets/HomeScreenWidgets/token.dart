@@ -368,7 +368,7 @@ class _TokenWidgetState extends State<TokenWidget> {
                                 ),
                               )
                             : Text(
-                                'Fook it',
+                                'Get it',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context)

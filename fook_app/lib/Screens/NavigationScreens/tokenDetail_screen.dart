@@ -778,7 +778,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                     ),
                                   )
                                 : Text(
-                                    'Fook it',
+                                    'Get it',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context)

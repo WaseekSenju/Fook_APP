@@ -37,7 +37,7 @@ class _InterestsPageState extends State<InterestsPage> {
                   ),
                 ),
                 Text(
-                  'Select some topics you\'re interested in to \n help personalize your Fook experience',
+                  'Select some topics you\'re interested in to \n help personalize your Get it experience',
                   style: TextStyle(
                     color: Theme.of(context).textTheme.headline1!.color,
                     fontSize: 16,

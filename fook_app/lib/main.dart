@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
         builder: (BuildContext context, value, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Fook App',
+            title: 'Get It',
             theme: Styles.themeData(value.darkTheme, context),
             routes: {
               '/': (builder) => SignInPage(),
