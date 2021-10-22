@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/API/services.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 
@@ -47,6 +48,8 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -91,6 +94,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                   child: TextField(
                     _nameController,
                     'Enter the name of the NFT',
+                    false,
                   ),
                 ),
                 Padding(
@@ -98,6 +102,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                   child: TextField(
                     _descriptionController,
                     'Enter the description of the NFT',
+                    false,
                   ),
                 ),
                 Padding(
@@ -105,6 +110,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                   child: TextField(
                     _priceController,
                     'Enter the price of the NFT',
+                    true,
                   ),
                 ),
                 FutureBuilder<Collections>(
@@ -178,10 +184,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                                           ? 'Please Select a Collection'
                                           : 'Create Token',
                                       style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .color),
+                                          color: themeChange.darkTheme ? Colors.white : Colors.black),
                                     ),
                                     onPressed: dropDown == ' '
                                         ? null
@@ -311,54 +314,7 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
                     }
                   },
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 20, bottom: 20),
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          width: 32,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                      Text(
-                        'OR',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 14),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Container(
-                          height: 1.0,
-                          width: 32,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => NewCollection(
-                          tokenImage: File(widget.image.path),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Add a new Collection',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2!.color),
-                  ),
-                )
+
               ],
             ),
           ),
@@ -373,14 +329,17 @@ class TextField extends StatelessWidget {
   TextField(
     this.controller,
     this.hintText,
+      this.allowDecimal,
   );
 
   final TextEditingController controller;
   final String hintText;
+  final bool allowDecimal;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: allowDecimal ? TextInputType.numberWithOptions(decimal: true) : TextInputType.text,
       textAlign: TextAlign.left,
       validator: (value) {
         if (value == null || value.isEmpty) {

@@ -142,6 +142,7 @@ class _NewCollectionDialogueState extends State<NewCollectionDialogue> {
                         onPressed: _imageTaken
                             ? () async {
                                 if (_formKey.currentState!.validate()) {
+                                  FocusScope.of(context).unfocus();
                                   setState(() {
                                     _loading = true;
                                   });
@@ -185,12 +186,17 @@ class _NewCollectionDialogueState extends State<NewCollectionDialogue> {
                                     setState(() {
                                       _loading = false;
                                     });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(result),
-                                        duration: Duration(milliseconds: 1000),
-                                      ),
-                                    );
+                                    Fluttertoast.showToast(
+                                      timeInSecForIosWeb: 2,
+                                        backgroundColor: Colors.red,
+                                        msg:
+                                        result);
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   SnackBar(
+                                    //     content: Text(result),
+                                    //     duration: Duration(milliseconds: 2000),
+                                    //   ),
+                                    // );
                                   }
                                 }
                               }

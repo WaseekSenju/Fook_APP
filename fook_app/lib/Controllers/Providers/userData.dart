@@ -44,7 +44,7 @@ class UserData with ChangeNotifier {
           await BackendServices.getUserWalletAddress().whenComplete(() {});
       loading = false;
     } catch (exception) {
-      address = 'error';
+      address = '';
       print('User Wallet Address Exception');
       print(exception);
     }

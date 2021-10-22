@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fook_app/API/services.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
+import 'package:fook_app/Controllers/Providers/tokkensInCollection.dart';
 import 'package:fook_app/Controllers/newTokkenController.dart';
 import 'package:fook_app/Models/collections.dart';
 import 'package:fook_app/Screens/NavigationScreens/NewUI(CreatePost)/newCollectionDialogue.dart';
@@ -106,6 +108,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
         final allTokkens = Provider.of<AllTokens>(context, listen: false);
         allTokkens.addNewCreatedToken(newToken);
 
+        final searchScreen =
+        Provider.of<UserTokensController>(context, listen: false);
+        searchScreen.addNewTokentoCollection(newToken);
 
         setState(() {
           _loading = false;
@@ -122,18 +127,19 @@ class _NewPostScreenState extends State<NewPostScreen> {
         setState(() {
           _loading = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result),
-            duration: Duration(milliseconds: 1000),
-          ),
-        );
+
+        Fluttertoast.showToast(
+            backgroundColor: Colors.red,
+            msg:
+            result);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 62,
@@ -297,7 +303,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
                   _descriptionController,
-                  'Ente the description of the NFT',
+                  'Enter the description of the NFT',
                   TextInputType.multiline,
                   Theme.of(context).cardColor,
                   linesOfField: 5,
@@ -313,8 +319,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
                   _priceController,
-                  'Ente the price of the NFT',
-                  TextInputType.number,
+                  'Enter the price of the NFT',
+                  TextInputType.numberWithOptions(decimal: true),
                   Theme.of(context).cardColor,
                 ),
               ),
@@ -376,6 +382,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   underline: Container(
                                     height: 2,
                                   ),
+                                  onTap:(){
+                                    FocusScope.of(context).unfocus();
+                                  },
                                   onChanged: (value) {
                                     setState(() {
                                       dropDown = value;
@@ -392,49 +401,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   }).toList(),
                                 ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                              top: 16,
-                            ),
-                            child: SizedBox(
-                              height: 46,
-                              width: MediaQuery.of(context).size.width,
-                              child: GradientButton(
-                                  strokeWidth: 1,
-                                  radius: 25,
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xffE02989),
-                                      Color(0xffF8A620)
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Create Collection',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .color,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) =>
-                                    showModalBottomSheet(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext bc) =>
-                                          NewCollectionDialogue(),
-                                    );
-                                  }),
                             ),
                           ),
                           Padding(
@@ -548,6 +514,48 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     );
                   }
                 },
+
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 16,
+                  bottom: 24
+                ),
+                child: SizedBox(
+                  height: 46,
+                  width: MediaQuery.of(context).size.width,
+                  child: GradientButton(
+                      strokeWidth: 1,
+                      radius: 25,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xffE02989),
+                          Color(0xffF8A620)
+                        ],
+                      ),
+                      child: Text(
+                        'Create Collection',
+                        style: TextStyle(
+                          color: themeChange.darkTheme ? Colors.white : Colors.black
+                        ),
+                      ),
+                      onPressed: () {
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (BuildContext context) =>
+                        showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (BuildContext bc) =>
+                              NewCollectionDialogue(),
+                        );
+                      }),
+                ),
               ),
               SizedBox(
                 height: 16,

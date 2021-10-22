@@ -58,4 +58,14 @@ class UserTokensController extends ChangeNotifier {
     // loading = false;
     // notifyListeners();
   }
+  void addNewTokentoCollection(Datum newToken) {
+    for (int i = 0; i < tokkensList.length; i++) {
+      if (tokkensList[i].keys.first == newToken.collection.name) {
+        tokkensList[i].values.first.data.add(newToken);
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
 }

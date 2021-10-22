@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/buyTokken.dart';
 import 'package:fook_app/Controllers/const.dart';
@@ -18,8 +19,10 @@ class BuyTokenDialogue extends StatefulWidget {
 }
 
 class _BuyTokenDialogueState extends State<BuyTokenDialogue> {
+
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     var allTokens = Provider.of<AllTokens>(context);
     return AlertDialog(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -145,6 +148,7 @@ class _BuyTokenDialogueState extends State<BuyTokenDialogue> {
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
+                          backgroundColor: Colors.orange,
                           content: Text('Token Bought Successfully'),
                           duration: Duration(milliseconds: 1000),
                         ),
