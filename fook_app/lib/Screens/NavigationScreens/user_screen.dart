@@ -119,38 +119,13 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '436',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline1!
-                                        .color),
-                              ),
-                              Text(
-                                'NFTs',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         Column(
-                          //mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               height: 100,
@@ -178,43 +153,83 @@ class _UserScreenState extends State<UserScreen> {
                                 ),
                               ),
                             ),
-                            Text(
-                              '123',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .color,
-                              ),
-                            ),
-                            Text('Followers',
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary)),
+
+
                           ],
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '0',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline1!
-                                      .color),
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '436',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color),
+                                ),
+                                Text(
+                                  'NFTs',
+                                  style: TextStyle(
+                                    color:
+                                    Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Following',
-                              style: TextStyle(
-                                  color:
+                          ),
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '123',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
+                                  ),
+                                ),
+                                Text('Followers',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '0',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color),
+                                ),
+                                Text(
+                                  'Following',
+                                  style: TextStyle(
+                                      color:
                                       Theme.of(context).colorScheme.secondary),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+
+                        ],),
+
                       ],
                     ),
                   ),

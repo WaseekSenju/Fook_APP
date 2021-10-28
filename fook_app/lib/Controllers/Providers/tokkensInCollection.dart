@@ -58,7 +58,10 @@ class UserTokensController extends ChangeNotifier {
     // loading = false;
     // notifyListeners();
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b21721468fc60e641902f6a31274919b29301d87
   void addNewTokentoCollection(Datum newToken) {
     for (int i = 0; i < tokkensList.length; i++) {
       if (tokkensList[i].keys.first == newToken.collection.name) {
@@ -68,4 +71,8 @@ class UserTokensController extends ChangeNotifier {
       }
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b21721468fc60e641902f6a31274919b29301d87
 }

@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fook_app/API/services.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 
@@ -47,6 +48,8 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -56,309 +59,266 @@ class _TokkenPreviewScreenState extends State<TokkenPreviewScreen> {
         ),
       )),
       body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Image Preview',
-                  style: TextStyle(fontSize: 20),
+        child: Column(
+          children:[
+            Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 5,
                 ),
-              ),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                  height: 150,
-                  width: 150,
-                  child: ClipOval(
-                    child: Image.file(
-                      File(widget.image.path),
-                      fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Image Preview',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    height: 150,
+                    width: 150,
+                    child: ClipOval(
+                      child: Image.file(
+                        File(widget.image.path),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  _nameController,
-                  'Enter the name of the NFT',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    _nameController,
+                    'Enter the name of the NFT',
+                    false,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  _descriptionController,
-                  'Ente the description of the NFT',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    _descriptionController,
+                    'Enter the description of the NFT',
+                    false,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  _priceController,
-                  'Ente the price of the NFT',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    _priceController,
+                    'Enter the price of the NFT',
+                    true,
+                  ),
                 ),
-              ),
-              FutureBuilder<Collections>(
-                future: BackendServices.getCurrentUserCollections(),
-                builder: (ctx, AsyncSnapshot<Collections> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.data!.data.isNotEmpty) {
-                      _collectionNames = [];
-                      snapshot.data!.data.forEach((element) {
-                        _collectionNames.add(element.name);
-                      });
+                FutureBuilder<Collections>(
+                  future: BackendServices.getCurrentUserCollections(),
+                  builder: (ctx, AsyncSnapshot<Collections> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.data!.data.isNotEmpty) {
+                        _collectionNames = [];
+                        snapshot.data!.data.forEach((element) {
+                          _collectionNames.add(element.name);
+                        });
 
-                      return Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: DropdownButton<String>(
-                              borderRadius: BorderRadius.circular(25),
-                              value: dropDown == ' '
-                                  ? _collectionNames.first
-                                  : dropDown,
-                              iconSize: 24,
-                              elevation: 16,
-                              underline: Container(
-                                height: 2,
+                        return Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: DropdownButton<String>(
+                                borderRadius: BorderRadius.circular(25),
+                                value: dropDown == ' '
+                                    ? _collectionNames.first
+                                    : dropDown,
+                                iconSize: 24,
+                                elevation: 16,
+                                underline: Container(
+                                  height: 2,
+                                ),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    dropDown = newValue!;
+                                  });
+                                },
+                                items: _collectionNames
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
                               ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropDown = newValue!;
-                                });
-                              },
-                              items: _collectionNames
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                            ),
+                            _loading
+                                ? Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          child: CircularProgressIndicator(),
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Uploading Token',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : ElevatedButton(
+                                    child: Text(
+                                      dropDown == ' '
+                                          ? 'Please Select a Collection'
+                                          : 'Create Token',
+                                      style: TextStyle(
+                                          color: themeChange.darkTheme ? Colors.white : Colors.black),
+                                    ),
+                                    onPressed: dropDown == ' '
+                                        ? null
+                                        : () async {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              setState(() {
+                                                _loading = true;
+                                              });
+                                              String result =
+                                                  await NewTokenAndCollection
+                                                      .newTokken(
+                                                          widget.image,
+                                                          _nameController.text,
+                                                          _descriptionController
+                                                              .text,
+                                                          _priceController.text,
+                                                          snapshot.data!.data
+                                                              .firstWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .name ==
+                                                                    dropDown,
+                                                              )
+                                                              .id
+                                                              .toString());
+
+                                              if (result == '201') {
+                                                var selectedCollection = snapshot
+                                                    .data!.data
+                                                    .firstWhere(
+                                                  (element) =>
+                                                      element.name == dropDown,
+                                                );
+                                                var newToken = token.Datum(
+                                                  id: snapshot.data!.data
+                                                      .firstWhere(
+                                                        (element) =>
+                                                            element.name ==
+                                                            dropDown,
+                                                      )
+                                                      .id
+                                                      .toString(),
+                                                  file: widget.image.path,
+                                                  name: _nameController.text,
+                                                  thumbnail: ' ',
+                                                  description:
+                                                      _descriptionController.text,
+                                                  collection: token.Collection(
+                                                    id: selectedCollection.id,
+                                                    name: selectedCollection.name,
+                                                    symbol:
+                                                        selectedCollection.symbol,
+                                                    image:
+                                                        selectedCollection.image,
+                                                    contract: selectedCollection
+                                                        .contract,
+                                                  ),
+                                                  currentUserData:
+                                                      token.CurrentUserData(
+                                                          isLiked: false,
+                                                          isOwner: true),
+                                                  price: token.Price(
+                                                      value:
+                                                          _priceController.text,
+                                                      unit: 'ether'),
+                                                );
+
+                                                final allTokkens =
+                                                    Provider.of<AllTokens>(
+                                                        context,
+                                                        listen: false);
+                                                allTokkens
+                                                    .addNewCreatedToken(newToken);
+
+                                                setState(() {
+                                                  _loading = false;
+                                                });
+                                                Fluttertoast.showToast(
+                                                  timeInSecForIosWeb: 2,
+                                                    backgroundColor: Colors.green,
+                                                    msg:
+                                                        'Token Created Successfully.Your transaction processing will take some time.');
+                                                await Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 3500))
+                                                    .whenComplete(() {
+                                                  Navigator.of(context).pop();
+                                                  //  Navigator.of(context)
+                                                  //      .pushNamed(TabsScreen.routeName);
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _loading = false;
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(result),
+                                                    duration: Duration(
+                                                        milliseconds: 1000),
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          },
+                                  ),
+                          ],
+                        );
+                      } else {
+                        return Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'User collection not found Please add collection first',
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
                             ),
                           ),
-                          _loading
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        child: CircularProgressIndicator(),
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Uploading Token',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : ElevatedButton(
-                                  child: Text(
-                                    dropDown == ' '
-                                        ? 'Please Select a Collection'
-                                        : 'Create Token',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color),
-                                  ),
-                                  onPressed: dropDown == ' '
-                                      ? null
-                                      : () async {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            setState(() {
-                                              _loading = true;
-                                            });
-                                            String result =
-                                                await NewTokenAndCollection
-                                                    .newTokken(
-                                                        widget.image,
-                                                        _nameController.text,
-                                                        _descriptionController
-                                                            .text,
-                                                        _priceController.text,
-                                                        snapshot.data!.data
-                                                            .firstWhere(
-                                                              (element) =>
-                                                                  element
-                                                                      .name ==
-                                                                  dropDown,
-                                                            )
-                                                            .id
-                                                            .toString());
-
-                                            if (result == '201') {
-                                              var selectedCollection = snapshot
-                                                  .data!.data
-                                                  .firstWhere(
-                                                (element) =>
-                                                    element.name == dropDown,
-                                              );
-                                              var newToken = token.Datum(
-                                                id: snapshot.data!.data
-                                                    .firstWhere(
-                                                      (element) =>
-                                                          element.name ==
-                                                          dropDown,
-                                                    )
-                                                    .id
-                                                    .toString(),
-                                                file: widget.image.path,
-                                                name: _nameController.text,
-                                                thumbnail: ' ',
-                                                description:
-                                                    _descriptionController.text,
-                                                collection: token.Collection(
-                                                  id: selectedCollection.id,
-                                                  name: selectedCollection.name,
-                                                  symbol:
-                                                      selectedCollection.symbol,
-                                                  image:
-                                                      selectedCollection.image,
-                                                  contract: selectedCollection
-                                                      .contract,
-                                                ),
-                                                currentUserData:
-                                                    token.CurrentUserData(
-                                                        isLiked: false,
-                                                        isOwner: true),
-                                                price: token.Price(
-                                                    value:
-                                                        _priceController.text,
-                                                    unit: 'ether'),
-                                              );
-
-                                              final allTokkens =
-                                                  Provider.of<AllTokens>(
-                                                      context,
-                                                      listen: false);
-                                              allTokkens
-                                                  .addNewCreatedToken(newToken);
-
-                                              setState(() {
-                                                _loading = false;
-                                              });
-                                              Fluttertoast.showToast(
-                                                timeInSecForIosWeb: 2,
-                                                  backgroundColor: Colors.green,
-                                                  msg:
-                                                      'Token Created Successfully.Your transaction processing will take some time.');
-                                              await Future.delayed(
-                                                      const Duration(
-                                                          milliseconds: 3500))
-                                                  .whenComplete(() {
-                                                Navigator.of(context).pop();
-                                                //  Navigator.of(context)
-                                                //      .pushNamed(TabsScreen.routeName);
-                                              });
-                                            } else {
-                                              setState(() {
-                                                _loading = false;
-                                              });
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(result),
-                                                  duration: Duration(
-                                                      milliseconds: 1000),
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        },
-                                ),
-                        ],
-                      );
+                        );
+                      }
                     } else {
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'User collection not found Please add collection first',
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                          ),
-                        ),
+                      return SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 25,
+                        height: 25,
                       );
                     }
-                  } else {
-                    return SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 25,
-                      height: 25,
-                    );
-                  }
-                },
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        height: 1.0,
-                        width: 32,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    Text(
-                      'OR',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 14),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        height: 1.0,
-                        width: 32,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                  ],
+                  },
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => NewCollection(
-                        tokenImage: File(widget.image.path),
-                      ),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Add a new Collection',
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2!.color),
-                ),
-              )
-            ],
+
+              ],
+            ),
           ),
+          ]
         ),
       ),
     );
@@ -369,14 +329,17 @@ class TextField extends StatelessWidget {
   TextField(
     this.controller,
     this.hintText,
+      this.allowDecimal,
   );
 
   final TextEditingController controller;
   final String hintText;
+  final bool allowDecimal;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: allowDecimal ? TextInputType.numberWithOptions(decimal: true) : TextInputType.text,
       textAlign: TextAlign.left,
       validator: (value) {
         if (value == null || value.isEmpty) {

@@ -127,7 +127,7 @@ class _SignInPageState extends State<SignInPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
-          content: Text('Loging In Failed'),
+          content: Text('An error occurred while sign in'),
           duration: Duration(milliseconds: 1000),
         ),
       );

@@ -31,8 +31,9 @@ class SellTokenController {
       } else {
         return response.data['message'];
       }
-    } catch (e) {
-      return e.toString();
-    }
+    }on DioError catch (e) {
+      var res = e.response as dynamic;
+      var data = res.data as dynamic;
+      return data["message"] ?? 'An error has occurred. Please try again and verify the entered amount is higher than the previous amount.';    }
   }
 }

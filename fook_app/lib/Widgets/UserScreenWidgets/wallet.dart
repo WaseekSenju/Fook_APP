@@ -74,7 +74,7 @@ class Wallet extends StatelessWidget {
                     onPressed: () async{
                       await FlutterClipboard.copy(data.address);
                       Fluttertoast.showToast(
-                         backgroundColor: Colors.red,
+                         backgroundColor: Colors.green,
                         //webBgColor: Colors.green,
                         //backgroundColor: Colors.green,
                         msg: 'Address Copied Successfully',

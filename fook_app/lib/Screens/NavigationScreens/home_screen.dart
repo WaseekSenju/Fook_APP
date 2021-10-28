@@ -20,6 +20,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.refreshHome(context);
+    setState(() {
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     var allTokens = Provider.of<AllTokens>(context);
     final darkTheme = Provider.of<DarkThemeProvider>(context);

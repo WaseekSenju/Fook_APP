@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fook_app/API/services.dart';
+import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/const.dart';
 import 'package:fook_app/Controllers/likeToken.dart';
@@ -27,6 +28,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   final _priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
+
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   void setPrice(Datum tokenData, String price) async {
     setState(() {
@@ -52,6 +54,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     var allTokens = Provider.of<AllTokens>(context);
     print('print widget Data');
     print(widget.tokenData.collection.id);
@@ -101,7 +105,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                     child: widget.tokenData.file.contains('http')
                         ? CachedNetworkImage(
                             imageUrl: widget.tokenData.file,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.fitWidth,
                           )
                         : Image.file(
                             File(widget.tokenData.file),
@@ -177,7 +181,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'All Time Average Prize',
+                                      'All Time Average Price',
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
@@ -211,155 +215,160 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                     return StatefulBuilder(builder:
                                         (BuildContext context,
                                             StateSetter setSheetState) {
-                                      return Container(
-                                        height: 600,
-                                        child: Form(
-                                          key: _formKey,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.all(25),
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      left: 22,
-                                                      right: 22,
-                                                      bottom: 16,
-                                                      top: 16),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.8,
-                                                  child: TextFormField(
-                                                    controller:
-                                                        _priceController,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    textAlign: TextAlign.left,
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'Please enter some value';
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      //Icon
-                                                      hintText:
-                                                          'Enter equal or high price',
-                                                      hintStyle: TextStyle(
-                                                        fontSize: 14,
+                                      return InkWell(
+                                        onTap: (){
+                                          FocusScope.of(context).unfocus();
+                                        },
+                                        child: Container(
+                                          height: 600,
+                                          child: Form(
+                                            key: _formKey,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: EdgeInsets.all(25),
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 22,
+                                                        right: 22,
+                                                        bottom: 16,
+                                                        top: 16),
+                                                    width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.8,
+                                                    child: TextFormField(
+                                                      controller:
+                                                          _priceController,
+                                                      keyboardType: TextInputType
+                                                          .numberWithOptions(
+                                                              decimal: true),
+                                                      textAlign: TextAlign.left,
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'Please enter some value';
+                                                        }
+                                                        return null;
+                                                      },
+                                                      decoration: InputDecoration(
+                                                        //Icon
+                                                        hintText:
+                                                            'Enter equal or high price',
+                                                        hintStyle: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              _loading
-                                                  ? CircularProgressIndicator()
-                                                  : IconButton(
-                                                      onPressed: () async {
-                                                        if (_priceController
-                                                                .text
-                                                                .isNotEmpty &&
-                                                            this.isNumeric(
-                                                                _priceController
-                                                                    .text)) {
-                                                          if (double.parse(
+                                                _loading
+                                                    ? CircularProgressIndicator()
+                                                    : IconButton(
+                                                        onPressed: () async {
+                                                          if (_priceController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              this.isNumeric(
                                                                   _priceController
-                                                                      .text) >=
-                                                              double.parse(
+                                                                      .text)) {
+                                                            if (double.parse(
+                                                                    _priceController
+                                                                        .text) >=
+                                                                double.parse(
+                                                                    widget
+                                                                        .tokenData
+                                                                        .price
+                                                                        .value)) {
+                                                              setSheetState(() {
+                                                                _loading = true;
+                                                              });
+                                                              FocusScope.of(context).unfocus();
+                                                              String result =
+                                                                  await SellTokenController
+                                                                      .setTokenPriceAndAllow(
+                                                                widget
+                                                                    .tokenData.id,
+                                                                widget.tokenData
+                                                                    .collection.id
+                                                                    .toString(),
+                                                                {
+                                                                  "value":
+                                                                      _priceController
+                                                                          .text,
+                                                                  "unit": "ether"
+                                                                },
+                                                              );
+                                                              if (result ==
+                                                                  '200') {
+                                                                setState(() {
                                                                   widget
-                                                                      .tokenData
-                                                                      .price
-                                                                      .value)) {
-                                                            setSheetState(() {
-                                                              _loading = true;
-                                                            });
-
-                                                            String result =
-                                                                await SellTokenController
-                                                                    .setTokenPriceAndAllow(
-                                                              widget
-                                                                  .tokenData.id,
-                                                              widget.tokenData
-                                                                  .collection.id
-                                                                  .toString(),
-                                                              {
-                                                                "value":
-                                                                    _priceController
-                                                                        .text,
-                                                                "unit": "ether"
-                                                              },
-                                                            );
-                                                            if (result ==
-                                                                '200') {
-                                                              setState(() {
-                                                                widget
-                                                                        .tokenData
-                                                                        .price
-                                                                        .unit =
-                                                                    'ether';
-                                                                widget
-                                                                        .tokenData
-                                                                        .price
-                                                                        .value =
-                                                                    _priceController
-                                                                        .text;
-                                                              });
-                                                              Navigator.pop(
-                                                                  context);
-                                                              setSheetState(() {
-                                                                _loading =
-                                                                    false;
-                                                              });
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                timeInSecForIosWeb:
-                                                                    2,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .green,
-                                                                msg:
-                                                                    'Price changed successfully',
-                                                              );
+                                                                          .tokenData
+                                                                          .price
+                                                                          .unit =
+                                                                      'ether';
+                                                                  widget
+                                                                          .tokenData
+                                                                          .price
+                                                                          .value =
+                                                                      _priceController
+                                                                          .text;
+                                                                });
+                                                                Navigator.pop(
+                                                                    context);
+                                                                setSheetState(() {
+                                                                  _loading =
+                                                                      false;
+                                                                });
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                  timeInSecForIosWeb:
+                                                                      2,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .green,
+                                                                  msg:
+                                                                      'Price changed successfully',
+                                                                );
+                                                              } else {
+                                                                setSheetState(() {
+                                                                  _loading =
+                                                                      false;
+                                                                });
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                  backgroundColor:
+                                                                      Colors.red,
+                                                                  msg: result,
+                                                                );
+                                                              }
                                                             } else {
-                                                              setSheetState(() {
-                                                                _loading =
-                                                                    false;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          500),
+                                                                  () {
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                  timeInSecForIosWeb:
+                                                                      2,
+                                                                  backgroundColor:
+                                                                      Colors.red,
+                                                                  msg:
+                                                                      'Please add equal or high price',
+                                                                );
                                                               });
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                msg: result,
-                                                              );
                                                             }
-                                                          } else {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            Future.delayed(
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        500),
-                                                                () {
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                timeInSecForIosWeb:
-                                                                    2,
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                msg:
-                                                                    'Please add equal or high price',
-                                                              );
-                                                            });
                                                           }
-                                                        }
-                                                      },
-                                                      icon: Icon(Icons.done),
-                                                    ),
-                                            ],
+                                                        },
+                                                        icon: Icon(Icons.done),
+                                                      ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       );
@@ -579,6 +588,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 ),
               ),
             ),
+<<<<<<< HEAD
             FutureBuilder<transactionModel.Transaction>(
               future: BackendServices.getTokenTransaction(widget.tokenData.id,
                   widget.tokenData.collection.id.toString()),
@@ -589,6 +599,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
+=======
+            Container(
+              child: FutureBuilder<transactionModel.Transaction>(
+                future: BackendServices.getTokenTransaction(widget.tokenData.id,
+                    widget.tokenData.collection.id.toString()),
+                builder: (BuildContext context,
+                    AsyncSnapshot<transactionModel.Transaction> snapshot) {
+                  if (snapshot.hasData) {
+                    print(snapshot.data!.data.length);
+                    return ListView.builder(
+>>>>>>> b21721468fc60e641902f6a31274919b29301d87
                       shrinkWrap: true,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
@@ -596,9 +617,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 4,
-                            width: MediaQuery.of(context).size.width,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width - 16,
                             child: GradientButton(
                               strokeWidth: 1,
                               radius: 24,
@@ -606,6 +626,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 colors: [Color(0xffE02989), Color(0xffF8A620)],
                               ),
                               onPressed: () {},
+<<<<<<< HEAD
                               child: Row(
                                 //crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
@@ -676,6 +697,48 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                     ),
                                   ),
                                 ],
+=======
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:[
+                                      Row(children: [
+                                        Text( 'Transaction Type',style: TextStyle(
+                                            color: themeChange.darkTheme ? Colors.white : Colors.black
+                                        ),),
+                                        SizedBox(width: 12,),
+                                        Text( snapshot.data!.data[index].transactionType, style: TextStyle(
+                                          color: themeChange.darkTheme ? Colors.white : Colors.black
+                                        ),)
+                                      ],
+                                      ),
+                                      SizedBox(height: 8,),
+                                      Row(children: [
+                                        Text( 'Username',style: TextStyle(
+                                            color: themeChange.darkTheme ? Colors.white : Colors.black
+                                        ),),
+                                        SizedBox(width: 12,),
+                                        Text( snapshot.data!.data[index].fromUser.username != '' ? snapshot.data!.data[index].fromUser.username : snapshot.data!.data[index].toUser.username,
+                                          style: TextStyle(
+                                              color: themeChange.darkTheme ? Colors.white : Colors.black
+                                          ),)
+                                      ],
+                                      ),
+                                      SizedBox(height: 8,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width - 40,
+                                          child: Text( snapshot.data!.data[index].fromWallet != '' ? snapshot.data!.data[index].fromWallet : snapshot.data!.data[index].fromWallet,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: themeChange.darkTheme ? Colors.white : Colors.black
+                                            ),),
+                                        )
+                                      
+                                    ]
+                                ),
+>>>>>>> b21721468fc60e641902f6a31274919b29301d87
                               ),
                             ),
                           ),
