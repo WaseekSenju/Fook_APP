@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
             routes: {
               '/': (builder) => SignInPage(),
               HomeScreen.routeName: (builder) => HomeScreen(),
-              NewPostScreen.routeName: (builder) => NewPostScreen(),
+              //NewPostScreen.routeName: (builder) => NewPostScreen(),
               TabsScreen.routeName: (builder) => TabsScreen(),
               InterestsPage.routeName: (builder) => InterestsPage(),
             },

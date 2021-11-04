@@ -588,7 +588,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                 ),
               ),
             ),
-<<<<<<< HEAD
             FutureBuilder<transactionModel.Transaction>(
               future: BackendServices.getTokenTransaction(widget.tokenData.id,
                   widget.tokenData.collection.id.toString()),
@@ -599,17 +598,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
-=======
-            Container(
-              child: FutureBuilder<transactionModel.Transaction>(
-                future: BackendServices.getTokenTransaction(widget.tokenData.id,
-                    widget.tokenData.collection.id.toString()),
-                builder: (BuildContext context,
-                    AsyncSnapshot<transactionModel.Transaction> snapshot) {
-                  if (snapshot.hasData) {
-                    print(snapshot.data!.data.length);
-                    return ListView.builder(
->>>>>>> b21721468fc60e641902f6a31274919b29301d87
                       shrinkWrap: true,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
@@ -626,7 +614,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                 colors: [Color(0xffE02989), Color(0xffF8A620)],
                               ),
                               onPressed: () {},
-<<<<<<< HEAD
                               child: Row(
                                 //crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
@@ -697,48 +684,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                                     ),
                                   ),
                                 ],
-=======
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                    children:[
-                                      Row(children: [
-                                        Text( 'Transaction Type',style: TextStyle(
-                                            color: themeChange.darkTheme ? Colors.white : Colors.black
-                                        ),),
-                                        SizedBox(width: 12,),
-                                        Text( snapshot.data!.data[index].transactionType, style: TextStyle(
-                                          color: themeChange.darkTheme ? Colors.white : Colors.black
-                                        ),)
-                                      ],
-                                      ),
-                                      SizedBox(height: 8,),
-                                      Row(children: [
-                                        Text( 'Username',style: TextStyle(
-                                            color: themeChange.darkTheme ? Colors.white : Colors.black
-                                        ),),
-                                        SizedBox(width: 12,),
-                                        Text( snapshot.data!.data[index].fromUser.username != '' ? snapshot.data!.data[index].fromUser.username : snapshot.data!.data[index].toUser.username,
-                                          style: TextStyle(
-                                              color: themeChange.darkTheme ? Colors.white : Colors.black
-                                          ),)
-                                      ],
-                                      ),
-                                      SizedBox(height: 8,),
-                                        Container(
-                                          width: MediaQuery.of(context).size.width - 40,
-                                          child: Text( snapshot.data!.data[index].fromWallet != '' ? snapshot.data!.data[index].fromWallet : snapshot.data!.data[index].fromWallet,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: themeChange.darkTheme ? Colors.white : Colors.black
-                                            ),),
-                                        )
-                                      
-                                    ]
-                                ),
->>>>>>> b21721468fc60e641902f6a31274919b29301d87
                               ),
                             ),
                           ),

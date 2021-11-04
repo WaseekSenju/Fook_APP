@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fook_app/API/services.dart';
 import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/tokkensInCollection.dart';
@@ -130,10 +131,29 @@ class _TabsScreen extends State<TabsScreen> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: _selectedPageIndex,
-          onTap: (index) {
+          onTap: (index) async {
             if (index == 2) {
-              Navigator.of(context).pushNamed(NewPostScreen
-                  .routeName); //Logic for Pushin Camera Screen instead of Navigation
+              List<String> _collectionNames = [];
+              //List<String> _collectionIds = [];
+              var userCollections =
+                  await BackendServices.getCurrentUserCollections();
+              userCollections.data.forEach((element) {
+                _collectionNames.add(element.name);
+              });
+              // userCollections.data.forEach((element) {
+              //   _collectionIds.add(element.id.toString());
+              // });
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewPostScreen(
+                          userCollections,
+                          _collectionNames,
+                        )),
+              );
+
+              //Logic for Pushin Camera Screen instead of Navigation
 
             } else {
               _onItemTapped(index, context);

@@ -15,7 +15,11 @@ import 'package:provider/provider.dart';
 import 'package:fook_app/Models/tokken_model.dart' as token;
 
 class NewPostScreen extends StatefulWidget {
+  NewPostScreen(this.snapshot, this._collectionNames);
   static const routeName = '/newPost';
+  Collections snapshot;
+  List<String> _collectionNames = [];
+  //List<String> _collectionIds = [];
 
   @override
   _NewPostScreenState createState() => _NewPostScreenState();
@@ -53,41 +57,40 @@ class _NewPostScreenState extends State<NewPostScreen> {
     });
   }
 
-  List<String> _collectionNames = [];
+  //List<String> _collectionNames = [];
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   bool _imageTaken = false;
   String? dropDown = ' ';
   bool _loading = false;
+  bool _newCollectionCreated = false;
   final _formKey = GlobalKey<FormState>();
 
-  void createToken(AsyncSnapshot<Collections> snapshot) async {
+  void createToken(Collections snapshot) async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _loading = true;
       });
-      String result = '201';
-
-      // await NewTokenAndCollection.newTokken(
-      //   XFile(_image.path),
-      //   _nameController.text,
-      //   _descriptionController.text,
-      //   _priceController.text,
-      //   snapshot.data!.data
-      //       .firstWhere(
-      //         (element) => element.name == dropDown,
-      //       )
-      //       .id
-      //       .toString(),
-      // );
-
+      String result = await NewTokenAndCollection.newTokken(
+        XFile(_image.path),
+        _nameController.text,
+        _descriptionController.text,
+        _priceController.text,
+        widget.snapshot.data
+            .firstWhere(
+              (element) => element.name == dropDown,
+            )
+            .id
+            .toString(),
+      );
+ 
       if (result == '201') {
-        var selectedCollection = snapshot.data!.data.firstWhere(
+        var selectedCollection = widget.snapshot.data.firstWhere(
           (element) => element.name == dropDown,
         );
         var newToken = token.Datum(
-          id: snapshot.data!.data
+          id: widget.snapshot.data
               .firstWhere(
                 (element) => element.name == dropDown,
               )
@@ -112,11 +115,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         allTokkens.addNewCreatedToken(newToken);
 
         final searchScreen =
-<<<<<<< HEAD
             Provider.of<UserTokensController>(context, listen: false);
-=======
-        Provider.of<UserTokensController>(context, listen: false);
->>>>>>> b21721468fc60e641902f6a31274919b29301d87
         searchScreen.addNewTokentoCollection(newToken);
 
         setState(() {
@@ -135,10 +134,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           _loading = false;
         });
 
-        Fluttertoast.showToast(
-            backgroundColor: Colors.red,
-            msg:
-            result);
+        Fluttertoast.showToast(backgroundColor: Colors.red, msg: result);
       }
     }
   }
@@ -352,184 +348,311 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   ),
                 ),
               ),
-              FutureBuilder<Collections>(
-                future: BackendServices.getCurrentUserCollections(),
-                builder: (ctx, AsyncSnapshot<Collections> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.data!.data.isNotEmpty) {
-                      _collectionNames = [];
-                      snapshot.data!.data.forEach((element) {
-                        _collectionNames.add(element.name);
-                      });
 
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme.of(context).dividerColor,
-                                  width: 1,
+              if (widget.snapshot.data.isNotEmpty)
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                            width: 1,
+                          ),
+                          color: Theme.of(context).dividerColor,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: DropdownButton<String>(
+                            hint: Text('Select Collection'),
+                            value: dropDown == " " ? null : dropDown,
+                            icon: Icon(Icons.expand_more),
+                            isExpanded: true,
+                            iconSize: 24,
+                            elevation: 16,
+                            underline: Container(
+                              height: 2,
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                dropDown = value;
+                              });
+                            },
+                            items: widget._collectionNames
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                alignment: Alignment.centerLeft,
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 16),
+                      child: Divider(),
+                    ),
+                    _loading
+                        ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 25,
+                                  height: 25,
                                 ),
-                                color: Theme.of(context).dividerColor,
-                                borderRadius: BorderRadius.circular(25),
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: DropdownButton<String>(
-                                  hint: Text('Select Collection'),
-                                  value: dropDown == " " ? null : dropDown,
-                                  icon: Icon(Icons.expand_more),
-                                  isExpanded: true,
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  underline: Container(
-                                    height: 2,
+                              Text(
+                                'Uploading Token',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: DecoratedBox(
+                                decoration: dropDown == ' '
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: Theme.of(context).dividerColor)
+                                    : BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xffE02989),
+                                            Color(0xffF8A620)
+                                          ],
+                                        ),
+                                      ),
+                                child: ElevatedButton(
+                                  child: Text(
+                                    'Create Token',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
+                                    ),
                                   ),
-                                  onTap:(){
-                                    FocusScope.of(context).unfocus();
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      dropDown = value;
-                                    });
-                                  },
-                                  items: _collectionNames
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      alignment: Alignment.centerLeft,
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
+                                  onPressed: dropDown == ' '
+                                      ? null
+                                      : () => createToken(widget.snapshot),
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                      Size(
+                                          MediaQuery.of(context).size.width *
+                                              0.8,
+                                          50),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.transparent),
+                                    shadowColor: MaterialStateProperty.all(
+                                        Colors.transparent),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 16),
-                            child: Divider(),
-                          ),
-                          _loading
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        child: CircularProgressIndicator(),
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Uploading Token',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: DecoratedBox(
-                                      decoration: dropDown == ' '
-                                          ? BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              color: Theme.of(context)
-                                                  .dividerColor)
-                                          : BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(0xffE02989),
-                                                  Color(0xffF8A620)
-                                                ],
-                                              ),
-                                            ),
-                                      child: ElevatedButton(
-                                        child: Text(
-                                          'Create Token',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2!
-                                                .color,
-                                          ),
-                                        ),
-                                        onPressed: dropDown == ' '
-                                            ? null
-                                            : () => createToken(snapshot),
-                                        style: ButtonStyle(
-                                          minimumSize:
-                                              MaterialStateProperty.all(
-                                            Size(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                50),
-                                          ),
-                                          shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                          ),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent),
-                                          shadowColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                        ],
-                      );
-                    } else {
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'User collection not found Please add collection first',
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                          ),
-                        ),
-                      );
-                    }
-                  } else {
-                    return SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 25,
-                      height: 25,
-                    );
-                  }
-                },
+                          )
+                  ],
+                ),
 
-              ),
+              // FutureBuilder<Collections>(
+              //   future: BackendServices.getCurrentUserCollections(),
+              //   builder: (ctx, AsyncSnapshot<Collections> snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.done) {
+              //       if (snapshot.data!.data.isNotEmpty) {
+              //         widget._collectionNames = [];
+              //         snapshot.data!.data.forEach((element) {
+              //          widget._collectionNames.add(element.name);
+              //         });
+
+              //         return Column(
+              //           children: [
+              //             Padding(
+              //               padding: const EdgeInsets.symmetric(horizontal: 20),
+              //               child: Container(
+              //                 width: MediaQuery.of(context).size.width,
+              //                 decoration: BoxDecoration(
+              //                   border: Border.all(
+              //                     color: Theme.of(context).dividerColor,
+              //                     width: 1,
+              //                   ),
+              //                   color: Theme.of(context).dividerColor,
+              //                   borderRadius: BorderRadius.circular(25),
+              //                 ),
+              //                 child: Padding(
+              //                   padding:
+              //                       const EdgeInsets.symmetric(horizontal: 20),
+              //                   child: DropdownButton<String>(
+              //                     hint: Text('Select Collection'),
+              //                     value: dropDown == " " ? null : dropDown,
+              //                     icon: Icon(Icons.expand_more),
+              //                     isExpanded: true,
+              //                     iconSize: 24,
+              //                     elevation: 16,
+              //                     underline: Container(
+              //                       height: 2,
+              //                     ),
+              //                     onTap: () {
+              //                       FocusScope.of(context).unfocus();
+              //                     },
+              //                     onChanged: (value) {
+              //                       setState(() {
+              //                         dropDown = value;
+              //                       });
+              //                     },
+              //                     items: widget._collectionNames
+              //                         .map<DropdownMenuItem<String>>(
+              //                             (String value) {
+              //                       return DropdownMenuItem<String>(
+              //                         alignment: Alignment.centerLeft,
+              //                         value: value,
+              //                         child: Text(value),
+              //                       );
+              //                     }).toList(),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //             Padding(
+              //               padding: const EdgeInsets.symmetric(
+              //                   horizontal: 20, vertical: 16),
+              //               child: Divider(),
+              //             ),
+              //             _loading
+              //                 ? Column(
+              //                     children: [
+              //                       Padding(
+              //                         padding: const EdgeInsets.all(8.0),
+              //                         child: SizedBox(
+              //                           child: CircularProgressIndicator(),
+              //                           width: 25,
+              //                           height: 25,
+              //                         ),
+              //                       ),
+              //                       Text(
+              //                         'Uploading Token',
+              //                         style: TextStyle(
+              //                           color: Theme.of(context)
+              //                               .textTheme
+              //                               .bodyText1!
+              //                               .color,
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   )
+              //                 : Padding(
+              //                     padding: const EdgeInsets.symmetric(
+              //                         horizontal: 20),
+              //                     child: SizedBox(
+              //                       width: MediaQuery.of(context).size.width,
+              //                       child: DecoratedBox(
+              //                         decoration: dropDown == ' '
+              //                             ? BoxDecoration(
+              //                                 borderRadius:
+              //                                     BorderRadius.circular(25),
+              //                                 color: Theme.of(context)
+              //                                     .dividerColor)
+              //                             : BoxDecoration(
+              //                                 borderRadius:
+              //                                     BorderRadius.circular(25),
+              //                                 gradient: LinearGradient(
+              //                                   colors: [
+              //                                     Color(0xffE02989),
+              //                                     Color(0xffF8A620)
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                         child: ElevatedButton(
+              //                           child: Text(
+              //                             'Create Token',
+              //                             style: TextStyle(
+              //                               color: Theme.of(context)
+              //                                   .textTheme
+              //                                   .bodyText2!
+              //                                   .color,
+              //                             ),
+              //                           ),
+              //                           onPressed: dropDown == ' '
+              //                               ? null
+              //                               : () => createToken(snapshot),
+              //                           style: ButtonStyle(
+              //                             minimumSize:
+              //                                 MaterialStateProperty.all(
+              //                               Size(
+              //                                   MediaQuery.of(context)
+              //                                           .size
+              //                                           .width *
+              //                                       0.8,
+              //                                   50),
+              //                             ),
+              //                             shape: MaterialStateProperty.all<
+              //                                 RoundedRectangleBorder>(
+              //                               RoundedRectangleBorder(
+              //                                 borderRadius:
+              //                                     BorderRadius.circular(20.0),
+              //                               ),
+              //                             ),
+              //                             backgroundColor:
+              //                                 MaterialStateProperty.all(
+              //                                     Colors.transparent),
+              //                             shadowColor:
+              //                                 MaterialStateProperty.all(
+              //                                     Colors.transparent),
+              //                           ),
+              //                         ),
+              //                       ),
+              //                     ),
+              //                   )
+              //           ],
+              //         );
+              //       } else {
+              //         return Padding(
+              //           padding: EdgeInsets.all(10),
+              //           child: Text(
+              //             'User collection not found Please add collection first',
+              //             style: TextStyle(
+              //               color: Theme.of(context).textTheme.bodyText1!.color,
+              //             ),
+              //           ),
+              //         );
+              //       }
+              //     } else {
+              //       return SizedBox(
+              //         child: CircularProgressIndicator(),
+              //         width: 25,
+              //         height: 25,
+              //       );
+              //     }
+              //   },
+              // ),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 16,
-                  bottom: 24
-                ),
+                    left: 20, right: 20, top: 16, bottom: 24),
                 child: SizedBox(
                   height: 46,
                   width: MediaQuery.of(context).size.width,
@@ -537,16 +660,14 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       strokeWidth: 1,
                       radius: 25,
                       gradient: LinearGradient(
-                        colors: [
-                          Color(0xffE02989),
-                          Color(0xffF8A620)
-                        ],
+                        colors: [Color(0xffE02989), Color(0xffF8A620)],
                       ),
                       child: Text(
                         'Create Collection',
                         style: TextStyle(
-                          color: themeChange.darkTheme ? Colors.white : Colors.black
-                        ),
+                            color: themeChange.darkTheme
+                                ? Colors.white
+                                : Colors.black),
                       ),
                       onPressed: () {
                         // showDialog(
@@ -558,8 +679,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                           context: context,
                           isScrollControlled: true,
-                          builder: (BuildContext bc) =>
-                              NewCollectionDialogue(),
+                          builder: (BuildContext bc) => NewCollectionDialogue(),
                         );
                       }),
                 ),
