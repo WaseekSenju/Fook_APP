@@ -20,7 +20,7 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreen extends State<TabsScreen> {
   int _selectedPageIndex = 0;
-
+  bool _loading = false;
   void _onItemTapped(int index, BuildContext ctx) {
     setState(() {
       _selectedPageIndex = index;
@@ -84,7 +84,11 @@ class _TabsScreen extends State<TabsScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: _pages.elementAt(_selectedPageIndex),
+        body: _loading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : _pages.elementAt(_selectedPageIndex),
         bottomNavigationBar: BottomNavigationBar(
           //elevation: 50,
           //selectedItemColor: Theme.of(context).primaryColor,
@@ -135,23 +139,33 @@ class _TabsScreen extends State<TabsScreen> {
             if (index == 2) {
               List<String> _collectionNames = [];
               //List<String> _collectionIds = [];
-              var userCollections =
-                  await BackendServices.getCurrentUserCollections();
-              userCollections.data.forEach((element) {
-                _collectionNames.add(element.name);
-              });
-              // userCollections.data.forEach((element) {
-              //   _collectionIds.add(element.id.toString());
+              // setState(() {
+              //   _loading = true;
               // });
+              // await BackendServices.getCurrentUserCollections().then((value) {
+              //   var userCollections = value;
+              //   userCollections.data.forEach((element) {
+              //     _collectionNames.add(element.name);
+              //   });
+              //   // userCollections.data.forEach((element) {
+              //   //   _collectionIds.add(element.id.toString());
+              //   // });
+              //   setState(() {
+              //     _loading = false;
+              //   });
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NewPostScreen(
-                          userCollections,
-                          _collectionNames,
-                        )),
-              );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => 
+                    NewPostScreen(),
+                    // NewPostScreen(
+                    //   userCollections,
+                    //   _collectionNames,
+                    // ),
+                  ),
+                );
+              // });
 
               //Logic for Pushin Camera Screen instead of Navigation
 

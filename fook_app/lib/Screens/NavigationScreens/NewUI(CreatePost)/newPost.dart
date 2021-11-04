@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fook_app/API/services.dart';
 import 'package:fook_app/Controllers/Providers/DarkTheme.dart';
+import 'package:fook_app/Controllers/Providers/collectionController.dart';
 import 'package:fook_app/Controllers/Providers/getAllTokkens.dart';
 import 'package:fook_app/Controllers/Providers/tokkensInCollection.dart';
 import 'package:fook_app/Controllers/newTokkenController.dart';
@@ -15,10 +16,11 @@ import 'package:provider/provider.dart';
 import 'package:fook_app/Models/tokken_model.dart' as token;
 
 class NewPostScreen extends StatefulWidget {
-  NewPostScreen(this.snapshot, this._collectionNames);
+  NewPostScreen();
+  //NewPostScreen(this.snapshot, this._collectionNames);
   static const routeName = '/newPost';
-  Collections snapshot;
-  List<String> _collectionNames = [];
+  //Collections snapshot;
+  //List<String> _collectionNames = [];
   //List<String> _collectionIds = [];
 
   @override
@@ -26,6 +28,13 @@ class NewPostScreen extends StatefulWidget {
 }
 
 class _NewPostScreenState extends State<NewPostScreen> {
+  @override
+  void initState() {
+    var collections = Provider.of<CollectionController>(context, listen: false);
+    collections.getUserCollections();
+    super.initState();
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -64,7 +73,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
   bool _imageTaken = false;
   String? dropDown = ' ';
   bool _loading = false;
-  bool _newCollectionCreated = false;
   final _formKey = GlobalKey<FormState>();
 
   void createToken(Collections snapshot) async {
@@ -77,20 +85,20 @@ class _NewPostScreenState extends State<NewPostScreen> {
         _nameController.text,
         _descriptionController.text,
         _priceController.text,
-        widget.snapshot.data
+        snapshot.data
             .firstWhere(
               (element) => element.name == dropDown,
             )
             .id
             .toString(),
       );
- 
+
       if (result == '201') {
-        var selectedCollection = widget.snapshot.data.firstWhere(
+        var selectedCollection = snapshot.data.firstWhere(
           (element) => element.name == dropDown,
         );
         var newToken = token.Datum(
-          id: widget.snapshot.data
+          id: snapshot.data
               .firstWhere(
                 (element) => element.name == dropDown,
               )
@@ -142,6 +150,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final collectionProvider = Provider.of<CollectionController>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -349,7 +358,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 ),
               ),
 
-              if (widget.snapshot.data.isNotEmpty)
+              if (collectionProvider.userCollectionsList.data.isNotEmpty)
                 Column(
                   children: [
                     Padding(
@@ -384,7 +393,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 dropDown = value;
                               });
                             },
-                            items: widget._collectionNames
+                            items: collectionProvider.collectionNames
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 alignment: Alignment.centerLeft,
@@ -453,7 +462,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   ),
                                   onPressed: dropDown == ' '
                                       ? null
-                                      : () => createToken(widget.snapshot),
+                                      : () => createToken(collectionProvider
+                                          .userCollectionsList),
                                   style: ButtonStyle(
                                     minimumSize: MaterialStateProperty.all(
                                       Size(
@@ -478,6 +488,16 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                           )
                   ],
+                ),
+              if (collectionProvider.userCollectionsList.data.isEmpty)
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'User collection not found Please add collection first',
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
+                    ),
+                  ),
                 ),
 
               // FutureBuilder<Collections>(

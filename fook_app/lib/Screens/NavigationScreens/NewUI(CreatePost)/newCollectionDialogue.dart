@@ -158,28 +158,28 @@ class _NewCollectionDialogueState extends State<NewCollectionDialogue> {
                                     Navigator.of(context)
                                         .popUntil((route) => route.isFirst);
                                     Fluttertoast.showToast(
-                                       backgroundColor: Colors.green,
+                                        backgroundColor: Colors.green,
                                         msg:
                                             'Collection Created Successfully.Your transaction processing will take some time.');
                                     await Future.delayed(
                                             const Duration(milliseconds: 2500))
                                         .whenComplete(
                                       () {
-                                        final userCollections =
-                                            Provider.of<CollectionController>(
-                                                context,
-                                                listen: false);
-                                        userCollections
-                                            .getUserCollections()
-                                            .whenComplete(
-                                          () {
-                                            userCollections.collectionsList.data
-                                                .forEach((element) {
-                                              print(element.name);
-                                            });
+                                        // final userCollections =
+                                        //     Provider.of<CollectionController>(
+                                        //         context,
+                                        //         listen: false);
+                                        // userCollections
+                                        //     .getUserCollections()
+                                        //     .whenComplete(
+                                        //   () {
+                                        //     // userCollections.collectionsList.data
+                                        //     //     .forEach((element) {
+                                        //     //   print(element.name);
+                                        //     // });
                                             Navigator.of(context).pop();
-                                          },
-                                        );
+                                          //},
+                                        //);
                                       },
                                     );
                                   } else {
@@ -188,15 +188,9 @@ class _NewCollectionDialogueState extends State<NewCollectionDialogue> {
                                     });
                                     Fluttertoast.showToast(
                                       timeInSecForIosWeb: 2,
-                                        backgroundColor: Colors.red,
-                                        msg:
-                                        result);
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //   SnackBar(
-                                    //     content: Text(result),
-                                    //     duration: Duration(milliseconds: 2000),
-                                    //   ),
-                                    // );
+                                      backgroundColor: Colors.red,
+                                      msg: result,
+                                    );
                                   }
                                 }
                               }
